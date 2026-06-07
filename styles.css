@@ -78,6 +78,7 @@ body.menu-open { overflow: hidden; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #27c77b; box-shadow: 0 0 0 5px rgba(39, 199, 123, .12); }
 h1, h2, h3 { font-family: var(--display); margin-top: 0; }
 h1 { max-width: 820px; font-size: clamp(48px, 7vw, 86px); line-height: 1.03; letter-spacing: -.065em; margin-bottom: 28px; }
+.hero h1 { font-size: clamp(48px, 6vw, 76px); }
 .hero-text { max-width: 650px; color: var(--muted); font-size: 19px; margin-bottom: 34px; }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 18px; }
 .hero-specialties { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 30px; color: var(--muted); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
