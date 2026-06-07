@@ -104,7 +104,7 @@ h2 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -.055em; line-height: 1.
 .capabilities-heading { display: grid; grid-template-columns: 1.35fr .65fr; gap: 45px; align-items: end; margin-bottom: 30px; }
 .capabilities-heading h2 { max-width: 720px; margin-bottom: 0; font-size: clamp(32px, 4vw, 48px); }
 .capabilities-heading > p { margin: 0; color: var(--muted); font-size: 14px; }
-.capability-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.capability-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .capability-card { min-height: 355px; padding: 18px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface) 55%, transparent); transition: transform .3s ease, background .3s ease, box-shadow .3s ease; }
 .capability-card:hover { transform: translateY(-7px); background: var(--surface); box-shadow: 0 22px 50px var(--shadow); }
 .capability-featured { background: var(--ink); color: var(--white); border-color: var(--ink); }
