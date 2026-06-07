@@ -1,0 +1,34 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# Local environments and dependencies
+venv/
+.venv/
+env/
+node_modules/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Generated files
+build/
+dist/
+coverage/
+.coverage
+*.log
+*.tmp
+
+# User-generated project data
+uploads/
+recordings/
+journal/
+
+# Editor and operating system files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

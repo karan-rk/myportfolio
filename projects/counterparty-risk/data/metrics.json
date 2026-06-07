@@ -1,0 +1,298 @@
+{
+  "data_type": "synthetic",
+  "records": 20000,
+  "train_records": 15124,
+  "test_records": 4876,
+  "champion_model": "Logistic Regression",
+  "benchmarks": [
+    {
+      "model": "Logistic Regression",
+      "roc_auc": 0.724,
+      "gini": 0.447,
+      "average_precision": 0.352,
+      "recall_at_10": 0.28,
+      "precision_at_10": 0.426,
+      "risk_threshold": 0.74,
+      "training_ms": 9.5,
+      "inference_ms": 1.9,
+      "inference_us_per_record": 0.38
+    },
+    {
+      "model": "HistGradientBoosting",
+      "roc_auc": 0.707,
+      "gini": 0.413,
+      "average_precision": 0.326,
+      "recall_at_10": 0.267,
+      "precision_at_10": 0.408,
+      "risk_threshold": 0.283,
+      "training_ms": 171.3,
+      "inference_ms": 5.4,
+      "inference_us_per_record": 1.12
+    },
+    {
+      "model": "Random Forest",
+      "roc_auc": 0.702,
+      "gini": 0.404,
+      "average_precision": 0.318,
+      "recall_at_10": 0.249,
+      "precision_at_10": 0.379,
+      "risk_threshold": 0.614,
+      "training_ms": 411.5,
+      "inference_ms": 36.9,
+      "inference_us_per_record": 7.56
+    }
+  ],
+  "calibration": {
+    "method": "Platt scaling",
+    "fit_months": "1-15",
+    "calibration_months": "16-18",
+    "test_months": "19-24",
+    "raw": {
+      "brier": 0.2355,
+      "ece": 0.3333,
+      "curve": [
+        {
+          "bin": 1,
+          "count": 22,
+          "predicted": 0.084,
+          "observed": 0.0
+        },
+        {
+          "bin": 2,
+          "count": 256,
+          "predicted": 0.164,
+          "observed": 0.035
+        },
+        {
+          "bin": 3,
+          "count": 600,
+          "predicted": 0.258,
+          "observed": 0.062
+        },
+        {
+          "bin": 4,
+          "count": 815,
+          "predicted": 0.351,
+          "observed": 0.067
+        },
+        {
+          "bin": 5,
+          "count": 920,
+          "predicted": 0.451,
+          "observed": 0.103
+        },
+        {
+          "bin": 6,
+          "count": 905,
+          "predicted": 0.547,
+          "observed": 0.168
+        },
+        {
+          "bin": 7,
+          "count": 668,
+          "predicted": 0.648,
+          "observed": 0.195
+        },
+        {
+          "bin": 8,
+          "count": 438,
+          "predicted": 0.746,
+          "observed": 0.304
+        },
+        {
+          "bin": 9,
+          "count": 217,
+          "predicted": 0.842,
+          "observed": 0.512
+        },
+        {
+          "bin": 10,
+          "count": 35,
+          "predicted": 0.925,
+          "observed": 0.629
+        }
+      ]
+    },
+    "calibrated": {
+      "brier": 0.1172,
+      "ece": 0.0197,
+      "curve": [
+        {
+          "bin": 1,
+          "count": 1649,
+          "predicted": 0.071,
+          "observed": 0.059
+        },
+        {
+          "bin": 2,
+          "count": 1982,
+          "predicted": 0.144,
+          "observed": 0.135
+        },
+        {
+          "bin": 3,
+          "count": 859,
+          "predicted": 0.243,
+          "observed": 0.229
+        },
+        {
+          "bin": 4,
+          "count": 336,
+          "predicted": 0.342,
+          "observed": 0.452
+        },
+        {
+          "bin": 5,
+          "count": 50,
+          "predicted": 0.428,
+          "observed": 0.6
+        }
+      ]
+    },
+    "brier_improvement": 0.1183,
+    "ece_improvement": 0.3136
+  },
+  "roc_auc": 0.724,
+  "gini": 0.447,
+  "average_precision": 0.352,
+  "recall_at_10": 0.28,
+  "precision_at_10": 0.426,
+  "risk_threshold": 0.283,
+  "risk_band_thresholds": {
+    "medium": 0.184,
+    "high": 0.283
+  },
+  "intervention_effect": -0.071,
+  "feature_importance": [
+    {
+      "feature": "prior_watchlist_events",
+      "importance": 0.057
+    },
+    {
+      "feature": "utilization_ratio",
+      "importance": 0.0358
+    },
+    {
+      "feature": "payment_delay_days",
+      "importance": 0.0357
+    },
+    {
+      "feature": "revenue_change",
+      "importance": 0.0294
+    },
+    {
+      "feature": "liquidity_ratio",
+      "importance": 0.0237
+    },
+    {
+      "feature": "dispute_rate",
+      "importance": 0.015
+    },
+    {
+      "feature": "industry_stress",
+      "importance": 0.0148
+    },
+    {
+      "feature": "relationship_years",
+      "importance": 0.0022
+    }
+  ],
+  "monthly_risk_rate": [
+    {
+      "month": 1,
+      "rate": 0.108
+    },
+    {
+      "month": 2,
+      "rate": 0.11
+    },
+    {
+      "month": 3,
+      "rate": 0.1
+    },
+    {
+      "month": 4,
+      "rate": 0.135
+    },
+    {
+      "month": 5,
+      "rate": 0.128
+    },
+    {
+      "month": 6,
+      "rate": 0.102
+    },
+    {
+      "month": 7,
+      "rate": 0.132
+    },
+    {
+      "month": 8,
+      "rate": 0.128
+    },
+    {
+      "month": 9,
+      "rate": 0.132
+    },
+    {
+      "month": 10,
+      "rate": 0.137
+    },
+    {
+      "month": 11,
+      "rate": 0.144
+    },
+    {
+      "month": 12,
+      "rate": 0.131
+    },
+    {
+      "month": 13,
+      "rate": 0.152
+    },
+    {
+      "month": 14,
+      "rate": 0.15
+    },
+    {
+      "month": 15,
+      "rate": 0.137
+    },
+    {
+      "month": 16,
+      "rate": 0.152
+    },
+    {
+      "month": 17,
+      "rate": 0.141
+    },
+    {
+      "month": 18,
+      "rate": 0.15
+    },
+    {
+      "month": 19,
+      "rate": 0.155
+    },
+    {
+      "month": 20,
+      "rate": 0.139
+    },
+    {
+      "month": 21,
+      "rate": 0.138
+    },
+    {
+      "month": 22,
+      "rate": 0.178
+    },
+    {
+      "month": 23,
+      "rate": 0.141
+    },
+    {
+      "month": 24,
+      "rate": 0.164
+    }
+  ]
+}

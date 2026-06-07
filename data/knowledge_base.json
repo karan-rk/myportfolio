@@ -1,0 +1,128 @@
+[
+  {
+    "id": "resume-summary",
+    "target": "top",
+    "source": "Resume",
+    "title": "Professional summary",
+    "summary": "Karan is a software and machine learning engineer who combines production-scale engineering, applied ML research, and product development",
+    "content": "Karan Rajendra is a New York-based software and machine learning engineer. His background combines production engineering at Meta and Instagram, machine learning research at Stony Brook University, graduate teaching, and end-to-end applied ML products.",
+    "keywords": ["tell me about yourself", "introduce", "introduction", "background", "summary", "profile", "software engineer", "machine learning engineer", "new york"]
+  },
+  {
+    "id": "resume-education",
+    "target": "education",
+    "source": "Resume",
+    "title": "Education and coursework",
+    "summary": "Karan has a strong computer engineering and computer science academic foundation",
+    "content": "Karan is completing a Master of Science in Computer Engineering at Stony Brook University from August 2024 to May 2026 with a 3.9 GPA. His coursework includes Machine Learning, Deep Learning, Natural Language Processing, Distributed Systems, and Advanced Algorithms. He also holds a Bachelor of Engineering in Computer Science from Visvesvaraya Technological University.",
+    "keywords": ["education", "degree", "coursework", "gpa", "stony brook", "masters", "computer engineering", "computer science", "graduation"]
+  },
+  {
+    "id": "resume-availability",
+    "target": "contact",
+    "source": "Resume",
+    "title": "Location and opportunity status",
+    "summary": "Karan is based in New York and is available for machine learning engineering opportunities",
+    "content": "Karan is based in New York. His portfolio states that he is available for machine learning engineering opportunities and open to relocation.",
+    "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "work authorization", "visa", "salary"]
+  },
+  {
+    "id": "experience-meta",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Meta and Instagram engineering impact",
+    "summary": "Karan delivered measurable engineering impact on production-scale data at Meta and Instagram",
+    "content": "As a Software Engineer at Meta and Instagram, Karan built Instagram's first cohort-analysis pipeline and a behavioral clustering framework. The system processed 1.2 billion user pairs, identified 500 million unique users, improved pipeline performance by 5 times, and reduced Business Compute Unit consumption by 50 percent.",
+    "keywords": ["meta", "instagram", "software engineer", "production", "scale", "data pipeline", "1.2 billion", "500 million", "5x", "impact", "achievement"]
+  },
+  {
+    "id": "experience-meta-product",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Product analytics and cross-functional decisions",
+    "summary": "Karan connected large-scale engineering work to product experiments and decisions",
+    "content": "At Meta and Instagram, Karan developed Instagram Story interaction signals, multi-signal clustering, and monitoring dashboards for adoption and experiments. His work addressed data sparsity and user segmentation and supported cross-functional product decisions.",
+    "keywords": ["collaboration", "cross functional", "teamwork", "product", "analytics", "experiments", "monitoring", "dashboard", "instagram stories", "stakeholders"]
+  },
+  {
+    "id": "experience-research",
+    "target": "experience-research",
+    "source": "Experience",
+    "title": "Machine learning research results",
+    "summary": "Karan has delivered measurable results across NLP, author-style detection, and multimodal speech research",
+    "content": "As a Research Assistant at Stony Brook University, Karan improved author-style detection from 87 to 92 percent ROC-AUC across more than 40 million documents, achieved 96 percent speaker diarization accuracy across more than 680 interviews, and produced persuasive responses that outperformed human responses by 6 percent.",
+    "keywords": ["research", "results", "nlp", "multimodal", "author detection", "speech", "92 percent", "96 percent", "40 million", "achievement"]
+  },
+  {
+    "id": "experience-research-methods",
+    "target": "experience-research",
+    "source": "Experience",
+    "title": "Research methods and models",
+    "summary": "Karan applies modern language-model fine-tuning and speech-processing methods",
+    "content": "Karan fine-tuned Llama 2-7B with LoRA and Direct Preference Optimization on r/ChangeMyView data, reaching 0.7 reward accuracy. His research also uses Transformers, PyTorch, WhisperX, and NVIDIA NeMo for large-scale text and multimodal speech analysis.",
+    "keywords": ["llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "whisperx", "nemo", "language model", "research methods"]
+  },
+  {
+    "id": "experience-teaching",
+    "target": "experience-teaching",
+    "source": "Experience",
+    "title": "Teaching, mentorship, and communication",
+    "summary": "Karan demonstrates communication and mentorship through graduate-level machine learning teaching",
+    "content": "As a Graduate Teaching Assistant, Karan guided more than 40 graduate students through supervised learning, deep learning, feature engineering, model evaluation, and Python debugging. This experience demonstrates his ability to explain technical concepts and support others through complex work.",
+    "keywords": ["teaching", "mentoring", "leadership", "communication", "explain", "graduate students", "machine learning", "debugging", "teamwork"]
+  },
+  {
+    "id": "projects-sentinel",
+    "target": "project-sentinel",
+    "source": "Projects",
+    "title": "Sentinel counterparty risk system",
+    "summary": "Sentinel demonstrates rigorous predictive modeling and explainable risk decisions",
+    "content": "Sentinel benchmarks Logistic Regression, Random Forest, and HistGradientBoosting on 20,000 synthetic longitudinal records using a strict temporal holdout. It achieved 0.724 ROC-AUC and 0.0197 calibrated expected calibration error, and includes Platt scaling, local prediction explanations, a risk action queue, and inverse propensity weighting.",
+    "keywords": ["sentinel", "predictive modeling", "risk", "calibration", "explainability", "causal inference", "logistic regression", "data science"]
+  },
+  {
+    "id": "projects-speech",
+    "target": "project-speech",
+    "source": "Projects",
+    "title": "Speech emotion detection product",
+    "summary": "The speech emotion project demonstrates full-stack multimodal machine learning",
+    "content": "Karan built a full-stack speech emotion journaling application using Keras, Librosa, FastAPI, and React. The classifier uses speech features and a CNN-BiLSTM-Attention architecture across 12,162 source audio clips, predicts eight emotion classes, and achieved 73 percent test accuracy.",
+    "keywords": ["speech", "emotion", "multimodal", "deep learning", "keras", "librosa", "fastapi", "react", "cnn", "bilstm", "full stack"]
+  },
+  {
+    "id": "projects-rolefit-rag",
+    "target": "project-rolefit",
+    "source": "Projects",
+    "title": "RoleFit and portfolio assistant products",
+    "summary": "Karan builds explainable NLP products with user-facing workflows",
+    "content": "RoleFit is an upload-first resume analyzer with target-role scoring, ATS checks, evidence-safe bullet rewrites, and before-and-after comparison. The AI Portfolio Assistant retrieves cited evidence about Karan's experience, skills, projects, and measurable impact, and abstains when portfolio evidence is insufficient.",
+    "keywords": ["rolefit", "rag", "portfolio assistant", "nlp", "retrieval", "resume", "ats", "citations", "product", "explainable ai"]
+  },
+  {
+    "id": "skills-toolkit",
+    "target": "skills",
+    "source": "Skills",
+    "title": "Core technical toolkit",
+    "summary": "Karan combines machine learning, software engineering, data, and cloud skills",
+    "content": "Karan's core toolkit includes Python, SQL, C++, Java, TypeScript, Scala, PyTorch, TensorFlow, Hugging Face, Transformers, Scikit-learn, Spark, FastAPI, Docker, Airflow, GCP, AWS, Azure, Weights and Biases, and CI/CD.",
+    "keywords": ["skills", "python", "sql", "pytorch", "tensorflow", "spark", "fastapi", "docker", "cloud", "mlops", "backend", "programming languages"]
+  },
+  {
+    "id": "skills-data-ml",
+    "target": "skills",
+    "source": "Skills",
+    "title": "Data science and machine learning capabilities",
+    "summary": "Karan covers the full applied data science workflow from feature engineering to evaluation",
+    "content": "Karan's data science capabilities include NumPy, Pandas, SciPy, Statsmodels, feature engineering, model evaluation, causal inference, predictive modeling, Matplotlib, Tableau, and Power BI. His work demonstrates deep learning, NLP, multimodal ML, calibration, and explainability.",
+    "keywords": ["data science", "machine learning", "numpy", "pandas", "scipy", "statsmodels", "feature engineering", "causal inference", "visualization", "evaluation"]
+  },
+  {
+    "id": "skills-platform",
+    "target": "skills",
+    "source": "Skills",
+    "title": "Backend, data platform, and deployment capabilities",
+    "summary": "Karan can move machine learning work into usable backend and data systems",
+    "content": "Karan's backend and data platform experience includes FastAPI, Flask, REST APIs, Spark, PostgreSQL, MySQL, MongoDB, Redis, HDFS, Docker, Airflow, GCP, AWS, Azure, and CI/CD.",
+    "keywords": ["backend", "deployment", "production", "rest api", "fastapi", "flask", "database", "spark", "docker", "cloud", "mlops", "data engineering"]
+  }
+]

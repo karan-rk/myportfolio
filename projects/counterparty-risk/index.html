@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive counterparty risk intelligence dashboard.">
+  <title>Sentinel | Counterparty Risk Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <a href="../../index.html#projects" class="brand">KR<span>/</span>Sentinel</a>
+    <p><i></i> Risk intelligence console</p>
+    <a href="../../index.html#projects">Back to portfolio</a>
+  </header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">Predictive modeling / Intervention analysis</p><h1>Prioritize risk before it becomes a watchlist event.</h1><p>Sentinel benchmarks multiple risk models on a strict temporal holdout, deploys the measured champion, and surfaces the signals behind each prediction.</p></div>
+      <aside><strong>Synthetic-data demonstration</strong><p>All records and results are generated for this portfolio project. No real counterparties or business savings claims are used.</p></aside>
+    </section>
+
+    <section class="metric-grid" id="metric-grid"></section>
+
+    <section class="dashboard">
+      <div class="main-column">
+        <article class="panel benchmark-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Model selection</p><h2>Temporal benchmark</h2></div><span id="champion-label">Champion loading</span></div>
+          <div class="benchmark-table" id="benchmark-table"></div>
+        </article>
+        <article class="panel calibration-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Probability quality</p><h2>Calibration reliability</h2></div><span id="calibration-method">Calibration loading</span></div>
+          <div class="calibration-metrics" id="calibration-metrics"></div>
+          <div class="calibration-chart" id="calibration-chart"></div>
+          <div class="calibration-legend"><span><i class="ideal"></i>Ideal</span><span><i class="raw"></i>Raw</span><span><i class="calibrated"></i>Calibrated</span></div>
+        </article>
+        <article class="panel trend-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Portfolio monitoring</p><h2>Watchlist rate over time</h2></div><span>Temporal holdout: months 19-24</span></div>
+          <div class="trend-chart" id="trend-chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><div><p class="eyebrow">Action queue</p><h2>Highest-priority counterparties</h2></div><span id="queue-count">0 records</span></div>
+          <div class="filters">
+            <select id="band-filter" aria-label="Filter risk band"><option value="all">All risk bands</option><option>High</option><option>Medium</option><option>Low</option></select>
+            <select id="segment-filter" aria-label="Filter segment"><option value="all">All segments</option><option>Enterprise</option><option>Mid-market</option><option>SMB</option></select>
+            <input id="search-filter" type="search" placeholder="Search counterparty ID">
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Counterparty</th><th>Risk</th><th>Primary signal</th><th>Delay</th><th>Utilization</th><th>Exposure</th><th></th></tr></thead><tbody id="risk-table"></tbody></table></div>
+        </article>
+      </div>
+      <aside class="side-column">
+        <article class="panel decision-panel">
+          <div class="panel-heading"><div><p class="eyebrow">Local explanation</p><h2 id="decision-title">Select a counterparty</h2></div><span id="decision-score">Exact model contributions</span></div>
+          <p class="decision-summary" id="decision-summary">Choose an investigation row to see why the champion model assigned its risk score.</p>
+          <div class="decision-drivers" id="decision-drivers"></div>
+          <small>Contributions explain the raw Logistic Regression score. Platt scaling then calibrates it into the displayed probability.</small>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><div><p class="eyebrow">Model explainability</p><h2>Risk drivers</h2></div></div>
+          <div class="importance-list" id="importance-list"></div>
+        </article>
+        <article class="panel intervention-panel">
+          <p class="eyebrow">Causal-analysis demonstration</p><h2>Targeted outreach estimate</h2>
+          <strong id="effect-value">--</strong><p>Estimated average change in 90-day watchlist risk using inverse propensity weighting.</p>
+          <small>Observational estimate on synthetic data; assumptions must be validated before real decisions.</small>
+        </article>
+        <article class="panel methodology">
+          <p class="eyebrow">Validation design</p><h2>Built to resist leakage.</h2>
+          <ol><li>Train on months 1-18</li><li>Hold out months 19-24</li><li>Rank top-decile risk queue</li><li>Audit drift and intervention effects</li></ol>
+        </article>
+      </aside>
+    </section>
+  </main>
+  <footer><span>Sentinel / Built by Karan Rajendra</span><span>Model benchmarking · Temporal validation · IPW</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>

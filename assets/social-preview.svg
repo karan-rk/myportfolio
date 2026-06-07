@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f4f3ee"/>
+  <g opacity=".34" stroke="#a7c9b9">
+    <path d="M650 80v470M750 80v470M850 80v470M950 80v470M1050 80v470"/>
+    <path d="M600 130h520M600 230h520M600 330h520M600 430h520M600 530h520"/>
+  </g>
+  <g fill="none" stroke="#269868" stroke-width="3">
+    <path d="M690 180l155 120 180-100M690 180l90 250 245-230M780 430l65-130 180 110"/>
+  </g>
+  <g fill="#8cffc1" stroke="#269868" stroke-width="3">
+    <circle cx="690" cy="180" r="10"/><circle cx="845" cy="300" r="10"/><circle cx="1025" cy="200" r="10"/><circle cx="780" cy="430" r="10"/><circle cx="1025" cy="410" r="10"/>
+  </g>
+  <text x="80" y="110" fill="#238358" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="5">MACHINE LEARNING ENGINEER</text>
+  <text x="80" y="250" fill="#101515" font-family="Arial, sans-serif" font-size="82" font-weight="700">Karan</text>
+  <text x="80" y="340" fill="#101515" font-family="Arial, sans-serif" font-size="82" font-weight="700">Rajendra</text>
+  <text x="80" y="430" fill="#62706d" font-family="Arial, sans-serif" font-size="31">Research depth. Production mindset.</text>
+  <rect x="80" y="500" width="300" height="58" rx="29" fill="#101515"/>
+  <text x="119" y="538" fill="#ffffff" font-family="Arial, sans-serif" font-size="21" font-weight="700">Building systems at scale</text>
+</svg>

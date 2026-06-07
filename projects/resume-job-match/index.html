@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An explainable, upload-first resume analyzer.">
+  <meta name="theme-color" content="#111816">
+  <title>RoleFit | Resume Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../../index.html#projects" aria-label="Back to Karan Rajendra portfolio">KR<span>/</span>RoleFit</a>
+    <p><i></i> Explainable resume analyzer</p>
+    <a href="../../index.html#projects">Back to portfolio</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Resume intelligence workspace</p>
+        <h1>Upload your resume. Get a clear improvement plan.</h1>
+        <p class="hero-copy">RoleFit analyzes resume structure, skills, measurable impact, writing quality, and production evidence automatically.</p>
+      </div>
+      <div class="hero-note"><span>Local by design</span><p>PDF extraction uses your local portfolio service. Matching runs in your browser.</p></div>
+    </section>
+
+    <section class="workspace">
+      <div class="input-panel">
+        <div class="panel-heading">
+          <div><span>01</span><h2>Upload resume</h2></div>
+        </div>
+        <label>Target role</label>
+        <div class="role-selector" id="role-selector">
+          <button class="active" type="button" data-role="ml-engineer">ML Engineer</button>
+          <button type="button" data-role="data-scientist">Data Scientist</button>
+          <button type="button" data-role="software-engineer">Software Engineer</button>
+          <button type="button" data-role="mlops-engineer">MLOps Engineer</button>
+        </div>
+        <label for="resume-file">Resume</label>
+        <label class="upload-zone" for="resume-file">
+          <input id="resume-file" type="file" accept="application/pdf,.pdf">
+          <span><strong id="upload-title">Upload resume PDF</strong><small id="upload-status">PDF up to 5MB · processed locally</small></span>
+          <b>Browse</b>
+        </label>
+        <label for="comparison-file">Improved resume <span class="optional-label">Optional comparison</span></label>
+        <label class="upload-zone comparison-upload" for="comparison-file">
+          <input id="comparison-file" type="file" accept="application/pdf,.pdf">
+          <span><strong id="comparison-title">Upload revised PDF</strong><small id="comparison-status">Compare after the first analysis</small></span>
+          <b>Compare</b>
+        </label>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="upload-explainer">
+          <span>Automatic workflow</span>
+          <ol><li>Extract resume text locally</li><li>Run ATS and section checks</li><li>Score target-role readiness</li><li>Review achievement bullets</li></ol>
+        </div>
+      </div>
+
+      <div class="results-panel" id="results-panel">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-orbit"><span></span><i></i><i></i><i></i></div>
+          <h2>Ready when you are.</h2>
+          <p>Upload a PDF resume to generate an explainable quality report automatically.</p>
+        </div>
+
+        <div class="report" id="report" hidden>
+          <div class="report-top">
+            <div class="score-ring" id="score-ring"><strong id="match-score">0</strong><span>resume quality</span></div>
+            <div><p class="eyebrow">Resume assessment</p><h2 id="match-label">Strong foundation</h2><p id="match-summary"></p></div>
+          </div>
+
+          <div class="score-grid" id="score-grid"></div>
+
+          <div class="insight-grid">
+            <article>
+              <div class="insight-heading"><h3>Detected strengths</h3><span id="matched-count">0</span></div>
+              <div class="chip-list positive" id="matched-skills"></div>
+            </article>
+            <article>
+              <div class="insight-heading"><h3>Resume gaps</h3><span id="missing-count">0</span></div>
+              <div class="chip-list warning" id="missing-skills"></div>
+            </article>
+          </div>
+
+          <article class="recommendations">
+            <div class="insight-heading"><h3>Priority improvements</h3><span>Action plan</span></div>
+            <ol id="recommendation-list"></ol>
+          </article>
+
+          <article class="comparison-review" id="comparison-review" hidden>
+            <div class="insight-heading"><h3>Before-and-after comparison</h3><span id="comparison-label">Score movement</span></div>
+            <div class="comparison-summary" id="comparison-summary"></div>
+            <div class="comparison-grid" id="comparison-grid"></div>
+          </article>
+
+          <article class="section-review">
+            <div class="insight-heading"><h3>Section-level analysis</h3><span>Resume architecture</span></div>
+            <div class="section-grid" id="section-grid"></div>
+          </article>
+
+          <article class="ats-review">
+            <div class="insight-heading"><h3>ATS compatibility</h3><span id="ats-score">Parsing checks</span></div>
+            <div id="ats-list"></div>
+          </article>
+
+          <article class="bullet-review">
+            <div class="insight-heading"><h3>Bullet rewrites</h3><span id="bullet-count">Evidence-safe suggestions</span></div>
+            <div id="bullet-list"></div>
+          </article>
+
+          <article class="evidence">
+            <div class="insight-heading"><h3>Why this score?</h3><span>Transparent signals</span></div>
+            <div id="evidence-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>RoleFit MVP / Built by Karan Rajendra</span><span>Local PDF extraction · No API key required</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>

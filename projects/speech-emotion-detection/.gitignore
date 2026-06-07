@@ -1,0 +1,11 @@
+115621150_HCIProject_VideoPresentation.mp4
+CSE_518_HCI_115621150_ProjectAbstract.pdf
+/backend/__pycache__/
+/backend/audio_files/
+/backend/journal_data/
+/backend/model_baseline/
+/backend/runtime_data/
+**/__pycache__/
+*.pyc
+.env
+*.log
