@@ -30,15 +30,15 @@ ROLE_PROFILES = {
     "general": {"label": "General", "boosts": {}},
     "ml-engineer": {
         "label": "ML Engineer",
-        "boosts": {"skills-toolkit": 2.5, "skills-platform": 2.2, "experience-research": 2.2, "projects-sentinel": 2.0, "projects-speech": 2.0},
+        "boosts": {"skills-toolkit": 2.5, "skills-platform": 2.2, "experience-research-methods": 2.2, "projects-sentinel": 2.0, "projects-speech": 2.0},
     },
     "data-scientist": {
         "label": "Data Scientist",
-        "boosts": {"projects-sentinel": 3.5, "skills-data-ml": 1.8, "experience-meta": 2.1, "experience-research": 2.0, "skills-toolkit": 1.6},
+        "boosts": {"projects-sentinel": 3.5, "skills-data-ml": 1.8, "experience-meta": 2.1, "experience-research-methods": 2.0, "skills-toolkit": 1.6},
     },
     "software-engineer": {
         "label": "Software Engineer",
-        "boosts": {"experience-meta": 2.8, "skills-toolkit": 2.0, "projects-rolefit-rag": 1.8, "projects-speech": 1.6},
+        "boosts": {"experience-meta": 2.8, "experience-systems-research": 2.2, "skills-toolkit": 2.0, "projects-cloud-infrastructure": 2.0, "projects-rolefit-rag": 1.8, "projects-speech": 1.6},
     },
 }
 EVALUATION_CASES = [
@@ -46,7 +46,7 @@ EVALUATION_CASES = [
     {"name": "Meta impact", "query": "What impact did Karan have at Meta?", "role": "general", "expected": "experience-meta"},
     {"name": "Biggest achievement", "query": "What is Karan's biggest professional achievement?", "role": "general", "expected": "experience-meta"},
     {"name": "Collaboration", "query": "Does Karan have cross-functional collaboration experience?", "role": "general", "expected": "experience-meta-product"},
-    {"name": "Research experience", "query": "What machine learning research has Karan done?", "role": "general", "expected": "experience-research"},
+    {"name": "Research experience", "query": "What machine learning research has Karan done?", "role": "general", "expected": "experience-research-methods"},
     {"name": "Leadership", "query": "What leadership and communication experience does Karan have?", "role": "general", "expected": "experience-teaching"},
     {"name": "NLP projects", "query": "Which projects demonstrate NLP and applied machine learning?", "role": "general", "expected_prefix": "projects-"},
     {"name": "Technical skills", "query": "What skills make Karan a strong fit?", "role": "general", "expected": "skills-toolkit"},

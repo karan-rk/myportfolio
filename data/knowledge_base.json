@@ -4,8 +4,8 @@
     "target": "top",
     "source": "Resume",
     "title": "Professional summary",
-    "summary": "Karan is a software and machine learning engineer who combines production-scale engineering, applied ML research, and product development",
-    "content": "Karan Rajendra is a New York-based software and machine learning engineer. His background combines production engineering at Meta and Instagram, machine learning research at Stony Brook University, graduate teaching, and end-to-end applied ML products.",
+    "summary": "Karan is a software and machine learning engineer who combines distributed systems, production-scale data, applied ML, and product development",
+    "content": "Karan Rajendra is a New York-based software and machine learning engineer. His background combines distributed systems research, production engineering at Meta and Instagram, cloud infrastructure, applied machine learning research, graduate teaching, and end-to-end product development.",
     "keywords": ["tell me about yourself", "introduce", "introduction", "background", "summary", "profile", "software engineer", "machine learning engineer", "new york"]
   },
   {
@@ -22,8 +22,8 @@
     "target": "contact",
     "source": "Resume",
     "title": "Location and opportunity status",
-    "summary": "Karan is based in New York and is available for machine learning engineering opportunities",
-    "content": "Karan is based in New York. His portfolio states that he is available for machine learning engineering opportunities and open to relocation.",
+    "summary": "Karan is based in New York and is available for software and machine learning engineering opportunities",
+    "content": "Karan is based in New York and open to software engineering and machine learning engineering opportunities, including relocation.",
     "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "work authorization", "visa", "salary"]
   },
   {
@@ -45,31 +45,31 @@
     "keywords": ["collaboration", "cross functional", "teamwork", "product", "analytics", "experiments", "monitoring", "dashboard", "instagram stories", "stakeholders"]
   },
   {
-    "id": "experience-research",
-    "target": "experience-research",
+    "id": "experience-systems-research",
+    "target": "experience-systems-research",
     "source": "Experience",
-    "title": "Machine learning research results",
-    "summary": "Karan has delivered measurable results across NLP, author-style detection, and multimodal speech research",
-    "content": "As a Research Assistant at Stony Brook University, Karan improved author-style detection from 87 to 92 percent ROC-AUC across more than 40 million documents, achieved 96 percent speaker diarization accuracy across more than 680 interviews, and produced persuasive responses that outperformed human responses by 6 percent.",
-    "keywords": ["research", "results", "nlp", "multimodal", "author detection", "speech", "92 percent", "96 percent", "40 million", "achievement"]
+    "title": "Distributed systems research",
+    "summary": "Karan builds reliable distributed backend services and multi-node deployment workflows",
+    "content": "As a Research Assistant at Stony Brook University, Karan builds distributed backend services in C++ and Python. He improved throughput by 25 percent using multithreading and asynchronous processing, reduced runtime overhead by 20 percent using Linux profiling tools, and developed fault-tolerant microservices with Kafka, gRPC, Docker, replication, and automatic failover.",
+    "keywords": ["research", "research experience", "research assistant", "distributed systems", "backend", "c++", "python", "kafka", "grpc", "docker", "multithreading", "fault tolerance", "throughput"]
   },
   {
     "id": "experience-research-methods",
-    "target": "experience-research",
+    "target": "experience-persuasion",
     "source": "Experience",
-    "title": "Research methods and models",
-    "summary": "Karan applies modern language-model fine-tuning and speech-processing methods",
-    "content": "Karan fine-tuned Llama 2-7B with LoRA and Direct Preference Optimization on r/ChangeMyView data, reaching 0.7 reward accuracy. His research also uses Transformers, PyTorch, WhisperX, and NVIDIA NeMo for large-scale text and multimodal speech analysis.",
-    "keywords": ["llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "whisperx", "nemo", "language model", "research methods"]
+    "title": "Machine learning and persuasion research",
+    "summary": "Karan applies modern machine learning and language-model fine-tuning methods to persuasion research",
+    "content": "Karan's machine learning research includes fine-tuning Llama 2-7B with LoRA and Direct Preference Optimization on r/ChangeMyView data, reaching 0.7 reward accuracy. His research also uses Transformers, PyTorch, WhisperX, and NVIDIA NeMo for large-scale text and multimodal speech analysis.",
+    "keywords": ["machine learning research", "persuasion research", "llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "whisperx", "nemo", "language model", "research methods"]
   },
   {
     "id": "experience-teaching",
     "target": "experience-teaching",
     "source": "Experience",
     "title": "Teaching, mentorship, and communication",
-    "summary": "Karan demonstrates communication and mentorship through graduate-level machine learning teaching",
-    "content": "As a Graduate Teaching Assistant, Karan guided more than 40 graduate students through supervised learning, deep learning, feature engineering, model evaluation, and Python debugging. This experience demonstrates his ability to explain technical concepts and support others through complex work.",
-    "keywords": ["teaching", "mentoring", "leadership", "communication", "explain", "graduate students", "machine learning", "debugging", "teamwork"]
+    "summary": "Karan demonstrates communication and mentorship through graduate-level distributed systems teaching",
+    "content": "As a Graduate Teaching Assistant, Karan taught consensus, replication, sharding, fault tolerance, and scalability using Python and C++ implementations. His assignments emphasized system trade-offs, reliability, debugging, and performance optimization and improved project quality by 25 percent.",
+    "keywords": ["teaching", "mentoring", "leadership", "communication", "distributed systems", "consensus", "replication", "debugging", "python", "c++"]
   },
   {
     "id": "projects-sentinel",
@@ -99,12 +99,21 @@
     "keywords": ["rolefit", "rag", "portfolio assistant", "nlp", "retrieval", "resume", "ats", "citations", "product", "explainable ai"]
   },
   {
+    "id": "projects-cloud-infrastructure",
+    "target": "project-cloud-infrastructure",
+    "source": "Projects",
+    "title": "AWS three-tier book application",
+    "summary": "Karan built a full-stack three-tier application designed for AWS deployment",
+    "content": "Karan built a full-stack book management application with a React presentation layer, Node.js and Express REST API, and MySQL data layer. The application supports CRUD workflows, environment-based configuration, and a deployment path using hosted frontend infrastructure, an API service, and Amazon RDS.",
+    "keywords": ["aws", "three tier", "react", "node.js", "express", "mysql", "rest api", "crud", "rds", "cloud application", "full stack"]
+  },
+  {
     "id": "skills-toolkit",
     "target": "skills",
     "source": "Skills",
     "title": "Core technical toolkit",
     "summary": "Karan combines machine learning, software engineering, data, and cloud skills",
-    "content": "Karan's core toolkit includes Python, SQL, C++, Java, TypeScript, Scala, PyTorch, TensorFlow, Hugging Face, Transformers, Scikit-learn, Spark, FastAPI, Docker, Airflow, GCP, AWS, Azure, Weights and Biases, and CI/CD.",
+    "content": "Karan's core toolkit includes Python, SQL, C++, Java, TypeScript, Scala, Kafka, gRPC, Kubernetes, Terraform, PyTorch, TensorFlow, Spark, FastAPI, Docker, Airflow, GCP, AWS, Azure, and CI/CD.",
     "keywords": ["skills", "python", "sql", "pytorch", "tensorflow", "spark", "fastapi", "docker", "cloud", "mlops", "backend", "programming languages"]
   },
   {
@@ -121,8 +130,8 @@
     "target": "skills",
     "source": "Skills",
     "title": "Backend, data platform, and deployment capabilities",
-    "summary": "Karan can move machine learning work into usable backend and data systems",
-    "content": "Karan's backend and data platform experience includes FastAPI, Flask, REST APIs, Spark, PostgreSQL, MySQL, MongoDB, Redis, HDFS, Docker, Airflow, GCP, AWS, Azure, and CI/CD.",
-    "keywords": ["backend", "deployment", "production", "rest api", "fastapi", "flask", "database", "spark", "docker", "cloud", "mlops", "data engineering"]
+    "summary": "Karan builds backend, data, and deployment systems for both software and machine learning products",
+    "content": "Karan's backend and data platform experience includes C++, Python, Kafka, gRPC, FastAPI, Flask, REST APIs, Spark, PostgreSQL, MySQL, MongoDB, Redis, HDFS, Docker, Kubernetes, Terraform, Airflow, GCP, AWS, Azure, and CI/CD.",
+    "keywords": ["backend", "distributed systems", "deployment", "production", "rest api", "grpc", "kafka", "database", "spark", "docker", "kubernetes", "terraform", "cloud", "data engineering"]
   }
 ]

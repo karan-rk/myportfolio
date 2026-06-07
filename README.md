@@ -1,6 +1,6 @@
 # Karan Rajendra Portfolio
 
-A responsive ML engineering portfolio with an interactive, citation-first RAG project.
+A responsive software and machine learning engineering portfolio with an interactive, citation-first RAG project.
 
 ## Run locally
 

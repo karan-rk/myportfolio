@@ -11,7 +11,7 @@ class RetrievalTests(unittest.TestCase):
 
     def test_nlp_query_prioritizes_relevant_work(self):
         results = retrieve("Which work demonstrates Karan's NLP experience?")
-        self.assertIn(results[0]["id"], {"experience-research", "projects-rolefit-rag"})
+        self.assertIn(results[0]["id"], {"experience-research-methods", "projects-rolefit-rag"})
 
     def test_project_query_prioritizes_projects(self):
         results = retrieve("Which projects demonstrate NLP and applied machine learning?")
@@ -101,11 +101,16 @@ class RetrievalTests(unittest.TestCase):
         self.assertTrue(answer["abstained"])
 
     def test_unknown_skill_and_behavioral_question_abstain(self):
-        for query in ("Does Karan know Kubernetes?", "Does Karan have Kubernetes skills?", "What are Karan's weaknesses?"):
-            with self.subTest(query=query):
-                answer = build_answer(query, retrieve(query))
-                self.assertTrue(answer["abstained"])
-                self.assertEqual(answer["citations"], [])
+        query = "What are Karan's weaknesses?"
+        answer = build_answer(query, retrieve(query))
+        self.assertTrue(answer["abstained"])
+        self.assertEqual(answer["citations"], [])
+
+    def test_kubernetes_skill_is_answered_from_new_resume(self):
+        query = "Does Karan have Kubernetes skills?"
+        answer = build_answer(query, retrieve(query))
+        self.assertFalse(answer["abstained"])
+        self.assertTrue(any(citation["target"] in {"skills", "project-cloud-infrastructure"} for citation in answer["citations"]))
 
     def test_location_question_is_answered_from_availability_evidence(self):
         query = "Where is Karan located?"
