@@ -108,6 +108,15 @@
     "keywords": ["aws", "three tier", "react", "node.js", "express", "mysql", "rest api", "crud", "rds", "cloud application", "full stack"]
   },
   {
+    "id": "projects-gitops-todo",
+    "target": "project-gitops-todo",
+    "source": "Projects",
+    "title": "EKS GitOps Todo application",
+    "summary": "Karan built a containerized React application with a GitOps delivery workflow",
+    "content": "Karan built a React Todo application packaged with a multi-stage Docker build and Nginx production image. A CircleCI pipeline builds and pushes versioned images, updates a Kubernetes manifest repository, and supports Argo CD synchronization to Amazon EKS.",
+    "keywords": ["gitops", "todo", "react", "docker", "circleci", "argo cd", "eks", "kubernetes", "ci cd", "continuous delivery", "devops"]
+  },
+  {
     "id": "skills-toolkit",
     "target": "skills",
     "source": "Skills",

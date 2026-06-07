@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=17">
+  <link rel="stylesheet" href="styles.css?v=18">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
@@ -284,7 +284,7 @@
       <div class="container">
         <div class="section-heading reveal">
           <div><p class="section-kicker">Featured projects</p><h2>Software and ML, built end to end.</h2></div>
-          <p>Five projects showing how I move from a technical problem to a measurable, production-ready system.</p>
+          <p>Six projects showing how I move from a technical problem to a measurable, production-ready system.</p>
         </div>
         <div class="projects-grid">
           <article class="project-card project-infra reveal" id="project-cloud-infrastructure">
@@ -412,6 +412,36 @@
                 <p><span>Impact evidence</span><b>90%</b><i style="--bar:90%"></i></p>
               </div>
               <div class="match-tags"><span>Python</span><span>PyTorch</span><span>+ SQL</span><em>Kubernetes gap</em></div>
+            </div>
+          </article>
+          <article class="project-card project-gitops reveal" id="project-gitops-todo">
+            <div class="project-topline"><p class="project-number">06 / GitOps delivery</p><span>Source available</span></div>
+            <div class="project-visual gitops-project-visual" aria-hidden="true">
+              <div class="gitops-flow">
+                <span><small>01</small>Code</span><i></i>
+                <span><small>02</small>CircleCI</span><i></i>
+                <span><small>03</small>Docker</span><i></i>
+                <span><small>04</small>Manifest</span><i></i>
+                <span><small>05</small>Argo CD</span><i></i>
+                <span><small>06</small>EKS</span>
+              </div>
+              <div class="gitops-status"><b>Continuous delivery path</b><span>Versioned image</span><span>Declarative deploy</span><span>Cluster sync</span></div>
+            </div>
+            <div class="project-summary">
+              <p class="project-tag">Cloud engineering / Continuous delivery</p>
+              <h3>EKS GitOps Todo Application</h3>
+              <p>Containerized React application with a CircleCI pipeline and an Argo CD GitOps delivery path to Amazon EKS.</p>
+              <div class="project-stack"><span>React</span><span>Docker</span><span>CircleCI</span><span>Argo CD</span><span>Amazon EKS</span></div>
+              <div class="project-results"><span><strong>Multi-stage</strong> Docker build</span><span><strong>GitOps</strong> delivery</span><span><strong>EKS</strong> deployment path</span></div>
+              <div class="project-actions">
+                <a class="project-action-primary" href="https://github.com/karan-rk/eks-gitops-todo-app" target="_blank" rel="noopener">View source <span>&nearr;</span></a>
+                <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
+              </div>
+            </div>
+            <div class="project-details" aria-hidden="true">
+              <div><span>Application</span><p>Built a React Todo application with add, edit, complete, and delete workflows.</p></div>
+              <div><span>Pipeline</span><p>Configured CircleCI to build and publish versioned container images, then update a Kubernetes manifest repository.</p></div>
+              <div><span>Delivery</span><p>Designed a declarative deployment path where Argo CD synchronizes manifest changes to Amazon EKS.</p></div>
             </div>
           </article>
         </div>
