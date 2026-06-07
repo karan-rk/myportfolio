@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Three-Tier Architecture | Karan Rajendra</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071014;
+      --panel: #101a18;
+      --line: #2f4740;
+      --text: #eef7f3;
+      --muted: #9db2aa;
+      --accent: #97ffc4;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 0%, #14231f, var(--bg) 42%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px clamp(18px, 4vw, 48px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 16, 20, .88);
+      backdrop-filter: blur(14px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -.04em;
+    }
+
+    p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    main {
+      width: min(100% - 32px, 1800px);
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .architecture-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    figure {
+      margin: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(16, 26, 24, .82);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .28);
+    }
+
+    figcaption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    figcaption span {
+      color: var(--accent);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      background: #050b0e;
+      transition: transform .2s ease;
+    }
+
+    figure a {
+      display: block;
+    }
+
+    figure a:hover img {
+      transform: scale(1.01);
+    }
+
+    @media (max-width: 700px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>AWS Three-Tier Architecture</h1>
+      <p>Failover overview and detailed warm-standby architecture shown together.</p>
+    </div>
+    <a href="../../index.html#project-cloud-infrastructure">Back to portfolio</a>
+  </header>
+
+  <main>
+    <section class="architecture-grid" aria-label="AWS architecture diagrams">
+      <figure>
+        <figcaption><span>01</span> Failover Overview</figcaption>
+        <a href="../../assets/aws-three-tier-failover-preview.gif" target="_blank" rel="noopener" aria-label="Open failover overview at full resolution">
+          <img src="../../assets/aws-three-tier-failover-preview.gif" alt="AWS Route 53 active failover architecture across primary and secondary regions">
+        </a>
+      </figure>
+
+      <figure>
+        <figcaption><span>02</span> Full Warm-Standby Architecture</figcaption>
+        <a href="../../assets/aws-three-tier-warm-standby-architecture.gif" target="_blank" rel="noopener" aria-label="Open warm-standby architecture at full resolution">
+          <img src="../../assets/aws-three-tier-warm-standby-architecture.gif" alt="Detailed AWS warm standby disaster recovery architecture with frontend, backend, database, backup, and regional failover components">
+        </a>
+      </figure>
+    </section>
+  </main>
+</body>
+</html>
