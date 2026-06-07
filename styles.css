@@ -205,7 +205,9 @@ h2 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -.055em; line-height: 1.
 .project-visual { height: 205px; margin-bottom: 27px; position: relative; overflow: hidden; border: 1px solid currentColor; border-radius: 14px; opacity: .86; }
 .project-summary { display: flex; flex-direction: column; flex: 1; }
 .project-card h3 { font-size: 37px; line-height: 1.1; letter-spacing: -.05em; margin-bottom: 16px; max-width: 430px; }
-.infra-project-visual { min-height: 205px; display: grid; place-content: center; gap: 16px; padding: 22px; background: #17231f; color: #ffffff; border-radius: 15px; margin-bottom: 27px; }
+.infra-project-visual { min-height: 205px; display: grid; place-content: center; gap: 16px; padding: 0; background: #17231f; color: #ffffff; border-radius: 15px; margin-bottom: 27px; }
+.infra-project-visual.real-project-shot { background: #ffffff; }
+.infra-project-visual.real-project-shot img { object-fit: contain; padding: 18px; background: #ffffff; }
 .infra-cloud { width: 82px; height: 48px; display: grid; place-items: center; justify-self: center; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; font-weight: 800; letter-spacing: .12em; }
 .infra-flow, .infra-nodes { display: flex; align-items: center; justify-content: center; gap: 9px; }
 .infra-flow span, .infra-nodes span { padding: 7px 9px; border-radius: 7px; background: rgba(255,255,255,.1); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
