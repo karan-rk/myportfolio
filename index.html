@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
@@ -289,9 +289,25 @@
         <div class="projects-grid">
           <article class="project-card project-infra reveal" id="project-cloud-infrastructure">
             <div class="project-topline"><p class="project-number">01 / Cloud application</p><span>Source available</span></div>
-            <div class="project-visual infra-project-visual real-project-shot">
-              <img src="assets/aws-three-tier-architecture.gif" alt="AWS three-tier architecture diagram showing client, frontend, backend, and database layers">
-              <span class="screenshot-label">Architecture diagram</span>
+            <div class="project-visual infra-project-visual" aria-label="Simplified AWS three-tier application architecture">
+              <div class="infra-tier">
+                <span>Presentation</span>
+                <strong>React Client</strong>
+                <small>Browser UI</small>
+              </div>
+              <i aria-hidden="true"></i>
+              <div class="infra-tier">
+                <span>Application</span>
+                <strong>Node + Express</strong>
+                <small>REST API</small>
+              </div>
+              <i aria-hidden="true"></i>
+              <div class="infra-tier">
+                <span>Data</span>
+                <strong>MySQL / RDS</strong>
+                <small>Persistent storage</small>
+              </div>
+              <em>AWS deployment path</em>
             </div>
             <div class="project-summary">
               <p class="project-tag">Full-stack engineering / Three-tier architecture</p>
@@ -301,6 +317,7 @@
               <div class="project-results"><span><strong>3-tier</strong> architecture</span><span><strong>REST</strong> CRUD API</span><span><strong>RDS-ready</strong> database</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="https://github.com/karan-rk/aws-three-tier-book-app" target="_blank" rel="noopener">View source <span>&nearr;</span></a>
+                <a class="project-action-secondary" href="assets/aws-three-tier-architecture.gif" target="_blank" rel="noopener">View full architecture <span>&nearr;</span></a>
                 <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
               </div>
             </div>
