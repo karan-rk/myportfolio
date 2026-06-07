@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=19">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
@@ -416,17 +416,10 @@
           </article>
           <article class="project-card project-gitops reveal" id="project-gitops-todo">
             <div class="project-topline"><p class="project-number">06 / GitOps delivery</p><span>Source available</span></div>
-            <div class="project-visual gitops-project-visual" aria-hidden="true">
-              <div class="gitops-flow">
-                <span><small>01</small>Code</span><i></i>
-                <span><small>02</small>CircleCI</span><i></i>
-                <span><small>03</small>Docker</span><i></i>
-                <span><small>04</small>Manifest</span><i></i>
-                <span><small>05</small>Argo CD</span><i></i>
-                <span><small>06</small>EKS</span>
-              </div>
-              <div class="gitops-status"><b>Continuous delivery path</b><span>Versioned image</span><span>Declarative deploy</span><span>Cluster sync</span></div>
-            </div>
+            <a class="project-visual gitops-project-visual real-project-shot" href="assets/eks-gitops-architecture.gif" target="_blank" rel="noopener" aria-label="View full EKS GitOps architecture">
+              <img src="assets/eks-gitops-architecture.gif" alt="GitOps delivery architecture showing CircleCI, Docker registry, Terraform, Argo CD, and Amazon EKS">
+              <span class="screenshot-label">View full architecture</span>
+            </a>
             <div class="project-summary">
               <p class="project-tag">Cloud engineering / Continuous delivery</p>
               <h3>EKS GitOps Todo Application</h3>
