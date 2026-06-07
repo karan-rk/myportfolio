@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=23">
+  <link rel="stylesheet" href="styles.css?v=24">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
@@ -468,17 +468,17 @@
       <div class="container">
         <div class="section-heading reveal">
           <div>
-            <p class="section-kicker">Ask about my work</p>
-            <h2>AI Portfolio Assistant.</h2>
+            <p class="section-kicker">Ask me anything</p>
+            <h2>Talk with Karan AI.</h2>
           </div>
-          <p>Ask recruiter-style questions and get answers grounded in my resume, experience, projects, and technical skills.</p>
+          <p>Ask about my experience, projects, skills, research, or fit for a role and get a direct answer grounded in my portfolio.</p>
         </div>
 
         <div class="rag-shell reveal">
           <div class="rag-topbar">
             <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <p>portfolio-ai / evidence console</p>
-            <span class="prototype-badge">Live portfolio assistant</span>
+            <p>Karan AI</p>
+            <span class="prototype-badge">Portfolio assistant</span>
           </div>
 
           <div class="rag-workspace">
@@ -494,16 +494,17 @@
             <div class="rag-console">
               <div class="rag-intro">
                 <div>
-                  <p class="console-label">Ask about Karan</p>
-                  <h3>Recruiter questions, answered with evidence.</h3>
+                  <p class="console-label">Conversation</p>
+                  <h3>What would you like to know about me?</h3>
                 </div>
-                <div class="latency-card"><span>API status</span><strong id="api-status">Checking</strong></div>
+                <div class="latency-card"><span>Status</span><strong id="api-status">Ready</strong></div>
               </div>
 
               <div class="suggested-prompts" aria-label="Suggested questions">
-                <button type="button" data-question="What impact did Karan have at Meta?">Meta impact</button>
-                <button type="button" data-question="Tell me about yourself">Professional summary</button>
-                <button type="button" data-question="Why is Karan a strong candidate?">Candidate fit</button>
+                <button type="button" data-question="Tell me about yourself">Tell me about yourself</button>
+                <button type="button" data-question="What software engineering impact has Karan delivered?">Software engineering impact</button>
+                <button type="button" data-question="What machine learning systems has Karan built?">Machine learning work</button>
+                <button type="button" data-question="Why is Karan a strong candidate?">Why hire Karan?</button>
               </div>
 
               <div class="role-selector">
@@ -529,13 +530,13 @@
                 <button id="clear-conversation" type="button">Clear</button>
               </div>
               <div class="conversation-history" id="conversation-history">
-                <p>No conversation yet. Ask a recruiter question to begin.</p>
+                <p>Start with a suggested question or ask anything about Karan.</p>
               </div>
 
               <form class="rag-form" id="rag-form">
-                <label class="sr-only" for="rag-question">Ask the RAG prototype a question</label>
-                <input id="rag-question" type="text" placeholder="Ask any recruiter question about Karan..." autocomplete="off">
-                <button type="submit">Run query</button>
+                <label class="sr-only" for="rag-question">Ask Karan AI a question</label>
+                <input id="rag-question" type="text" placeholder="Ask anything about Karan..." autocomplete="off">
+                <button type="submit">Ask</button>
               </form>
               <div class="share-row">
                 <button id="share-question" type="button" disabled>Copy shareable question link</button>
@@ -543,10 +544,7 @@
               </div>
 
               <div class="rag-output" id="rag-output" aria-live="polite">
-                <div class="answer-header"><span class="answer-icon">AI</span><div><strong>Ready to answer</strong><small>Select a recruiter question or ask about Karan's work.</small></div></div>
-                <div class="pipeline-steps">
-                  <span>Query</span><i></i><span>Hybrid search</span><i></i><span>Rerank</span><i></i><span>Generate + cite</span>
-                </div>
+                <div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask me about Karan's work, skills, projects, or experience.</small></div></div>
               </div>
               <div class="follow-up-prompts" id="follow-up-prompts" hidden></div>
               <div class="retrieval-inspector" id="retrieval-inspector" hidden>
@@ -683,6 +681,6 @@
     <p>New York, NY</p>
   </footer>
 
-  <script src="script.js?v=11"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>
