@@ -21,6 +21,16 @@ When `OPENAI_API_KEY` is configured, the backend behaves like a normal conversat
 
 The API key must remain server-side. A static GitHub Pages deployment cannot securely provide the real GenAI endpoint by itself. The included `render.yaml` can deploy the full portfolio and Python backend together; configure `OPENAI_API_KEY` as a secret environment variable on the host.
 
+## Live backend deployment
+
+The GitHub Pages portfolio calls `https://karan-portfolio-ai.onrender.com` for `/api/health`, `/api/query`, and `/api/evaluation`.
+
+1. In Render, create a Blueprint from this repository and deploy the `karan-portfolio-ai` service defined in `render.yaml`.
+2. Add `OPENAI_API_KEY` as a secret environment variable.
+3. Confirm `https://karan-portfolio-ai.onrender.com/api/health` returns JSON with `"status": "ready"`.
+
+The backend permits browser requests from `https://karan-rk.github.io` through `CORS_ORIGINS`. If Render assigns a different service URL, update the `portfolio-api-url` meta tag in `index.html`.
+
 ## Test
 
 ```powershell

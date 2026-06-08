@@ -7,6 +7,10 @@ const sectionLinks = document.querySelectorAll('a[href^="#"]');
 const trackedSections = document.querySelectorAll("main section[id]");
 const counters = document.querySelectorAll("[data-count]");
 const themeToggles = document.querySelectorAll(".theme-toggle, .mobile-theme-toggle");
+const configuredApiUrl = document.querySelector('meta[name="portfolio-api-url"]')?.content?.replace(/\/$/, "") || "";
+const isLocalPortfolio = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const API_BASE_URL = isLocalPortfolio ? "" : configuredApiUrl;
+const apiUrl = (path) => `${API_BASE_URL}${path}`;
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
@@ -495,7 +499,7 @@ async function queryRag(question) {
   `;
 
   try {
-    const response = await fetch("/api/query", {
+    const response = await fetch(apiUrl("/api/query"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: question, role: selectedRole, answer_mode: selectedAnswerMode, history: ragHistory })
@@ -544,7 +548,7 @@ async function checkApiStatus() {
   const status = document.getElementById("api-status");
   const stats = document.getElementById("index-stats");
   try {
-    const response = await fetch("/api/health");
+    const response = await fetch(apiUrl("/api/health"));
     if (!response.ok) throw new Error("API unavailable");
     const health = await response.json();
     status.textContent = "Live";
@@ -556,7 +560,7 @@ async function checkApiStatus() {
 
 async function loadEvaluation() {
   try {
-    const response = await fetch("/api/evaluation");
+    const response = await fetch(apiUrl("/api/evaluation"));
     if (!response.ok) throw new Error("Evaluation unavailable");
     const result = await response.json();
     evaluationStatus.textContent = `${result.passed}/${result.suite_cases} cases passing`;

@@ -10,5 +10,7 @@ services:
         value: 0.0.0.0
       - key: OPENAI_MODEL
         value: gpt-4.1-mini
+      - key: CORS_ORIGINS
+        value: https://karan-rk.github.io
       - key: OPENAI_API_KEY
         sync: false
