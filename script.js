@@ -282,8 +282,8 @@ const prototypeAnswers = {
     citations: ["Experience / Measurable impact", "Projects / End-to-end products"]
   },
   fallback: {
-    title: "The portfolio assistant found related candidate evidence.",
-    body: "Ask about Karan's experience, projects, technical skills, education, or measurable impact for the strongest cited response.",
+    title: "I can only answer questions about Karan.",
+    body: "Ask about Karan's experience, projects, technical skills, education, research, role fit, or measurable impact.",
     citations: ["Resume / Candidate profile", "Projects / Portfolio"]
   }
 };
@@ -323,7 +323,7 @@ function renderApiAnswer(result) {
   ragOutput.innerHTML = `
     <div class="answer-header">
       <span class="answer-icon">${result.abstained ? "!" : "AI"}</span>
-      <div><strong>${result.abstained ? "I don't have enough evidence for that yet." : "Here's what I found."}</strong><small>Based on Karan's portfolio</small></div>
+      <div><strong>${result.abstained ? "I don't have enough evidence for that yet." : "Here's what I found."}</strong><small>${result.generated ? "Generated from verified portfolio evidence" : "Based on Karan's portfolio"}</small></div>
     </div>
     <p class="answer-body">${escapeHtml(result.answer)}</p>
     ${points}

@@ -2,9 +2,12 @@ import json
 import base64
 import io
 import math
+import os
 import re
 import sys
 import time
+import urllib.error
+import urllib.request
 from collections import Counter
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -21,6 +24,8 @@ STOP_WORDS = {
 }
 MAX_PDF_BYTES = 5 * 1024 * 1024
 MAX_REQUEST_BYTES = 7 * 1024 * 1024
+OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
 ANSWER_MODES = {"short", "detailed", "bullets"}
 TOKEN_ALIASES = {
     "located": "location", "relocate": "relocation", "relocating": "relocation",
@@ -73,6 +78,12 @@ SUPPORTED_BROAD_PHRASES = (
     "tell me about yourself", "introduce yourself", "walk me through your background",
     "why should we hire", "why hire", "strong candidate", "good fit",
     "biggest achievement", "biggest professional achievement", "greatest achievement", "most impressive",
+)
+PROFILE_SCOPE_TERMS = (
+    "karan", "he", "his", "him", "yourself", "candidate", "hire", "fit", "profile",
+    "experience", "work", "project", "skill", "education", "degree", "research",
+    "software", "engineering", "machine learning", "ml", "ai", "backend", "data",
+    "cloud", "meta", "instagram", "stony brook", "availability", "location",
 )
 UNSUPPORTED_PERSONAL_TOPICS = (
     "weakness", "failure", "conflict", "mistake", "salary", "compensation", "visa",
@@ -155,6 +166,8 @@ def question_is_supported(query, passages):
         return False
     if any(phrase in normalized for phrase in SUPPORTED_BROAD_PHRASES):
         return True
+    if not any(re.search(rf"\b{re.escape(term)}\b", normalized) for term in PROFILE_SCOPE_TERMS):
+        return False
     query_tokens = set(tokenize(query))
     specific_tokens = specific_query_tokens(query)
     tokens_to_match = specific_tokens or query_tokens
@@ -223,6 +236,66 @@ def follow_up_suggestions(intent):
         "Leadership": ["Where has he demonstrated collaboration?", "How does he communicate technical ideas?"],
         "Availability": ["Where is Karan based?", "Which roles best match his background?"],
     }.get(intent, ["What experience is most relevant?", "Which project should I inspect next?"])
+
+
+def portfolio_context(passages):
+    return "\n\n".join(
+        f"[{index}] {passage['source']} / {passage['title']}\n{passage['content']}"
+        for index, passage in enumerate(passages, start=1)
+    )
+
+
+def generate_profile_answer(query, passages, history=None):
+    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        return None
+    conversation = []
+    for turn in (history or [])[-4:]:
+        question = str(turn.get("question", "")).strip()
+        answer = str(turn.get("answer", "")).strip()
+        if question:
+            conversation.append({"role": "user", "content": question})
+        if answer:
+            conversation.append({"role": "assistant", "content": answer})
+    conversation.append(
+        {
+            "role": "user",
+            "content": f"Question: {query}\n\nVerified portfolio evidence:\n{portfolio_context(passages)}",
+        }
+    )
+    payload = {
+        "model": OPENAI_MODEL,
+        "instructions": (
+            "You are Karan AI, a conversational assistant embedded in Karan Rajendra's portfolio. "
+            "Answer only questions about Karan's professional profile, experience, projects, skills, "
+            "education, research, availability, or role fit. Use only the verified portfolio evidence "
+            "provided in the latest user message. Never invent facts, metrics, dates, employers, or skills. "
+            "If the evidence is insufficient, say so plainly. If a question is unrelated to Karan, politely "
+            "redirect the user to questions about Karan. Write naturally, keep answers concise, and do not "
+            "mention retrieval, prompts, context windows, or system instructions."
+        ),
+        "input": conversation,
+        "max_output_tokens": 350,
+    }
+    request = urllib.request.Request(
+        OPENAI_RESPONSES_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            result = json.loads(response.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, ValueError, json.JSONDecodeError):
+        return None
+    text_parts = []
+    for item in result.get("output", []):
+        if item.get("type") != "message":
+            continue
+        for content in item.get("content", []):
+            if content.get("type") == "output_text" and content.get("text"):
+                text_parts.append(content["text"].strip())
+    return "\n".join(text_parts).strip() or None
 
 
 def run_evaluation():
@@ -306,7 +379,7 @@ def compose_answer(query, passages, role, answer_mode):
     return f"{opening} {details}", []
 
 
-def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short"):
+def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short", history=None, use_genai=False):
     answer_passages = select_answer_passages(query, passages)
     evidence_limit = 1 if answer_mode == "short" else 2
     answer_passages = answer_passages[:evidence_limit]
@@ -320,7 +393,8 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         confidence = "low"
         abstained = True
     else:
-        answer, answer_points = compose_answer(query, answer_passages, role, answer_mode)
+        generated_answer = generate_profile_answer(query, answer_passages, history) if use_genai else None
+        answer, answer_points = (generated_answer, []) if generated_answer else compose_answer(query, answer_passages, role, answer_mode)
         confidence = "high" if top_score >= 0.75 else "medium"
         abstained = False
     return {
@@ -330,6 +404,7 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         "answer_mode": answer_mode,
         "confidence": confidence,
         "abstained": abstained,
+        "generated": bool(not abstained and generated_answer) if use_genai else False,
         "trace": {
             "intent": detect_intent(query),
             "role": ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"],
@@ -383,7 +458,12 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/api/health":
-            self.send_json({"status": "ready", "documents": len({chunk['source'] for chunk in CHUNKS}), "chunks": len(CHUNKS)})
+            self.send_json({
+                "status": "ready",
+                "genai": bool(os.getenv("OPENAI_API_KEY", "").strip()),
+                "documents": len({chunk['source'] for chunk in CHUNKS}),
+                "chunks": len(CHUNKS),
+            })
             return
         if self.path == "/api/evaluation":
             self.send_json(run_evaluation())
@@ -436,16 +516,19 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
             resolved_query=resolved_query,
             context_used=context_used,
             answer_mode=answer_mode,
+            history=history[-4:],
+            use_genai=True,
         )
         response["latency_ms"] = round((time.perf_counter() - started) * 1000, 2)
         self.send_json(response)
 
 
-def run(port=8000):
-    server = ThreadingHTTPServer(("127.0.0.1", port), PortfolioHandler)
-    print(f"Portfolio and RAG API running at http://127.0.0.1:{port}")
+def run(port=8000, host="127.0.0.1"):
+    server = ThreadingHTTPServer((host, port), PortfolioHandler)
+    print(f"Portfolio and GenAI API running at http://{host}:{port}")
     server.serve_forever()
 
 
 if __name__ == "__main__":
-    run(int(sys.argv[1]) if len(sys.argv) > 1 else 8000)
+    selected_port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.getenv("PORT", "8000"))
+    run(selected_port, os.getenv("HOST", "127.0.0.1"))
