@@ -1,6 +1,7 @@
 services:
   - type: web
     name: karan-portfolio-ai
+    plan: free
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python rag_service.py
@@ -16,6 +17,7 @@ services:
         sync: false
   - type: web
     name: karan-speech-emotion-api
+    plan: free
     runtime: python
     rootDir: projects/speech-emotion-detection/backend
     buildCommand: pip install -r requirements.txt
