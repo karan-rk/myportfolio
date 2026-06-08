@@ -1,6 +1,6 @@
 // src/components/Recorder.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MicRecorder from 'mic-recorder-to-mp3';
 import { FaMicrophone, FaStop } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -11,27 +11,30 @@ const Recorder = ({ onRecordingComplete }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [blobURL, setBlobURL] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
+  const [permissionMessage, setPermissionMessage] = useState('');
 
-  useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(() => {
-        setIsBlocked(false);
-      })
-      .catch(() => {
-        setIsBlocked(true);
-      });
-  }, []);
+  const startRecording = async () => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setIsBlocked(true);
+      setPermissionMessage('Microphone recording requires HTTPS and a supported browser. You can still upload an audio file.');
+      return;
+    }
 
-  const startRecording = () => {
-    if (isBlocked) {
-      alert('Microphone access is blocked. You can still upload an audio file.');
-    } else {
-      Mp3Recorder.start().then(() => {
-        setIsRecording(true);
-      }).catch((e) => {
-        console.error(e);
-        alert('Could not start recording. Please try again.');
-      });
+    try {
+      const permissionStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      permissionStream.getTracks().forEach((track) => track.stop());
+      setIsBlocked(false);
+      setPermissionMessage('');
+      await Mp3Recorder.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error(error);
+      setIsBlocked(true);
+      setPermissionMessage(
+        error?.name === 'NotAllowedError'
+          ? 'Microphone permission was denied. Allow microphone access in the browser site settings, then press the microphone again.'
+          : 'The microphone could not start. Check that another application is not using it, or upload an audio file.'
+      );
     }
   };
 
@@ -57,6 +60,8 @@ const Recorder = ({ onRecordingComplete }) => {
       </div>
       <div className="flex space-x-4">
         <motion.button
+          type="button"
+          aria-label="Start microphone recording"
           onClick={startRecording}
           disabled={isRecording}
           whileHover={{ scale: 1.1 }}
@@ -68,6 +73,8 @@ const Recorder = ({ onRecordingComplete }) => {
           <FaMicrophone className="w-6 h-6" />
         </motion.button>
         <motion.button
+          type="button"
+          aria-label="Stop microphone recording"
           onClick={stopRecording}
           disabled={!isRecording}
           whileHover={{ scale: 1.1 }}
@@ -90,8 +97,8 @@ const Recorder = ({ onRecordingComplete }) => {
         </motion.div>
       )}
       {isBlocked && (
-        <div className="recorder-message" role="status">
-          Microphone access is blocked. Uploading an audio file is still available.
+        <div className="recorder-message" role="alert">
+          {permissionMessage}
         </div>
       )}
     </div>

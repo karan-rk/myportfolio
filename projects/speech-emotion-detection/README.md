@@ -40,6 +40,8 @@ npm start
 
 Set `REACT_APP_API_BASE_URL` to the backend URL.
 
+Microphone recording works only from HTTPS or localhost. Permission is requested when the microphone button is pressed. If access was previously denied, allow microphone access from the browser's site settings and press the microphone again.
+
 ## Tests
 
 ```powershell
