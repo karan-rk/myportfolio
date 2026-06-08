@@ -28,11 +28,5 @@ services:
         value: 3.11.11
       - key: CORS_ORIGINS
         value: https://karan-rk.github.io
-      - key: OMP_NUM_THREADS
-        value: 1
-      - key: TF_NUM_INTEROP_THREADS
-        value: 1
-      - key: TF_NUM_INTRAOP_THREADS
-        value: 1
       - key: MALLOC_ARENA_MAX
         value: 2

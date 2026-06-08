@@ -27,6 +27,7 @@ function App() {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
   const [serviceStatus, setServiceStatus] = useState("Checking inference service...");
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   useEffect(() => {
     api.get("/health")
@@ -55,7 +56,11 @@ function App() {
 
   const handleFileUpload = (event) => {
     const file = event.target.files?.[0];
-    if (file) analyzeAudio(file);
+    if (file) {
+      setSelectedFileName(file.name);
+      analyzeAudio(file);
+    }
+    event.target.value = "";
   };
 
   return (
@@ -79,10 +84,16 @@ function App() {
               {isUploading ? "Analyzing..." : "Analyze recording"}
             </button>
             <label className="secondary-button upload-button" htmlFor="upload-audio">
-              Upload audio
-              <input id="upload-audio" type="file" accept="audio/wav,audio/mpeg,audio/flac,audio/mp4" onChange={handleFileUpload} />
+              {isUploading ? "Analyzing upload..." : "Upload and analyze audio"}
+              <input id="upload-audio" type="file" accept="audio/*" onChange={handleFileUpload} disabled={isUploading} />
             </label>
           </div>
+          {selectedFileName && <p className="selected-file">Selected: {selectedFileName}</p>}
+          {isUploading && (
+            <p className="analysis-message" role="status">
+              Uploading and analyzing a short section of your audio. The first request may take longer while the free inference service wakes up.
+            </p>
+          )}
         </div>
 
         {isUploading && <ClipLoader color="#8cffc1" loading size={42} />}

@@ -136,7 +136,9 @@ def predict_audio(contents):
     """Run CPU-heavy audio processing outside the async request loop."""
     file_like = io.BytesIO(contents)
     try:
-        audio_data, sample_rate = librosa.load(file_like, sr=None)
+        # Emotion features are averaged over time, so analyzing a short clip is
+        # both representative and much faster on the public CPU-only service.
+        audio_data, sample_rate = librosa.load(file_like, sr=None, duration=5.0)
     except Exception as e:
         logger.error(f"Error loading audio file: {e}")
         raise HTTPException(status_code=400, detail="Failed to load audio file. Ensure the file is valid.")

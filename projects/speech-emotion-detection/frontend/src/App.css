@@ -35,6 +35,8 @@ button:focus-visible, label:focus-within, textarea:focus-visible { outline: 3px 
 .secondary-button { border: 1px solid #596963; background: transparent; color: inherit; }
 .upload-button input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .recorder-message, .error-message { color: #ffb3b3; text-align: center; font-size: 12px; }
+.selected-file, .analysis-message { margin: 0; color: #aebcb7; text-align: center; font-size: 11px; }
+.analysis-message { color: var(--accent); }
 .emotion-result-card { width: min(520px, 100%); padding: 25px; display: flex; align-items: center; gap: 20px; border-radius: 16px; background: var(--accent); color: var(--ink); }
 .emotion-icon { width: 54px; height: 54px; }
 .emotion-result-card span { font-size: 9px; text-transform: uppercase; letter-spacing: .12em; }
