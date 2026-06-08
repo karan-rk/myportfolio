@@ -54,6 +54,14 @@ class RetrievalTests(unittest.TestCase):
         self.assertTrue(used)
         self.assertIn("Meta", resolved)
 
+    def test_follow_up_question_is_answered_from_previous_topic(self):
+        query = "Which project best proves that?"
+        history = [{"question": "How does Karan combine software engineering and machine learning?", "topic": "Professional summary"}]
+        resolved, used = contextualize_query(query, history)
+        answer = build_answer(query, retrieve(resolved), resolved_query=resolved, context_used=used)
+        self.assertTrue(answer["trace"]["context_used"])
+        self.assertFalse(answer["abstained"])
+
     def test_standalone_question_does_not_use_context(self):
         query = "Which projects demonstrate NLP and applied machine learning?"
         resolved, used = contextualize_query(query, [{"question": "What impact did Karan have at Meta?"}])
@@ -100,6 +108,17 @@ class RetrievalTests(unittest.TestCase):
         self.assertEqual(answer["answer"], generated)
         self.assertTrue(answer["generated"])
         generator.assert_called_once()
+
+    def test_genai_receives_complete_verified_background(self):
+        query = "How does Karan combine software engineering and machine learning?"
+        with patch("rag_service.generate_profile_answer", return_value="Combined profile answer.") as generator:
+            answer = build_answer(query, retrieve(query), use_genai=True)
+        self.assertTrue(answer["generated"])
+        supplied_passages = generator.call_args.args[1]
+        self.assertGreaterEqual(len(supplied_passages), 10)
+        self.assertIn("Experience", {passage["source"] for passage in supplied_passages})
+        self.assertIn("Projects", {passage["source"] for passage in supplied_passages})
+        self.assertIn("Skills", {passage["source"] for passage in supplied_passages})
 
     def test_supported_query_falls_back_when_genai_is_unavailable(self):
         query = "What machine learning research has Karan done?"

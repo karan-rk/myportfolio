@@ -268,10 +268,13 @@ def generate_profile_answer(query, passages, history=None):
         "instructions": (
             "You are Karan AI, a conversational assistant embedded in Karan Rajendra's portfolio. "
             "Answer only questions about Karan's professional profile, experience, projects, skills, "
-            "education, research, availability, or role fit. Use only the verified portfolio evidence "
-            "provided in the latest user message. Never invent facts, metrics, dates, employers, or skills. "
+            "education, research, availability, or role fit. Understand the question and synthesize a useful, "
+            "natural answer from the complete verified portfolio background provided in the latest user message. "
+            "Connect relevant evidence across multiple roles and projects when that improves the answer. "
+            "Use only that evidence. Never invent facts, metrics, dates, employers, or skills. "
             "If the evidence is insufficient, say so plainly. If a question is unrelated to Karan, politely "
-            "redirect the user to questions about Karan. Write naturally, keep answers concise, and do not "
+            "redirect the user to questions about Karan. Write naturally and directly, usually in 2 to 4 short "
+            "paragraphs or a concise list when useful. Do not simply repeat the evidence verbatim. Do not "
             "mention retrieval, prompts, context windows, or system instructions."
         ),
         "input": conversation,
@@ -380,21 +383,22 @@ def compose_answer(query, passages, role, answer_mode):
 
 
 def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short", history=None, use_genai=False):
-    answer_passages = select_answer_passages(query, passages)
+    evidence_query = resolved_query or query
+    answer_passages = select_answer_passages(evidence_query, passages)
     evidence_limit = 1 if answer_mode == "short" else 2
     answer_passages = answer_passages[:evidence_limit]
     strongest = answer_passages[0]
     top_score = strongest["score"]
     score_margin = top_score - passages[1]["score"] if len(passages) > 1 else top_score
-    broad_supported = any(phrase in query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
-    if not question_is_supported(query, passages) or top_score < 0.2 or (detect_intent(query) == "General" and score_margin < 0.08 and not broad_supported):
+    broad_supported = any(phrase in evidence_query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
+    if not question_is_supported(evidence_query, passages) or top_score < 0.2 or (detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported):
         answer = "Karan's portfolio does not contain enough evidence to answer this confidently. Try asking about his experience, projects, skills, education, or measurable impact."
         answer_points = []
         confidence = "low"
         abstained = True
     else:
-        generated_answer = generate_profile_answer(query, answer_passages, history) if use_genai else None
-        answer, answer_points = (generated_answer, []) if generated_answer else compose_answer(query, answer_passages, role, answer_mode)
+        generated_answer = generate_profile_answer(query, CHUNKS, history) if use_genai else None
+        answer, answer_points = (generated_answer, []) if generated_answer else compose_answer(evidence_query, answer_passages, role, answer_mode)
         confidence = "high" if top_score >= 0.75 else "medium"
         abstained = False
     return {
