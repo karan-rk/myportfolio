@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=28">
+  <link rel="stylesheet" href="styles.css?v=29">
 </head>
 <body>
   <a class="skip-link" href="#top">Skip to main content</a>
@@ -341,6 +341,7 @@
             </div>
             <div class="project-details" aria-hidden="true">
               <div><span>Problem</span><p>Prioritize counterparties likely to enter a watchlist within 90 days while keeping the action queue inspectable.</p></div>
+              <div><span>System flow</span><p>Longitudinal records are validated and transformed into leakage-safe features, candidate models are benchmarked on a temporal holdout, calibrated risk scores are ranked, and local explanations make each prediction inspectable.</p></div>
               <div><span>Approach</span><p>Leakage-safe benchmarking across three models, Platt probability calibration, exact local Logistic Regression contributions, and inverse propensity weighting.</p></div>
               <div><span>Evaluation</span><p>Months 1-18 train the model; months 19-24 form a strict temporal holdout to reduce leakage.</p></div>
             </div>
@@ -365,6 +366,7 @@
             </div>
             <div class="project-details" aria-hidden="true">
               <div><span>Problem</span><p>Help users recognize emotional patterns from speech and reflect on them through a persistent audio journal.</p></div>
+              <div><span>System flow</span><p>The React client records or uploads audio, FastAPI validates it, the feature pipeline extracts acoustic representations, the trained classifier returns emotion probabilities, and the journal stores the result with user notes.</p></div>
               <div><span>Model</span><p>Extracted ZCR, chroma, MFCC, RMS, and mel-spectrogram features from RAVDESS, CREMA-D, TESS, and SAVEE, then trained a CNN-BiLSTM-Attention classifier with five-fold validation.</p></div>
               <div><span>Product</span><p>React users can record or upload audio, view the predicted emotion and confidence, replay entries, and edit journal notes through FastAPI endpoints.</p></div>
             </div>
@@ -385,6 +387,7 @@
               </div>
               <div class="project-details" aria-hidden="true">
                 <div><span>Problem</span><p>Generate useful answers without losing traceability to trusted source material.</p></div>
+                <div><span>System flow</span><p>A question is classified by intent, matched against trusted portfolio chunks, reranked for relevance, checked against a confidence threshold, and converted into a cited answer or a deliberate abstention.</p></div>
                 <div><span>Approach</span><p>Intent-aware lexical and semantic-style ranking retrieves the strongest chunks before building an evidence-backed response.</p></div>
                 <div><span>Reliability</span><p>Health checks, citations, confidence labels, automated retrieval tests, and an offline frontend fallback keep the demo dependable.</p></div>
               </div>
@@ -411,6 +414,7 @@
               </div>
               <div class="project-details" aria-hidden="true">
                 <div><span>Problem</span><p>Resume reviews are often vague and do not explain which evidence is strong or which bullets need improvement.</p></div>
+                <div><span>System flow</span><p>The uploaded PDF is parsed into resume sections, scored against the selected role and ATS checks, then converted into traceable recommendations and evidence-safe before-and-after rewrites.</p></div>
                 <div><span>Approach</span><p>Weighted analysis combines general resume quality, role-specific skill expectations, ATS text checks, impact signals, and section quality.</p></div>
                 <div><span>Product</span><p>Upload an original and revised PDF to measure improvements, with rewrite suggestions that preserve evidence and never invent metrics.</p></div>
               </div>
@@ -427,7 +431,7 @@
           </article>
           <article class="project-card project-gitops reveal" id="project-gitops-todo">
             <div class="project-topline"><p class="project-number">06 / GitOps delivery</p><span>Source available</span></div>
-            <a class="project-visual gitops-project-visual real-project-shot" href="assets/eks-gitops-architecture.gif" target="_blank" rel="noopener" aria-label="View full EKS GitOps architecture">
+            <a class="project-visual gitops-project-visual real-project-shot" href="projects/eks-gitops/architecture.html" target="_blank" rel="noopener" aria-label="View and understand the full EKS GitOps architecture">
               <img src="assets/eks-gitops-architecture.gif" alt="GitOps delivery architecture showing CircleCI, Docker registry, Terraform, Argo CD, and Amazon EKS">
               <span class="screenshot-label">View full architecture</span>
             </a>
@@ -439,6 +443,7 @@
               <div class="project-results"><span><strong>Multi-stage</strong> Docker build</span><span><strong>GitOps</strong> delivery</span><span><strong>EKS</strong> deployment path</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="https://github.com/karan-rk/eks-gitops-todo-app" target="_blank" rel="noopener">View source <span>&nearr;</span></a>
+                <a class="project-action-secondary" href="projects/eks-gitops/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
                 <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
               </div>
             </div>
@@ -682,6 +687,6 @@
     <p>New York, NY</p>
   </footer>
 
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html>

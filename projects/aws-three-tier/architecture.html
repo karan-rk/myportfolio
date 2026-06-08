@@ -66,6 +66,72 @@
       padding: 28px 0 44px;
     }
 
+    .intro {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      padding: clamp(20px, 3vw, 32px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(16, 26, 24, .82);
+    }
+
+    .eyebrow {
+      margin: 0 0 9px;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: clamp(22px, 3vw, 32px);
+      letter-spacing: -.04em;
+    }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .flow span {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 10px;
+    }
+
+    .flow b { color: var(--accent); font-weight: 400; }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-list div {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(7, 16, 20, .46);
+    }
+
+    .summary-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent);
+      font-size: 11px;
+    }
+
     .architecture-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -116,11 +182,52 @@
       transform: scale(1.01);
     }
 
+    .explanation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin: 18px 0 32px;
+    }
+
+    .steps {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: steps;
+    }
+
+    .steps li {
+      position: relative;
+      padding: 13px 0 13px 38px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      counter-increment: steps;
+    }
+
+    .steps li::before {
+      content: counter(steps);
+      position: absolute;
+      top: 12px;
+      left: 0;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--accent);
+      font-size: 9px;
+      font-weight: 700;
+    }
+
     @media (max-width: 700px) {
       header {
         align-items: flex-start;
         flex-direction: column;
       }
+      .intro, .explanation-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -134,6 +241,25 @@
   </header>
 
   <main>
+    <section class="intro">
+      <div class="panel">
+        <p class="eyebrow">Architecture meaning</p>
+        <h2>A resilient three-tier web application with a warm standby region.</h2>
+        <p>The application separates the web, application, and database layers so each tier can scale and fail independently. A smaller secondary-region environment remains ready to take production traffic if the primary region becomes unavailable.</p>
+        <div class="flow" aria-label="Normal request path">
+          <span>User</span><b>&rarr;</b><span>Route 53</span><b>&rarr;</b><span>CloudFront + WAF</span><b>&rarr;</b><span>Web tier</span><b>&rarr;</b><span>App tier</span><b>&rarr;</b><span>RDS</span>
+        </div>
+      </div>
+      <div class="panel">
+        <p class="eyebrow">Why this design</p>
+        <div class="summary-list">
+          <div><strong>Availability</strong><p>Multiple Availability Zones prevent one data-center failure from stopping the application.</p></div>
+          <div><strong>Security</strong><p>Only load balancers are public; application and database resources remain in private subnets.</p></div>
+          <div><strong>Disaster recovery</strong><p>Route 53 can redirect users to the warm standby region while cross-region backups and replicas protect data.</p></div>
+        </div>
+      </div>
+    </section>
+
     <section class="architecture-grid" aria-label="AWS architecture diagrams">
       <figure>
         <figcaption><span>01</span> Full Warm-Standby Architecture</figcaption>
@@ -148,6 +274,32 @@
           <img src="../../assets/aws-three-tier-failover-preview.gif" alt="AWS Route 53 active failover architecture across primary and secondary regions">
         </a>
       </figure>
+    </section>
+
+    <section class="explanation-grid" aria-label="Architecture explanations">
+      <article class="panel">
+        <p class="eyebrow">01 / Normal operation</p>
+        <h2>How the full warm-standby architecture works</h2>
+        <ol class="steps">
+          <li>Route 53 resolves the application domain and sends normal production traffic toward the primary region.</li>
+          <li>CloudFront serves cached content near users, while AWS WAF filters malicious requests before they reach the application.</li>
+          <li>The public load balancer distributes traffic across web servers in separate Availability Zones.</li>
+          <li>Web servers call the private application tier, which contains the business logic and can scale independently.</li>
+          <li>The application tier reads and writes through Amazon RDS. A secondary database instance improves availability inside the region.</li>
+          <li>Backups and cross-region replication prepare the secondary region with the data needed for disaster recovery.</li>
+        </ol>
+      </article>
+      <article class="panel">
+        <p class="eyebrow">02 / Regional failure</p>
+        <h2>What happens during failover</h2>
+        <ol class="steps">
+          <li>Health checks detect that the primary-region endpoint is no longer healthy.</li>
+          <li>Route 53 changes DNS routing from the active primary endpoint to the secondary-region load balancer.</li>
+          <li>The warm standby environment scales up to handle production traffic instead of being provisioned from zero.</li>
+          <li>The secondary region serves requests using replicated or restored data while the primary region is repaired.</li>
+          <li>After recovery and validation, traffic can be deliberately failed back to the original primary region.</li>
+        </ol>
+      </article>
     </section>
   </main>
 </body>

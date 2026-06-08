@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EKS GitOps Architecture | Karan Rajendra</title>
+  <style>
+    :root{color-scheme:dark;--bg:#070d10;--panel:#111917;--line:#31463e;--text:#eef7f3;--muted:#9db2aa;--accent:#97ffc4}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#17231f,var(--bg) 42%);color:var(--text);font-family:Arial,Helvetica,sans-serif}header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px clamp(18px,4vw,48px);border-bottom:1px solid var(--line);background:rgba(7,13,16,.9);backdrop-filter:blur(14px)}h1,h2{margin:0;letter-spacing:-.04em}h1{font-size:clamp(22px,3vw,34px)}h2{margin-bottom:10px;font-size:clamp(22px,3vw,32px)}p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.55}a{color:var(--accent);text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}main{width:min(100% - 32px,1500px);margin:auto;padding:28px 0 44px}.panel,figure{padding:clamp(18px,3vw,30px);border:1px solid var(--line);border-radius:18px;background:rgba(17,25,23,.85);box-shadow:0 30px 80px rgba(0,0,0,.22)}figure{margin:0 0 18px;padding:14px}figcaption{margin-bottom:12px;color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}img{display:block;width:100%;height:auto;border-radius:12px;background:#050505}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:20px 0}.flow span{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:10px}.flow b{color:var(--accent);font-weight:400}.eyebrow{margin:0 0 9px;color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}.steps{margin:18px 0 0;padding:0;list-style:none;counter-reset:s}.steps li{position:relative;padding:13px 0 13px 38px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.55;counter-increment:s}.steps li:before{content:counter(s);position:absolute;top:12px;left:0;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;color:var(--accent);font-size:9px;font-weight:700}@media(max-width:700px){header{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header><div><h1>EKS GitOps Architecture</h1><p>How application code becomes a continuously reconciled Kubernetes deployment.</p></div><a href="../../index.html#project-gitops-todo">Back to portfolio</a></header>
+  <main>
+    <figure>
+      <figcaption>Full delivery architecture</figcaption>
+      <a href="../../assets/eks-gitops-architecture.gif" target="_blank" rel="noopener"><img src="../../assets/eks-gitops-architecture.gif" alt="GitOps delivery architecture showing CircleCI, Docker registry, Terraform, Argo CD, and Amazon EKS"></a>
+    </figure>
+    <section class="panel">
+      <p class="eyebrow">Architecture meaning</p>
+      <h2>CI builds the release; GitOps deploys and continuously verifies it.</h2>
+      <p>The application source and the desired Kubernetes state are intentionally separated. CircleCI packages each code change into a container image, while Argo CD watches the manifest repository and makes the EKS cluster match that declared state.</p>
+      <div class="flow"><span>Developer push</span><b>&rarr;</b><span>CircleCI</span><b>&rarr;</b><span>Container registry</span><b>&rarr;</b><span>Manifest update</span><b>&rarr;</b><span>Argo CD</span><b>&rarr;</b><span>Amazon EKS</span></div>
+    </section>
+    <section class="grid" style="margin-top:18px">
+      <article class="panel"><p class="eyebrow">Application delivery</p><h2>How a change reaches users</h2><ol class="steps"><li>A developer pushes an application change to the source repository.</li><li>CircleCI tests the application and creates a multi-stage Docker image.</li><li>The versioned image is published to the container registry.</li><li>The pipeline updates the Kubernetes manifest repository with the new image version.</li><li>Argo CD detects the desired-state change and synchronizes it to Amazon EKS.</li><li>The Kubernetes Service and load balancer route user traffic to healthy application pods.</li></ol></article>
+      <article class="panel"><p class="eyebrow">Infrastructure and reliability</p><h2>Why the design is useful</h2><ol class="steps"><li>Terraform creates repeatable AWS networking and EKS infrastructure from code.</li><li>EKS worker nodes run across separate Availability Zones to reduce single-zone risk.</li><li>Git becomes the auditable source of truth for what should be deployed.</li><li>Argo CD detects configuration drift and reconciles the cluster back to the declared state.</li><li>Kubernetes replaces unhealthy pods and supports controlled scaling and rollout behavior.</li></ol></article>
+    </section>
+  </main>
+</body>
+</html>
