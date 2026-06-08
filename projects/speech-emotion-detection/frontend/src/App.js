@@ -30,9 +30,12 @@ function App() {
   const [selectedFileName, setSelectedFileName] = useState("");
 
   useEffect(() => {
-    api.get("/health")
+    const checkService = () => api.get("/health")
       .then(() => setServiceStatus("Inference service ready"))
       .catch(() => setServiceStatus("Inference service unavailable"));
+    checkService();
+    const interval = window.setInterval(checkService, 30000);
+    return () => window.clearInterval(interval);
   }, []);
 
   const analyzeAudio = async (file) => {
@@ -47,7 +50,9 @@ function App() {
       const prediction = await api.post("/predict", predictionForm);
       setEmotion(prediction.data.emotion);
       setConfidence(prediction.data.confidence);
+      setServiceStatus("Inference service ready");
     } catch (requestError) {
+      setServiceStatus("Inference service unavailable");
       setError(requestError.response?.data?.detail || "Unable to process this audio. Please check the file and try again.");
     } finally {
       setIsUploading(false);
