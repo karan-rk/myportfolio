@@ -7,6 +7,8 @@ services:
     startCommand: python rag_service.py
     healthCheckPath: /api/health
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
       - key: HOST
         value: 0.0.0.0
       - key: OPENAI_MODEL
@@ -22,5 +24,7 @@ services:
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
       - key: CORS_ORIGINS
         value: https://karan-rk.github.io
