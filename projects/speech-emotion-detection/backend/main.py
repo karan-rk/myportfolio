@@ -1,6 +1,7 @@
 # backend/main.py
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 import librosa
 import numpy as np
@@ -130,6 +131,40 @@ def extract_features(data, sample_rate):
         logger.error(f"Error extracting features: {e}")
         raise e
 
+
+def predict_audio(contents):
+    """Run CPU-heavy audio processing outside the async request loop."""
+    file_like = io.BytesIO(contents)
+    try:
+        audio_data, sample_rate = librosa.load(file_like, sr=None)
+    except Exception as e:
+        logger.error(f"Error loading audio file: {e}")
+        raise HTTPException(status_code=400, detail="Failed to load audio file. Ensure the file is valid.")
+
+    duration = librosa.get_duration(y=audio_data, sr=sample_rate)
+    logger.info(f"Audio duration: {duration:.2f} seconds")
+
+    if len(audio_data) == 0:
+        logger.error("Audio file is empty or invalid.")
+        raise HTTPException(status_code=400, detail="Audio file is empty or invalid.")
+
+    features = extract_features(audio_data, sample_rate)
+    features_scaled = scaler.transform([features])
+    features_scaled = np.expand_dims(features_scaled, axis=2)
+    input_shape = model.input_shape[1:]
+    if features_scaled.shape[1:] != input_shape:
+        logger.error(f"Incompatible feature shape. Expected {input_shape}, got {features_scaled.shape[1:]}")
+        raise HTTPException(status_code=500, detail="Incompatible feature shape.")
+
+    prediction = model.predict(features_scaled, verbose=0)
+    predicted_index = int(np.argmax(prediction[0]))
+    predicted_class = emotion_labels[predicted_index]
+    confidence = float(prediction[0][predicted_index])
+    logger.info(f"Prediction: {predicted_class} with confidence {confidence:.2f}")
+
+    return {"emotion": predicted_class, "confidence": confidence}
+
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     """
@@ -153,47 +188,7 @@ async def predict(file: UploadFile = File(...)):
             logger.error("Uploaded file exceeds size limit.")
             raise HTTPException(status_code=413, detail=f"File too large. Maximum size is {MAX_UPLOAD_BYTES // (1024 * 1024)}MB.")
 
-        # Load the entire audio file
-        file_like = io.BytesIO(contents)
-        try:
-            audio_data, sample_rate = librosa.load(file_like, sr=None)
-        except Exception as e:
-            logger.error(f"Error loading audio file: {e}")
-            raise HTTPException(status_code=400, detail="Failed to load audio file. Ensure the file is valid.")
-
-        # Calculate and log audio duration
-        duration = librosa.get_duration(y=audio_data, sr=sample_rate)
-        logger.info(f"Audio duration: {duration:.2f} seconds")
-
-        # Validate audio data
-        if len(audio_data) == 0:
-            logger.error("Audio file is empty or invalid.")
-            raise HTTPException(status_code=400, detail="Audio file is empty or invalid.")
-
-        # Extract features
-        features = extract_features(audio_data, sample_rate)
-
-        # Scale features
-        features_scaled = scaler.transform([features])
-
-        # Reshape for Conv1D: (samples, features, 1)
-        features_scaled = np.expand_dims(features_scaled, axis=2)
-        input_shape = model.input_shape[1:]
-        if features_scaled.shape[1:] != input_shape:
-            logger.error(f"Incompatible feature shape. Expected {input_shape}, got {features_scaled.shape[1:]}")
-            raise HTTPException(status_code=500, detail="Incompatible feature shape.")
-
-        # Predict emotion
-        prediction = model.predict(features_scaled, verbose=0)
-
-        # Decode prediction
-        predicted_index = int(np.argmax(prediction[0]))
-        predicted_class = emotion_labels[predicted_index]
-        confidence = float(prediction[0][predicted_index])
-
-        logger.info(f"Prediction: {predicted_class} with confidence {confidence:.2f}")
-
-        return {"emotion": predicted_class, "confidence": confidence}
+        return await run_in_threadpool(predict_audio, contents)
 
     except HTTPException:
         raise
