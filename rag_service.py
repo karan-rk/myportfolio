@@ -287,7 +287,8 @@ def generate_profile_answer(query, passages, history=None):
     try:
         with urllib.request.urlopen(request, timeout=20) as response:
             result = json.loads(response.read().decode("utf-8"))
-    except (urllib.error.URLError, TimeoutError, ValueError, json.JSONDecodeError):
+    except Exception as error:
+        print("OPENAI API ERROR:", repr(error))
         return None
     text_parts = []
     for item in result.get("output", []):
