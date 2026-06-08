@@ -115,6 +115,110 @@ const counterObserver = new IntersectionObserver(
 
 counters.forEach((counter) => counterObserver.observe(counter));
 
+const skillKnowledge = {
+  Python: ["A general-purpose language widely used for backend services, automation, data, and ML.", "My primary language for ML experimentation, data workflows, APIs, and portfolio AI tooling."],
+  "C++": ["A compiled systems language designed for high performance and precise resource control.", "Used for performance-sensitive systems work, debugging, profiling, and concurrent engineering."],
+  Java: ["A strongly typed language commonly used for large-scale backend and distributed applications.", "Used for service-oriented software and data-processing systems."],
+  JavaScript: ["The core programming language of interactive web applications.", "Used to build the behavior and interactions across this portfolio."],
+  TypeScript: ["JavaScript with static types for safer, more maintainable applications.", "Used for structured product interfaces and full-stack application development."],
+  SQL: ["The standard language for querying and transforming relational data.", "Used across analytics, data pipelines, feature work, and relational databases."],
+  Kafka: ["A distributed event-streaming platform for high-throughput, real-time data.", "Relevant to scalable event-driven services and streaming data pipelines."],
+  gRPC: ["A high-performance framework for typed service-to-service communication.", "Used for efficient communication patterns between distributed backend services."],
+  "REST APIs": ["HTTP interfaces that let applications exchange resources through standard operations.", "Used to connect product interfaces, backend services, and ML capabilities."],
+  Microservices: ["An architecture that divides a system into independently deployable services.", "Applied when designing scalable backend and cloud systems with clear ownership boundaries."],
+  PyTorch: ["A deep-learning framework for building and training neural networks.", "Used in applied ML research, model experimentation, and NLP workflows."],
+  TensorFlow: ["A framework for training and deploying machine-learning models.", "Used for deep-learning experimentation and production-oriented ML workflows."],
+  "Scikit-learn": ["A Python library for classical machine learning, preprocessing, and evaluation.", "Used for predictive modeling, baselines, feature pipelines, and model evaluation."],
+  "Hugging Face": ["An ecosystem of pretrained models, datasets, and tools for modern AI.", "Used to work with transformer models and applied NLP experiments."],
+  Transformers: ["Neural-network architectures that model relationships across sequences.", "Used for language modeling, persuasion research, and retrieval-oriented AI products."],
+  LoRA: ["A parameter-efficient method for adapting large pretrained models.", "Used to explore efficient fine-tuning without retraining every model parameter."],
+  NLP: ["Machine learning focused on understanding and generating human language.", "Applied in persuasion research, language analysis, and portfolio AI experiences."],
+  "Deep Learning": ["Machine learning based on multi-layer neural networks.", "Used for NLP, speech-related systems, and representation-learning experiments."],
+  "Model Evaluation": ["The process of measuring model quality, reliability, and failure modes.", "Used to compare experiments and validate retrieval and predictive-model behavior."],
+  "Predictive Modeling": ["Using historical data to estimate future outcomes or classes.", "Applied to risk-oriented analysis, research, and data-driven product work."],
+  Spark: ["A distributed engine for processing large datasets across clusters.", "Used for large-scale data pipelines and billion-scale behavioral-data processing."],
+  Hive: ["A SQL-oriented data warehouse layer for large distributed datasets.", "Used to query and organize large analytical datasets."],
+  HDFS: ["A distributed file system built to store very large datasets across machines.", "Used as part of large-scale data engineering and distributed processing workflows."],
+  PostgreSQL: ["An open-source relational database known for reliability and advanced SQL features.", "Used as a dependable persistence layer for backend and product systems."],
+  MySQL: ["A widely used relational database for structured application data.", "Used for transactional application storage and SQL-based development."],
+  MongoDB: ["A document database for flexible, JSON-like application data.", "Used where product data benefits from a flexible document structure."],
+  Redis: ["An in-memory data store commonly used for caching and fast state access.", "Used to improve backend responsiveness and support real-time application patterns."],
+  Tableau: ["A visual analytics platform for exploring and presenting data.", "Used to communicate analytical findings through dashboards and visualizations."],
+  "Power BI": ["A business-intelligence platform for data modeling and dashboards.", "Used to turn structured data into accessible analytical reporting."],
+  AWS: ["Amazon's cloud platform for compute, networking, storage, databases, and managed services.", "Used in the three-tier resilient architecture and EKS GitOps portfolio projects."],
+  GCP: ["Google's cloud platform for infrastructure, data, and ML services.", "Used for scalable workloads, data workflows, and production ML environments."],
+  Docker: ["A platform for packaging applications and dependencies into portable containers.", "Used to make services reproducible across development, CI, and deployment."],
+  Kubernetes: ["A platform for deploying, scaling, and operating containerized applications.", "Used in the EKS GitOps project and multi-node production environments."],
+  Terraform: ["Infrastructure-as-code tooling for provisioning cloud resources declaratively.", "Used to define repeatable AWS infrastructure for portfolio cloud projects."],
+  "GitHub Actions": ["GitHub's automation platform for continuous integration and delivery.", "Used to automate testing, builds, and deployment workflows."],
+  "CI/CD": ["Practices that automate software integration, testing, and deployment.", "Used to ship application and infrastructure changes reliably."],
+  Linux: ["An operating-system family that powers most cloud and server environments.", "Used for development, deployment, systems debugging, and production operations."],
+  GDB: ["A debugger for inspecting compiled programs while they run.", "Used to diagnose low-level C++ behavior and correctness issues."],
+  Valgrind: ["A suite for finding memory errors and profiling native programs.", "Used to investigate memory safety and resource-management problems."],
+  perf: ["Linux performance-analysis tooling for profiling CPU and system behavior.", "Used to identify performance bottlenecks in systems workloads."],
+  "W&B": ["Weights & Biases is a platform for tracking and comparing ML experiments.", "Used to monitor training runs, metrics, and model experiments."]
+};
+
+const skillTooltip = document.createElement("div");
+skillTooltip.className = "skill-tooltip";
+skillTooltip.id = "skill-tooltip";
+skillTooltip.setAttribute("role", "tooltip");
+skillTooltip.setAttribute("aria-hidden", "true");
+document.body.appendChild(skillTooltip);
+let activeSkill = null;
+
+function positionSkillTooltip(chip) {
+  const chipBox = chip.getBoundingClientRect();
+  const tooltipBox = skillTooltip.getBoundingClientRect();
+  const gap = 10;
+  const left = Math.min(Math.max(14, chipBox.left + chipBox.width / 2 - tooltipBox.width / 2), window.innerWidth - tooltipBox.width - 14);
+  const above = chipBox.top - tooltipBox.height - gap;
+  const top = above > 14 ? above : Math.min(window.innerHeight - tooltipBox.height - 14, chipBox.bottom + gap);
+  skillTooltip.style.left = `${left}px`;
+  skillTooltip.style.top = `${Math.max(14, top)}px`;
+}
+
+function showSkillTooltip(chip) {
+  const detail = skillKnowledge[chip.textContent.trim()];
+  if (!detail) return;
+  activeSkill?.classList.remove("skill-active");
+  activeSkill = chip;
+  chip.classList.add("skill-active");
+  skillTooltip.innerHTML = `<strong>${chip.textContent.trim()}</strong><span>What it is</span><p>${detail[0]}</p><span>Where I use it</span><p>${detail[1]}</p>`;
+  skillTooltip.setAttribute("aria-hidden", "false");
+  skillTooltip.classList.add("visible");
+  positionSkillTooltip(chip);
+}
+
+function hideSkillTooltip() {
+  activeSkill?.classList.remove("skill-active");
+  activeSkill = null;
+  skillTooltip.classList.remove("visible");
+  skillTooltip.setAttribute("aria-hidden", "true");
+}
+
+document.querySelectorAll(".skill-chips span").forEach((chip) => {
+  chip.tabIndex = 0;
+  chip.setAttribute("role", "button");
+  chip.setAttribute("aria-describedby", "skill-tooltip");
+  chip.setAttribute("aria-label", `${chip.textContent.trim()}: show skill details`);
+  chip.addEventListener("mouseenter", () => showSkillTooltip(chip));
+  chip.addEventListener("mouseleave", hideSkillTooltip);
+  chip.addEventListener("focus", () => showSkillTooltip(chip));
+  chip.addEventListener("blur", hideSkillTooltip);
+  chip.addEventListener("click", (event) => {
+    event.stopPropagation();
+    showSkillTooltip(chip);
+  });
+});
+
+document.addEventListener("click", hideSkillTooltip);
+window.addEventListener("scroll", hideSkillTooltip, { passive: true });
+window.addEventListener("resize", hideSkillTooltip);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") hideSkillTooltip();
+});
+
 const projectToggles = document.querySelectorAll(".project-toggle");
 const projectDemoLinks = document.querySelectorAll(".project-action-primary[href^='#']");
 const caseStudyModal = document.getElementById("case-study-modal");
