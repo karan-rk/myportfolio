@@ -265,6 +265,7 @@ function renderApiAnswer(result) {
       <div><strong>${result.abstained ? "I don't have enough evidence for that yet." : "Here's what I found."}</strong><small>${result.generated ? "Generated from verified portfolio evidence" : "Based on Karan's portfolio"}</small></div>
     </div>
     <p class="answer-body">${escapeHtml(result.answer)}</p>
+    ${result.genai_error ? `<p class="answer-error">${escapeHtml(result.genai_error)}</p>` : ""}
     ${points}
     <div class="citation-row">${result.citations.map((citation) => `<span>${citation.source} / ${citation.section}</span>`).join("")}</div>
   `;

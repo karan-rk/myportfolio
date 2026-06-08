@@ -26,6 +26,7 @@ MAX_PDF_BYTES = 5 * 1024 * 1024
 MAX_REQUEST_BYTES = 7 * 1024 * 1024
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
+LAST_GENAI_ERROR = ""
 ANSWER_MODES = {"short", "detailed", "bullets"}
 TOKEN_ALIASES = {
     "located": "location", "relocate": "relocation", "relocating": "relocation",
@@ -246,8 +247,10 @@ def portfolio_context(passages):
 
 
 def generate_profile_answer(query, passages, history=None):
+    global LAST_GENAI_ERROR
     api_key = os.getenv("OPENAI_API_KEY", "").strip()
     if not api_key:
+        LAST_GENAI_ERROR = "OPENAI_API_KEY is not configured"
         return None
     conversation = []
     for turn in (history or [])[-4:]:
@@ -287,8 +290,19 @@ def generate_profile_answer(query, passages, history=None):
     try:
         with urllib.request.urlopen(request, timeout=20) as response:
             result = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        response_body = error.read().decode("utf-8", errors="replace")
+        try:
+            error_payload = json.loads(response_body)
+            message = error_payload.get("error", {}).get("message", response_body)
+        except json.JSONDecodeError:
+            message = response_body
+        LAST_GENAI_ERROR = f"OpenAI HTTP {error.code}: {message[:300]}"
+        print("OPENAI API ERROR:", LAST_GENAI_ERROR)
+        return None
     except Exception as error:
-        print("OPENAI API ERROR:", repr(error))
+        LAST_GENAI_ERROR = f"{type(error).__name__}: {error}"
+        print("OPENAI API ERROR:", LAST_GENAI_ERROR)
         return None
     text_parts = []
     for item in result.get("output", []):
@@ -297,7 +311,13 @@ def generate_profile_answer(query, passages, history=None):
         for content in item.get("content", []):
             if content.get("type") == "output_text" and content.get("text"):
                 text_parts.append(content["text"].strip())
-    return "\n".join(text_parts).strip() or None
+    generated_text = "\n".join(text_parts).strip()
+    if not generated_text:
+        LAST_GENAI_ERROR = "OpenAI response contained no output text"
+        print("OPENAI API ERROR:", LAST_GENAI_ERROR)
+        return None
+    LAST_GENAI_ERROR = ""
+    return generated_text
 
 
 def run_evaluation():
@@ -421,6 +441,7 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         "confidence": confidence,
         "abstained": abstained,
         "generated": bool(generated_answer),
+        "genai_error": LAST_GENAI_ERROR if use_genai and not generated_answer else "",
         "trace": {
             "intent": detect_intent(query),
             "role": ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"],
@@ -477,6 +498,7 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
             self.send_json({
                 "status": "ready",
                 "genai": bool(os.getenv("OPENAI_API_KEY", "").strip()),
+                "genai_error": LAST_GENAI_ERROR,
                 "documents": len({chunk['source'] for chunk in CHUNKS}),
                 "chunks": len(CHUNKS),
             })
