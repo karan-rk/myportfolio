@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FaAngry, FaFrown, FaLaughSquint, FaMeh, FaSadCry, FaSmile, FaSurprise } from "react-icons/fa";
 
 import { api } from "./api";
-import JournalPane from "./components/JournalPane";
 import PrivacyNotice from "./components/PrivacyNotice";
 import Recorder from "./components/Recorder";
 import "./App.css";
@@ -27,10 +26,15 @@ function App() {
   const [confidence, setConfidence] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState("");
-  const [refreshJournal, setRefreshJournal] = useState(false);
-  const [isJournalVisible, setIsJournalVisible] = useState(true);
+  const [serviceStatus, setServiceStatus] = useState("Checking inference service...");
 
-  const analyzeAndJournal = async (file) => {
+  useEffect(() => {
+    api.get("/health")
+      .then(() => setServiceStatus("Inference service ready"))
+      .catch(() => setServiceStatus("Inference service unavailable"));
+  }, []);
+
+  const analyzeAudio = async (file) => {
     setIsUploading(true);
     setError("");
     setEmotion("");
@@ -42,13 +46,6 @@ function App() {
       const prediction = await api.post("/predict", predictionForm);
       setEmotion(prediction.data.emotion);
       setConfidence(prediction.data.confidence);
-
-      const journalForm = new FormData();
-      journalForm.append("file", file);
-      journalForm.append("emotion", prediction.data.emotion);
-      journalForm.append("note", `You experienced ${prediction.data.emotion}. What would you like to remember?`);
-      await api.post("/journal", journalForm);
-      setRefreshJournal((current) => !current);
     } catch (requestError) {
       setError(requestError.response?.data?.detail || "Unable to process this audio. Please check the file and try again.");
     } finally {
@@ -58,12 +55,11 @@ function App() {
 
   const handleFileUpload = (event) => {
     const file = event.target.files?.[0];
-    if (file) analyzeAndJournal(file);
+    if (file) analyzeAudio(file);
   };
 
   return (
-    <main className={`app-shell ${isJournalVisible ? "" : "journal-hidden"}`}>
-      {isJournalVisible && <JournalPane refresh={refreshJournal} />}
+    <main className="app-shell journal-hidden">
       <section className="analysis-pane">
         <div className="app-header">
           <div>
@@ -71,9 +67,7 @@ function App() {
             <h1>Speech Emotion Detection</h1>
             <p>Record or upload a short voice clip to explore its predicted emotion.</p>
           </div>
-          <button className="secondary-button" onClick={() => setIsJournalVisible((visible) => !visible)}>
-            {isJournalVisible ? "Hide journal" : "Show journal"}
-          </button>
+          <span className="secondary-button" role="status">{serviceStatus}</span>
         </div>
 
         <PrivacyNotice />
@@ -81,7 +75,7 @@ function App() {
         <div className="analysis-controls">
           <Recorder onRecordingComplete={(blob) => { setAudioBlob(blob); setError(""); }} />
           <div className="action-row">
-            <button className="primary-button" onClick={() => audioBlob && analyzeAndJournal(audioBlob)} disabled={isUploading || !audioBlob}>
+            <button className="primary-button" onClick={() => audioBlob && analyzeAudio(audioBlob)} disabled={isUploading || !audioBlob}>
               {isUploading ? "Analyzing..." : "Analyze recording"}
             </button>
             <label className="secondary-button upload-button" htmlFor="upload-audio">

@@ -42,6 +42,10 @@ Set `REACT_APP_API_BASE_URL` to the backend URL.
 
 Microphone recording works only from HTTPS or localhost. Permission is requested when the microphone button is pressed. If access was previously denied, allow microphone access from the browser's site settings and press the microphone again.
 
+The public portfolio build lives at `projects/speech-emotion-detection/live/` and calls `https://karan-speech-emotion-api.onrender.com`. It performs prediction only and does not save visitor audio or expose the shared journal.
+
+Deploy the `karan-speech-emotion-api` service from the repository's `render.yaml` Blueprint before using the public demo. The live interface displays whether the inference service is ready.
+
 ## Tests
 
 ```powershell

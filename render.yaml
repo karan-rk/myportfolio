@@ -14,3 +14,13 @@ services:
         value: https://karan-rk.github.io
       - key: OPENAI_API_KEY
         sync: false
+  - type: web
+    name: karan-speech-emotion-api
+    runtime: python
+    rootDir: projects/speech-emotion-detection/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://karan-rk.github.io
