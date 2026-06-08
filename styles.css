@@ -227,7 +227,8 @@ h2 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -.055em; line-height: 1.
 .infra-nodes span { border: 1px solid rgba(255,255,255,.2); background: transparent; }
 .project-card p:not(.project-number):not(.project-tag) { opacity: .7; max-width: 500px; }
 .project-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
-.project-stack span { padding: 5px 8px; border: 1px solid currentColor; border-radius: 99px; font-size: 8px; opacity: .65; }
+.project-stack span { padding: 5px 8px; border: 1px solid currentColor; border-radius: 99px; font-size: 8px; opacity: .65; transition: opacity .2s, transform .2s, background .2s; }
+.project-stack span.context-term:hover, .project-stack span.context-term:focus-visible, .project-stack span.context-term.skill-active { opacity: 1; transform: translateY(-2px); outline: none; background: color-mix(in srgb, currentColor 10%, transparent); }
 .project-results { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px; }
 .project-results span { border: 1px solid currentColor; border-radius: 99px; padding: 8px 12px; font-size: 12px; }
 .project-toggle { width: 100%; margin-top: auto; padding: 16px 0 0; display: flex; justify-content: space-between; border: 0; border-top: 1px solid currentColor; background: transparent; color: inherit; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
@@ -366,6 +367,7 @@ h2 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -.055em; line-height: 1.
 .architecture-card h3 { max-width: 620px; font-size: 28px; line-height: 1.2; letter-spacing: -.04em; }
 .architecture-flow { margin-top: 30px; display: flex; gap: 9px; align-items: center; flex-wrap: wrap; }
 .architecture-flow span { padding: 8px 11px; color: #cad3d0; border: 1px solid #34433e; border-radius: 8px; font-size: 10px; }
+.architecture-flow span.context-term:hover, .architecture-flow span.context-term:focus-visible, .architecture-flow span.context-term.skill-active { transform: translateY(-2px); outline: none; color: var(--accent); border-color: #56816c; background: #163126; }
 .architecture-flow b { color: var(--accent); font-weight: 400; }
 .metric-stack { display: grid; grid-template-columns: repeat(3, 1fr); }
 .metric-stack div { padding: 20px; border-right: 1px solid #2d3935; }
@@ -391,6 +393,9 @@ h2 { font-size: clamp(34px, 5vw, 58px); letter-spacing: -.055em; line-height: 1.
 .skill-featured > p { color: #aebbb7; }
 .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 23px; }
 .skill-chips span { padding: 6px 9px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); font-size: 9px; cursor: help; transition: color .2s, border-color .2s, background .2s, transform .2s; }
+.context-term { cursor: help; }
+.experience-tags span.context-term { transition: color .2s, border-color .2s, background .2s, transform .2s; }
+.experience-tags span.context-term:hover, .experience-tags span.context-term:focus-visible, .experience-tags span.context-term.skill-active { transform: translateY(-2px); outline: none; color: #187d53; border-color: #238358; background: #eef8f2; }
 .skill-card:hover .skill-chips span { color: #187d53; border-color: #a7c9b9; background: #f4faf7; }
 .skill-featured .skill-chips span { color: #c6d1cd; border-color: #42504c; }
 .skill-featured:hover .skill-chips span { color: var(--accent); border-color: #4e7663; background: #163126; }

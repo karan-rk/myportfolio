@@ -159,6 +159,40 @@ const skillKnowledge = {
   "W&B": ["Weights & Biases is a platform for tracking and comparing ML experiments.", "Used to monitor training runs, metrics, and model experiments."]
 };
 
+Object.assign(skillKnowledge, {
+  "Data Pipelines": ["Automated workflows that move and transform data between systems.", "Built for large-scale behavioral data, analytics, and dependable downstream reporting."],
+  Dashboards: ["Visual interfaces that summarize metrics, trends, and operational signals.", "Built to make analytical results and system behavior easier to monitor and act on."],
+  "Llama 2-7B": ["A seven-billion-parameter open language model from Meta's Llama 2 family.", "Fine-tuned and evaluated in persuasion-modeling research."],
+  DPO: ["Direct Preference Optimization aligns a language model using preferred and rejected responses.", "Used in persuasion research to optimize responses from human preference data."],
+  Qualtrics: ["A platform for building surveys and collecting structured human feedback.", "Used to gather human evaluations for persuasion-modeling experiments."],
+  Consensus: ["A distributed-systems process for nodes to agree on shared state.", "Taught while guiding students through reliability and distributed-systems trade-offs."],
+  Replication: ["Maintaining multiple copies of data or services for reliability and availability.", "Taught as a core distributed-systems technique for fault-tolerant services."],
+  React: ["A JavaScript library for building component-based user interfaces.", "Used across the three-tier book app, speech product, and GitOps Todo application."],
+  "Node.js": ["A JavaScript runtime for building server-side applications.", "Used for the application layer of the AWS three-tier book system."],
+  Express: ["A lightweight Node.js framework for web servers and APIs.", "Used to implement REST CRUD endpoints in the three-tier book application."],
+  "Model Benchmarking": ["Systematically comparing candidate models under the same evaluation design.", "Used in Sentinel to select the strongest measured risk-ranking model."],
+  "Temporal Validation": ["Evaluating a model on later time periods to better represent future behavior.", "Used in Sentinel to reduce leakage and test performance on a strict temporal holdout."],
+  "Probability Calibration": ["Aligning predicted probabilities with observed outcome frequencies.", "Used in Sentinel so risk scores are more interpretable and actionable."],
+  "Local Explanations": ["Per-prediction explanations showing which inputs influenced a model output.", "Used in Sentinel to make individual counterparty risk scores inspectable."],
+  IPW: ["Inverse propensity weighting adjusts analysis for unequal treatment or selection probabilities.", "Used in Sentinel's intervention analysis workflow."],
+  Keras: ["A high-level deep-learning API for designing and training neural networks.", "Used to build the speech emotion classifier."],
+  Librosa: ["A Python library for audio analysis and feature extraction.", "Used to extract speech features such as MFCCs, chroma, RMS, and mel spectrograms."],
+  FastAPI: ["A Python framework for fast, typed web APIs.", "Used to serve speech inference and product endpoints."],
+  "Framer Motion": ["An animation library for React interfaces.", "Used to create polished interactions in the speech emotion product."],
+  "Evidence Retrieval": ["Finding the most relevant trusted passages before generating an answer.", "Used by the portfolio assistant to ground answers in verified portfolio content."],
+  "Confidence Gate": ["A rule that withholds an answer when retrieved evidence is too weak.", "Used by the portfolio assistant to avoid unsupported claims."],
+  Citations: ["References that show which source material supports an answer.", "Used by the portfolio assistant so recruiters can inspect the evidence behind responses."],
+  "PDF Parsing": ["Extracting structured or plain text from PDF documents.", "Used in RoleFit to analyze uploaded resumes."],
+  "Evidence-Safe Rewrites": ["Suggested wording improvements that preserve the facts present in source material.", "Used in RoleFit to improve resume bullets without inventing achievements or metrics."],
+  CircleCI: ["A continuous-integration platform that automates builds, tests, and delivery workflows.", "Used to build and publish versioned images for the EKS GitOps Todo application."],
+  "Argo CD": ["A GitOps delivery tool that continuously synchronizes Kubernetes state from Git.", "Used to deploy manifest changes into the EKS cluster."],
+  "Amazon EKS": ["AWS's managed Kubernetes service.", "Used as the deployment target for the GitOps Todo application."],
+  "Recruiter question": ["The natural-language request that begins the assistant workflow.", "Used as the input the portfolio assistant interprets and answers."],
+  "Portfolio retrieval": ["Searching trusted portfolio content for evidence relevant to a question.", "Used to ground assistant responses in experience, projects, skills, and resume content."],
+  "Confidence gate": ["A rule that withholds an answer when retrieved evidence is too weak.", "Used by the portfolio assistant to avoid unsupported claims."],
+  "Cited answer": ["A generated response paired with the evidence supporting it.", "Used as the final output of the portfolio assistant."]
+});
+
 const skillTooltip = document.createElement("div");
 skillTooltip.className = "skill-tooltip";
 skillTooltip.id = "skill-tooltip";
@@ -197,11 +231,13 @@ function hideSkillTooltip() {
   skillTooltip.setAttribute("aria-hidden", "true");
 }
 
-document.querySelectorAll(".skill-chips span").forEach((chip) => {
+document.querySelectorAll(".skill-chips span, .experience-tags span, .project-stack span, .architecture-flow span").forEach((chip) => {
+  if (!skillKnowledge[chip.textContent.trim()]) return;
+  chip.classList.add("context-term");
   chip.tabIndex = 0;
   chip.setAttribute("role", "button");
   chip.setAttribute("aria-describedby", "skill-tooltip");
-  chip.setAttribute("aria-label", `${chip.textContent.trim()}: show skill details`);
+  chip.setAttribute("aria-label", `${chip.textContent.trim()}: show context`);
   chip.addEventListener("mouseenter", () => showSkillTooltip(chip));
   chip.addEventListener("mouseleave", hideSkillTooltip);
   chip.addEventListener("focus", () => showSkillTooltip(chip));
@@ -213,7 +249,9 @@ document.querySelectorAll(".skill-chips span").forEach((chip) => {
 });
 
 document.addEventListener("click", hideSkillTooltip);
-window.addEventListener("scroll", hideSkillTooltip, { passive: true });
+window.addEventListener("scroll", () => {
+  if (activeSkill) positionSkillTooltip(activeSkill);
+}, { passive: true });
 window.addEventListener("resize", hideSkillTooltip);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") hideSkillTooltip();
