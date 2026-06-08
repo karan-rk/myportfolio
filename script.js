@@ -245,75 +245,14 @@ let selectedAnswerMode = "short";
 let evaluationExpanded = false;
 let latestEvaluationRows = [];
 
-const prototypeAnswers = {
-  retrieval: {
-    title: "Karan combines production engineering with applied machine learning.",
-    body: "His portfolio includes billion-scale data systems at Meta, modern ML research, and end-to-end products across risk modeling, speech, resume analysis, and retrieval.",
-    citations: ["Experience / Meta impact", "Projects / Applied ML"]
-  },
-  evaluation: {
-    title: "Karan's work includes measurable model and system outcomes.",
-    body: "Evidence includes 92% ROC-AUC on author-style detection, a 40% real-time inference latency reduction, a 5x pipeline improvement, and calibrated risk modeling.",
-    citations: ["Experience / Research", "Experience / Meta impact"]
-  },
-  scale: {
-    title: "Karan has direct experience building systems at scale.",
-    body: "At Meta and Instagram, his cohort-analysis pipeline processed 1.2 billion user pairs, improved performance by 5x, and reduced compute consumption by 50%.",
-    citations: ["Experience / Meta and Instagram"]
-  },
-  ml: {
-    title: "Karan builds machine learning systems from research through product delivery.",
-    body: "His work includes preference-aligned language-model research, speech emotion detection, calibrated predictive modeling, retrieval systems, and real-time inference products.",
-    citations: ["Experience / Applied ML research", "Projects / Machine learning products"]
-  },
-  software: {
-    title: "Karan combines production software experience with distributed-systems depth.",
-    body: "He has built billion-scale data pipelines at Meta, distributed backend services using C++ and Python, full-stack applications, APIs, and reliable deployment workflows.",
-    citations: ["Experience / Software engineering", "Experience / Distributed systems"]
-  },
-  profile: {
-    title: "Karan is a software and machine learning engineer based in New York.",
-    body: "He combines production engineering at Meta, distributed-systems research, applied machine learning, and end-to-end product development.",
-    citations: ["Resume / Professional summary", "Experience / Selected impact"]
-  },
-  fit: {
-    title: "Karan is strongest in roles that connect reliable software with intelligent products.",
-    body: "His evidence includes production-scale engineering, measurable performance improvements, applied ML research, and the ability to build complete user-facing systems.",
-    citations: ["Experience / Measurable impact", "Projects / End-to-end products"]
-  },
-  fallback: {
-    title: "I can only answer questions about Karan.",
-    body: "Ask about Karan's experience, projects, technical skills, education, research, role fit, or measurable impact.",
-    citations: ["Resume / Candidate profile", "Projects / Portfolio"]
-  }
-};
-
-function chooseAnswer(question) {
-  const normalized = question.toLowerCase();
-  if (normalized.includes("machine learning") || normalized.includes(" ml ") || normalized.includes("model") || normalized.includes("ai")) return prototypeAnswers.ml;
-  if (normalized.includes("software") || normalized.includes("backend") || normalized.includes("distributed") || normalized.includes("system")) return prototypeAnswers.software;
-  if (normalized.includes("tell me") || normalized.includes("about yourself") || normalized.includes("who is") || normalized.includes("background")) return prototypeAnswers.profile;
-  if (normalized.includes("hire") || normalized.includes("candidate") || normalized.includes("fit") || normalized.includes("strength")) return prototypeAnswers.fit;
-  if (normalized.includes("metric") || normalized.includes("result") || normalized.includes("accuracy")) return prototypeAnswers.evaluation;
-  if (normalized.includes("meta") || normalized.includes("scale") || normalized.includes("impact")) return prototypeAnswers.scale;
-  if (normalized.includes("experience") || normalized.includes("project") || normalized.includes("skill")) return prototypeAnswers.retrieval;
-  return prototypeAnswers.fallback;
-}
-
 function renderAnswer(question) {
-  const answer = chooseAnswer(question);
   ragOutput.innerHTML = `
     <div class="answer-header">
-      <span class="answer-icon">AI</span>
-      <div><strong>${answer.title}</strong><small>Based on Karan's portfolio</small></div>
+      <span class="answer-icon">!</span>
+      <div><strong>AI backend not connected</strong><small>Real generated answers require the portfolio backend.</small></div>
     </div>
-    <p class="answer-body">${answer.body}</p>
-    <div class="citation-row">${answer.citations.map((citation) => `<span>${citation}</span>`).join("")}</div>
+    <p class="answer-body">This static preview cannot generate AI responses. Run or deploy the Python backend with a server-side OPENAI_API_KEY.</p>
   `;
-  latestQuestion = question;
-  ragHistory.push({ question, answer: answer.body, topic: answer.citations[0], role: "general" });
-  ragHistory = ragHistory.slice(-4);
-  renderConversation();
 }
 
 function renderApiAnswer(result) {
@@ -350,7 +289,7 @@ function escapeHtml(value) {
 function renderConversation() {
   conversationHistory.innerHTML = ragHistory.length ? ragHistory.map(turn => `
     <article><span>You / ${escapeHtml(turn.role)}</span><strong>${escapeHtml(turn.question)}</strong><p>${escapeHtml(turn.answer)}</p></article>
-  `).join("") : `<p>Start with a suggested question or ask anything about Karan.</p>`;
+  `).join("") : `<p>Start with a suggested question or ask anything.</p>`;
 }
 
 function renderFollowUps(suggestions = []) {
@@ -535,7 +474,7 @@ clearConversation.addEventListener("click", () => {
   latestQuestion = "";
   shareQuestion.disabled = true;
   shareStatus.textContent = "";
-  ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Conversation cleared</strong><small>Ask anything about Karan to begin again.</small></div></div>`;
+  ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Conversation cleared</strong><small>Ask anything to begin again.</small></div></div>`;
 });
 
 shareQuestion.addEventListener("click", copyShareLink);

@@ -84,21 +84,21 @@ class RetrievalTests(unittest.TestCase):
         self.assertIn("excerpt", answer["citations"][0])
         self.assertIn("target", answer["citations"][0])
 
-    def test_unknown_query_abstains(self):
+    def test_general_query_uses_genai_when_available(self):
         query = "What is the best recipe for chocolate cake?"
-        with patch("rag_service.generate_profile_answer") as generator:
+        with patch("rag_service.generate_profile_answer", return_value="Use flour, sugar, cocoa, eggs, and butter.") as generator:
             answer = build_answer(query, retrieve(query), use_genai=True)
-        self.assertTrue(answer["abstained"])
-        self.assertEqual(answer["confidence"], "low")
+        self.assertFalse(answer["abstained"])
+        self.assertTrue(answer["generated"])
         self.assertEqual(answer["citations"], [])
-        generator.assert_not_called()
+        generator.assert_called_once()
 
-    def test_unrelated_request_without_profile_terms_abstains(self):
+    def test_general_query_reports_offline_when_genai_is_unavailable(self):
         query = "Give me a chocolate cake recipe"
-        with patch("rag_service.generate_profile_answer") as generator:
+        with patch("rag_service.generate_profile_answer", return_value=None):
             answer = build_answer(query, retrieve(query), use_genai=True)
         self.assertTrue(answer["abstained"])
-        generator.assert_not_called()
+        self.assertIn("not connected", answer["answer"])
 
     def test_supported_query_uses_genai_answer_when_available(self):
         query = "What impact did Karan have at Meta?"
@@ -125,7 +125,8 @@ class RetrievalTests(unittest.TestCase):
         with patch("rag_service.generate_profile_answer", return_value=None):
             answer = build_answer(query, retrieve(query), use_genai=True)
         self.assertFalse(answer["generated"])
-        self.assertFalse(answer["abstained"])
+        self.assertTrue(answer["abstained"])
+        self.assertIn("not connected", answer["answer"])
 
     def test_detects_skills_intent(self):
         self.assertEqual(detect_intent("What skills make Karan a strong fit?"), "Skills")

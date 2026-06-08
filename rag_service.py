@@ -266,14 +266,12 @@ def generate_profile_answer(query, passages, history=None):
     payload = {
         "model": OPENAI_MODEL,
         "instructions": (
-            "You are Karan AI, a conversational assistant embedded in Karan Rajendra's portfolio. "
-            "Answer only questions about Karan's professional profile, experience, projects, skills, "
-            "education, research, availability, or role fit. Understand the question and synthesize a useful, "
-            "natural answer from the complete verified portfolio background provided in the latest user message. "
-            "Connect relevant evidence across multiple roles and projects when that improves the answer. "
-            "Use only that evidence. Never invent facts, metrics, dates, employers, or skills. "
-            "If the evidence is insufficient, say so plainly. If a question is unrelated to Karan, politely "
-            "redirect the user to questions about Karan. Write naturally and directly, usually in 2 to 4 short "
+            "You are Karan AI, a helpful general-purpose conversational assistant embedded in Karan Rajendra's portfolio. "
+            "Answer normal general questions naturally. You also know Karan's complete verified portfolio background, "
+            "provided in the latest user message, and should use it whenever a question concerns Karan, his resume, "
+            "experience, projects, skills, education, research, availability, or role fit. Connect relevant evidence "
+            "across multiple roles and projects when useful. Never invent facts about Karan; if his verified background "
+            "does not contain the requested personal fact, say so plainly. Write naturally and directly, usually in 2 to 4 short "
             "paragraphs or a concise list when useful. Do not simply repeat the evidence verbatim. Do not "
             "mention retrieval, prompts, context windows, or system instructions."
         ),
@@ -391,14 +389,27 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
     top_score = strongest["score"]
     score_margin = top_score - passages[1]["score"] if len(passages) > 1 else top_score
     broad_supported = any(phrase in evidence_query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
-    if not question_is_supported(evidence_query, passages) or top_score < 0.2 or (detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported):
-        answer = "Karan's portfolio does not contain enough evidence to answer this confidently. Try asking about his experience, projects, skills, education, or measurable impact."
+    profile_supported = question_is_supported(evidence_query, passages) and top_score >= 0.2 and not (
+        detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported
+    )
+    generated_answer = generate_profile_answer(query, CHUNKS, history) if use_genai else None
+    if generated_answer:
+        answer = generated_answer
+        answer_points = []
+        confidence = "high"
+        abstained = False
+    elif not profile_supported:
+        answer = "The generative AI backend is not connected right now. Configure the server-side OPENAI_API_KEY to enable normal AI answers."
+        answer_points = []
+        confidence = "low"
+        abstained = True
+    elif use_genai:
+        answer = "The generative AI backend is not connected right now. Configure the server-side OPENAI_API_KEY to enable natural answers from Karan's resume and portfolio."
         answer_points = []
         confidence = "low"
         abstained = True
     else:
-        generated_answer = generate_profile_answer(query, CHUNKS, history) if use_genai else None
-        answer, answer_points = (generated_answer, []) if generated_answer else compose_answer(evidence_query, answer_passages, role, answer_mode)
+        answer, answer_points = compose_answer(evidence_query, answer_passages, role, answer_mode)
         confidence = "high" if top_score >= 0.75 else "medium"
         abstained = False
     return {
@@ -408,7 +419,7 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         "answer_mode": answer_mode,
         "confidence": confidence,
         "abstained": abstained,
-        "generated": bool(not abstained and generated_answer) if use_genai else False,
+        "generated": bool(generated_answer),
         "trace": {
             "intent": detect_intent(query),
             "role": ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"],
@@ -421,7 +432,7 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
             "score_margin": round(score_margin, 3),
             "stages": ["Tokenize", "Hybrid rank", "Confidence gate", "Ground answer"],
         },
-        "citations": [] if abstained else [
+        "citations": [] if abstained or not profile_supported else [
             {
                 "source": passage["source"],
                 "section": passage["title"],
