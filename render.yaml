@@ -13,8 +13,6 @@ services:
         value: gpt-4.1-mini
       - key: CORS_ORIGINS
         value: https://karan-rk.github.io
-      - key: OPENAI_API_KEY
-        sync: false
   - type: web
     name: karan-speech-emotion-api
     plan: free
