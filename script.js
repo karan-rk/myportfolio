@@ -1,15 +1,4 @@
-const main = document.querySelector("main");
-const heroSection = document.querySelector(".hero");
 const aiSection = document.getElementById("rag-lab");
-const experienceSection = document.getElementById("experience");
-const projectsSection = document.getElementById("projects");
-const skillsSection = document.getElementById("skills");
-if (main && heroSection && aiSection && experienceSection && projectsSection && skillsSection) {
-  heroSection.after(experienceSection);
-  experienceSection.after(projectsSection);
-  projectsSection.after(aiSection);
-  aiSection.after(skillsSection);
-}
 
 const header = document.querySelector(".site-header");
 const reveals = document.querySelectorAll(".reveal");
@@ -48,7 +37,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 window.addEventListener("scroll", () => {
   header.classList.toggle("scrolled", window.scrollY > 10);
-});
+}, { passive: true });
 
 function closeMobileMenu() {
   menuToggle.setAttribute("aria-expanded", "false");
@@ -463,24 +452,27 @@ projectToggles.forEach((toggle) => {
 });
 document.querySelectorAll(".experience-card:not(.experience-primary)").forEach((card, index) => {
   card.classList.add("experience-collapsible");
-  const details = document.createElement("div");
-  details.className = "experience-collapsible-details";
-  details.id = `experience-details-${index + 1}`;
-  details.hidden = true;
-  details.append(card.querySelector(".experience-role"), card.querySelector(".experience-impact"));
+  const role = card.querySelector(".experience-role");
+  const impact = card.querySelector(".experience-impact");
+  if (!role || !impact) return;
+  const detailsId = `experience-details-${index + 1}`;
+  role.id = detailsId;
+  role.hidden = true;
+  impact.hidden = true;
   const button = document.createElement("button");
   button.className = "experience-toggle";
   button.type = "button";
   button.setAttribute("aria-expanded", "false");
-  button.setAttribute("aria-controls", details.id);
+  button.setAttribute("aria-controls", detailsId);
   button.textContent = "View impact";
   button.addEventListener("click", () => {
     const expanded = button.getAttribute("aria-expanded") === "true";
     button.setAttribute("aria-expanded", String(!expanded));
     button.textContent = expanded ? "View impact" : "Hide impact";
-    details.hidden = expanded;
+    role.hidden = expanded;
+    impact.hidden = expanded;
   });
-  card.append(details, button);
+  card.append(button);
 });
 caseStudyModal.querySelectorAll("[data-close-case-study]").forEach((button) => button.addEventListener("click", closeCaseStudy));
 caseStudyFooter.addEventListener("click", (event) => {
