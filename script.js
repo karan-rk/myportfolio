@@ -1,3 +1,16 @@
+const main = document.querySelector("main");
+const heroSection = document.querySelector(".hero");
+const aiSection = document.getElementById("rag-lab");
+const experienceSection = document.getElementById("experience");
+const projectsSection = document.getElementById("projects");
+const skillsSection = document.getElementById("skills");
+if (main && heroSection && aiSection && experienceSection && projectsSection && skillsSection) {
+  heroSection.after(experienceSection);
+  experienceSection.after(projectsSection);
+  projectsSection.after(aiSection);
+  aiSection.after(skillsSection);
+}
+
 const header = document.querySelector(".site-header");
 const reveals = document.querySelectorAll(".reveal");
 const menuToggle = document.querySelector(".menu-toggle");
@@ -59,7 +72,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMobileMenu();
 });
 window.addEventListener("resize", () => {
-  if (window.innerWidth > 850) closeMobileMenu();
+  if (window.innerWidth > 980) closeMobileMenu();
 });
 
 function updateActiveNavigation() {
@@ -164,6 +177,8 @@ const skillKnowledge = {
 };
 
 Object.assign(skillKnowledge, {
+  RAG: ["Retrieval-augmented generation grounds responses in relevant source material.", "Used in Karan AI to retrieve portfolio evidence before composing answers."],
+  Analytics: ["The practice of turning data into measurable insights and decisions.", "Used in Meta pipelines, behavioral analysis, dashboards, and product evaluation."],
   "Data Pipelines": ["Automated workflows that move and transform data between systems.", "Built for large-scale behavioral data, analytics, and dependable downstream reporting."],
   Dashboards: ["Visual interfaces that summarize metrics, trends, and operational signals.", "Built to make analytical results and system behavior easier to monitor and act on."],
   "Llama 2-7B": ["A seven-billion-parameter open language model from Meta's Llama 2 family.", "Fine-tuned and evaluated in persuasion-modeling research."],
@@ -186,6 +201,7 @@ Object.assign(skillKnowledge, {
   "Evidence Retrieval": ["Finding the most relevant trusted passages before generating an answer.", "Used by the portfolio assistant to ground answers in verified portfolio content."],
   "Confidence Gate": ["A rule that withholds an answer when retrieved evidence is too weak.", "Used by the portfolio assistant to avoid unsupported claims."],
   Citations: ["References that show which source material supports an answer.", "Used by the portfolio assistant so recruiters can inspect the evidence behind responses."],
+  Conversation: ["A multi-turn interaction where later questions can build on earlier context.", "Used by Karan AI to answer natural follow-up questions without making recruiters repeat the full topic."],
   "PDF Parsing": ["Extracting structured or plain text from PDF documents.", "Used in RoleFit to analyze uploaded resumes."],
   "Evidence-Safe Rewrites": ["Suggested wording improvements that preserve the facts present in source material.", "Used in RoleFit to improve resume bullets without inventing achievements or metrics."],
   CircleCI: ["A continuous-integration platform that automates builds, tests, and delivery workflows.", "Used to build and publish versioned images for the EKS GitOps Todo application."],
@@ -196,6 +212,98 @@ Object.assign(skillKnowledge, {
   "Confidence gate": ["A rule that withholds an answer when retrieved evidence is too weak.", "Used by the portfolio assistant to avoid unsupported claims."],
   "Cited answer": ["A generated response paired with the evidence supporting it.", "Used as the final output of the portfolio assistant."]
 });
+
+Object.assign(skillKnowledge, {
+  "Machine Learning": ["The practice of building systems that learn patterns from data.", "Studied and applied through predictive modeling, deep learning, NLP, evaluation, and product-focused ML projects."],
+  "Distributed Systems": ["Software systems whose components coordinate across multiple machines.", "Studied, researched, and taught through work on communication, replication, consensus, fault tolerance, and performance."]
+});
+
+const contextSkillUsage = {
+  "experience-meta": {
+    Python: "Built and optimized large-scale behavioral-data pipelines processing 1.2B user pairs.",
+    SQL: "Queried and transformed product data used for behavioral analysis and decision-making.",
+    "Data Pipelines": "Improved pipeline performance by 5x while supporting analysis across 500M users.",
+    Dashboards: "Presented product and experiment insights so cross-functional teams could act on the results."
+  },
+  "experience-systems-research": {
+    "C++": "Built performance-sensitive distributed services and improved throughput through multithreading and asynchronous processing.",
+    Python: "Supported service automation, experimentation, and distributed-systems workflows.",
+    Kafka: "Enabled reliable asynchronous communication between distributed services.",
+    gRPC: "Implemented efficient typed communication between backend services.",
+    Docker: "Packaged services into reproducible environments for multi-node deployment and testing."
+  },
+  "experience-persuasion": {
+    "Llama 2-7B": "Served as the base language model for persuasion-modeling experiments.",
+    LoRA: "Efficiently fine-tuned the language model without updating every parameter.",
+    DPO: "Aligned generated responses using preferred and rejected persuasion examples.",
+    Qualtrics: "Collected structured human evaluations used to compare persuasive responses."
+  },
+  "experience-teaching": {
+    Python: "Used in examples and student projects to teach distributed-system behavior and debugging.",
+    "C++": "Used to teach performance, concurrency, and systems-level debugging.",
+    Consensus: "Taught as a core mechanism for keeping distributed nodes in agreement.",
+    Replication: "Taught as a reliability technique for fault tolerance and availability."
+  },
+  "project-cloud-infrastructure": {
+    React: "Built the presentation layer of the three-tier book application.",
+    "Node.js": "Ran the backend application layer that connects the UI and database.",
+    Express: "Implemented the REST CRUD endpoints for managing books.",
+    MySQL: "Stored the application's structured book data in the database tier.",
+    AWS: "Provided the deployment architecture for the frontend, API, database, and warm-standby recovery design."
+  },
+  "project-sentinel": {
+    "Model Benchmarking": "Compared three candidate models under the same leakage-safe evaluation design.",
+    "Temporal Validation": "Tested the selected model on later months to represent future production behavior.",
+    "Probability Calibration": "Made predicted risk scores better match observed outcome frequencies.",
+    "Local Explanations": "Exposed the factors influencing each counterparty risk score.",
+    IPW: "Supported intervention analysis while accounting for unequal treatment probabilities."
+  },
+  "project-speech": {
+    Keras: "Defined and trained the CNN-BiLSTM-Attention speech emotion classifier.",
+    Librosa: "Extracted MFCC, chroma, RMS, ZCR, and mel-spectrogram audio features.",
+    FastAPI: "Validated audio uploads and served emotion predictions to the product interface.",
+    React: "Built the recording, prediction, playback, and editable journal experience.",
+    "Framer Motion": "Added lightweight interaction polish to the speech journaling interface."
+  },
+  "project-portfolio-ai": {
+    Python: "Powers the retrieval service, question routing, answer generation, and evaluation suite.",
+    "Evidence Retrieval": "Finds the strongest verified portfolio passages for each recruiter question.",
+    "Confidence Gate": "Prevents the assistant from presenting unsupported portfolio claims.",
+    Conversation: "Carries the relevant topic into genuine follow-up questions while keeping unrelated questions independent."
+  },
+  "project-rolefit": {
+    JavaScript: "Runs the interactive scoring, ATS analysis, and before-and-after resume workspace.",
+    Python: "Supports backend PDF extraction and portfolio service integration.",
+    "PDF Parsing": "Extracts resume text from uploaded PDF files for analysis.",
+    "Evidence-Safe Rewrites": "Improves resume bullets while preserving the candidate's verified facts."
+  },
+  "project-gitops-todo": {
+    React: "Provides the containerized Todo application's user interface.",
+    Docker: "Packages the application into a versioned, deployable image.",
+    CircleCI: "Tests the application, builds its image, and updates the deployment manifest.",
+    "Argo CD": "Continuously synchronizes the manifest repository with the Kubernetes cluster.",
+    "Amazon EKS": "Runs the Kubernetes workloads and keeps the deployed application available."
+  }
+};
+
+const roleKnowledge = {
+  "Software Engineering": {
+    interest: "I enjoy turning complex requirements into reliable products and improving systems through careful engineering.",
+    expertise: "Meta-scale pipelines, distributed-systems research, full-stack products, APIs, performance optimization, and production delivery."
+  },
+  "Machine Learning": {
+    interest: "I am interested in building models whose quality can be measured, explained, and connected to real user workflows.",
+    expertise: "Speech emotion modeling, persuasion research, predictive risk ranking, model evaluation, calibration, and explainability."
+  },
+  "Backend Engineering": {
+    interest: "I enjoy designing the reliable services and data flows that make products fast, scalable, and dependable.",
+    expertise: "Meta-scale pipelines, C++ distributed services, Kafka, gRPC, REST APIs, FastAPI, databases, Docker, Kubernetes, and cloud delivery."
+  },
+  "Applied AI": {
+    interest: "I want to build AI features that are useful in practice, grounded in evidence, and dependable beyond a demo.",
+    expertise: "Portfolio AI retrieval and evaluation, RoleFit resume analysis, NLP research, confidence gating, and cited responses."
+  }
+};
 
 const skillTooltip = document.createElement("div");
 skillTooltip.className = "skill-tooltip";
@@ -217,15 +325,30 @@ function positionSkillTooltip(chip) {
 }
 
 function showSkillTooltip(chip) {
-  const detail = skillKnowledge[chip.textContent.trim()];
-  if (!detail) return;
+  const skill = normalizedSkillKnowledge.get((chip.dataset.skillName || chip.textContent.trim()).toLowerCase());
+  if (!skill) return;
+  const detail = skill.detail;
+  const contextId = chip.closest("[id]")?.id;
+  const contextualUsage = contextSkillUsage[contextId]?.[skill.name] || detail[1];
   activeSkill?.classList.remove("skill-active");
   activeSkill = chip;
   chip.classList.add("skill-active");
-  skillTooltip.innerHTML = `<strong>${chip.textContent.trim()}</strong><span>What it is</span><p>${detail[0]}</p><span>Where I use it</span><p>${detail[1]}</p>`;
+  skillTooltip.innerHTML = `<strong>${skill.name}</strong><span>What it is</span><p>${detail[0]}</p><span>${contextSkillUsage[contextId] ? "How I used it here" : "Where I use it"}</span><p>${contextualUsage}</p>`;
   skillTooltip.setAttribute("aria-hidden", "false");
   skillTooltip.classList.add("visible");
   positionSkillTooltip(chip);
+}
+
+function showRoleTooltip(role) {
+  const detail = roleKnowledge[role.textContent.trim()];
+  if (!detail) return;
+  activeSkill?.classList.remove("skill-active");
+  activeSkill = role;
+  role.classList.add("skill-active");
+  skillTooltip.innerHTML = `<strong>${role.textContent.trim()}</strong><span>Why I am interested</span><p>${detail.interest}</p><span>Relevant expertise</span><p>${detail.expertise}</p>`;
+  skillTooltip.setAttribute("aria-hidden", "false");
+  skillTooltip.classList.add("visible");
+  positionSkillTooltip(role);
 }
 
 function hideSkillTooltip() {
@@ -235,8 +358,11 @@ function hideSkillTooltip() {
   skillTooltip.setAttribute("aria-hidden", "true");
 }
 
-document.querySelectorAll(".skill-chips span, .experience-tags span, .project-stack span, .architecture-flow span").forEach((chip) => {
-  if (!skillKnowledge[chip.textContent.trim()]) return;
+const normalizedSkillKnowledge = new Map(Object.entries(skillKnowledge).map(([name, detail]) => [name.toLowerCase(), { name, detail }]));
+document.querySelectorAll(".skill-chips span, .experience-tags span, .project-stack span, .capability-tags span, .architecture-flow span, .coursework span").forEach((chip) => {
+  const skill = normalizedSkillKnowledge.get(chip.textContent.trim().toLowerCase());
+  if (!skill) return;
+  chip.dataset.skillName = skill.name;
   chip.classList.add("context-term");
   chip.tabIndex = 0;
   chip.setAttribute("role", "button");
@@ -252,6 +378,23 @@ document.querySelectorAll(".skill-chips span, .experience-tags span, .project-st
   });
 });
 
+document.querySelectorAll(".contact-focus strong").forEach((role) => {
+  if (!roleKnowledge[role.textContent.trim()]) return;
+  role.classList.add("context-term", "role-context-term");
+  role.tabIndex = 0;
+  role.setAttribute("role", "button");
+  role.setAttribute("aria-describedby", "skill-tooltip");
+  role.setAttribute("aria-label", `${role.textContent.trim()}: show interest and expertise`);
+  role.addEventListener("mouseenter", () => showRoleTooltip(role));
+  role.addEventListener("mouseleave", hideSkillTooltip);
+  role.addEventListener("focus", () => showRoleTooltip(role));
+  role.addEventListener("blur", hideSkillTooltip);
+  role.addEventListener("click", (event) => {
+    event.stopPropagation();
+    showRoleTooltip(role);
+  });
+});
+
 document.addEventListener("click", hideSkillTooltip);
 window.addEventListener("scroll", () => {
   if (activeSkill) positionSkillTooltip(activeSkill);
@@ -263,6 +406,14 @@ document.addEventListener("keydown", (event) => {
 
 const projectToggles = document.querySelectorAll(".project-toggle");
 const projectDemoLinks = document.querySelectorAll(".project-action-primary[href^='#']");
+const projectAiQuestions = {
+  "project-cloud-infrastructure": "Tell me about the AWS Three-Tier Book Application.",
+  "project-sentinel": "Tell me about the High-Risk Counterparty Prediction project.",
+  "project-speech": "Tell me about the Speech Emotion Detection project.",
+  "project-portfolio-ai": "Tell me about the AI Portfolio Assistant.",
+  "project-rolefit": "Tell me about the RoleFit Resume Analyzer.",
+  "project-gitops-todo": "Tell me about the EKS GitOps Todo Application."
+};
 const caseStudyModal = document.getElementById("case-study-modal");
 const caseStudyDialog = caseStudyModal.querySelector(".case-study-dialog");
 const caseStudyClose = caseStudyModal.querySelector(".case-study-close");
@@ -272,6 +423,19 @@ const caseStudyResults = document.getElementById("case-study-results");
 const caseStudyContent = document.getElementById("case-study-content");
 const caseStudyFooter = document.getElementById("case-study-footer");
 let caseStudyTrigger = null;
+
+document.querySelectorAll(".project-card").forEach((card) => {
+  const question = projectAiQuestions[card.id];
+  const actions = card.querySelector(".project-actions");
+  if (!question || !actions) return;
+  const link = document.createElement("a");
+  link.className = "project-ai-question";
+  link.href = `?ask=${encodeURIComponent(question)}#rag-lab`;
+  link.dataset.projectQuestion = question;
+  link.setAttribute("aria-label", `Ask Karan AI about ${card.querySelector("h3").textContent}`);
+  link.innerHTML = `Questions? Ask Karan AI about this project <span>&rarr;</span>`;
+  actions.append(link);
+});
 
 function closeCaseStudy() {
   caseStudyModal.classList.remove("open");
@@ -284,23 +448,44 @@ projectToggles.forEach((toggle) => {
   toggle.setAttribute("aria-haspopup", "dialog");
   toggle.addEventListener("click", () => {
     const card = toggle.closest(".project-card");
-    const launchLink = card.querySelector(".project-action-primary");
+    const launchLinks = [...card.querySelectorAll(".project-actions a")];
     caseStudyTrigger = toggle;
     caseStudyTitle.textContent = card.querySelector("h3").textContent;
     caseStudyTag.textContent = card.querySelector(".project-tag").textContent;
     caseStudyResults.innerHTML = card.querySelector(".project-results").innerHTML;
     caseStudyContent.innerHTML = card.querySelector(".project-details").innerHTML;
-    caseStudyFooter.innerHTML = launchLink ? launchLink.outerHTML : "";
+    caseStudyFooter.innerHTML = launchLinks.map(link => link.outerHTML).join("");
     caseStudyModal.classList.add("open");
     caseStudyModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
     window.setTimeout(() => caseStudyClose.focus(), 0);
   });
 });
+document.querySelectorAll(".experience-card:not(.experience-primary)").forEach((card, index) => {
+  card.classList.add("experience-collapsible");
+  const details = document.createElement("div");
+  details.className = "experience-collapsible-details";
+  details.id = `experience-details-${index + 1}`;
+  details.hidden = true;
+  details.append(card.querySelector(".experience-role"), card.querySelector(".experience-impact"));
+  const button = document.createElement("button");
+  button.className = "experience-toggle";
+  button.type = "button";
+  button.setAttribute("aria-expanded", "false");
+  button.setAttribute("aria-controls", details.id);
+  button.textContent = "View impact";
+  button.addEventListener("click", () => {
+    const expanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!expanded));
+    button.textContent = expanded ? "View impact" : "Hide impact";
+    details.hidden = expanded;
+  });
+  card.append(details, button);
+});
 caseStudyModal.querySelectorAll("[data-close-case-study]").forEach((button) => button.addEventListener("click", closeCaseStudy));
 caseStudyFooter.addEventListener("click", (event) => {
-  const link = event.target.closest("a[href^='#']");
-  if (link) closeCaseStudy();
+  const link = event.target.closest("a");
+  if (link && (link.getAttribute("href")?.startsWith("#") || link.dataset.projectQuestion)) closeCaseStudy();
 });
 document.addEventListener("keydown", (event) => {
   if (!caseStudyModal.classList.contains("open")) return;
@@ -349,6 +534,9 @@ if (window.matchMedia("(pointer: fine)").matches && !window.matchMedia("(prefers
     heroCard.style.transform = "";
   });
 }
+window.addEventListener("resize", () => {
+  if (window.innerWidth <= 980) heroCard.style.transform = "";
+}, { passive: true });
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -362,7 +550,15 @@ const observer = new IntersectionObserver(
   { threshold: 0.12 }
 );
 
-reveals.forEach((element) => observer.observe(element));
+const initialHashTarget = location.hash ? document.querySelector(location.hash) : null;
+if (initialHashTarget) {
+  initialHashTarget.classList.add("hash-target-ready");
+  initialHashTarget.classList.add("visible");
+  initialHashTarget.querySelectorAll(".reveal").forEach((element) => element.classList.add("visible"));
+}
+reveals.forEach((element) => {
+  if (!element.classList.contains("visible")) observer.observe(element);
+});
 
 const ragForm = document.getElementById("rag-form");
 const ragInput = document.getElementById("rag-question");
@@ -376,6 +572,7 @@ const answerModeButtons = document.querySelectorAll("[data-answer-mode]");
 const promptButtons = document.querySelectorAll("[data-question]");
 const returnToAssistant = document.getElementById("return-to-assistant");
 const conversationHistory = document.getElementById("conversation-history");
+const conversationToggle = document.getElementById("conversation-toggle");
 const clearConversation = document.getElementById("clear-conversation");
 const followUpPrompts = document.getElementById("follow-up-prompts");
 const shareQuestion = document.getElementById("share-question");
@@ -387,7 +584,7 @@ const evaluationToggle = document.getElementById("evaluation-toggle");
 let latestRagRequest = 0;
 let ragHistory = [];
 let latestQuestion = "";
-let selectedAnswerMode = "short";
+let selectedAnswerMode = "detailed";
 let evaluationExpanded = false;
 let latestEvaluationRows = [];
 
@@ -395,9 +592,19 @@ function renderAnswer(question) {
   ragOutput.innerHTML = `
     <div class="answer-header">
       <span class="answer-icon">!</span>
-      <div><strong>AI backend not connected</strong><small>Real generated answers require the portfolio backend.</small></div>
+      <div><strong>The assistant is temporarily unavailable.</strong><small>Please try again in a moment.</small></div>
     </div>
-    <p class="answer-body">This static preview cannot generate AI responses. Run or deploy the Python backend with a server-side OPENAI_API_KEY.</p>
+    <p class="answer-body">The portfolio assistant could not be reached. You can still explore Karan's experience, projects, and skills on this page.</p>
+  `;
+}
+
+function renderRequestError(message) {
+  ragOutput.innerHTML = `
+    <div class="answer-header">
+      <span class="answer-icon">!</span>
+      <div><strong>I couldn't process that question.</strong><small>Please adjust it and try again.</small></div>
+    </div>
+    <p class="answer-body">${escapeHtml(message)}</p>
   `;
 }
 
@@ -405,15 +612,19 @@ function renderApiAnswer(result) {
   const points = result.answer_points?.length
     ? `<ul class="answer-points">${result.answer_points.map(point => `<li>${escapeHtml(point)}</li>`).join("")}</ul>`
     : "";
+  const presentation = {
+    conversation: ["AI", "Karan AI"],
+    evidence: ["AI", "Karan AI"],
+    generated: ["AI", "Karan AI"],
+    scope: ["AI", "Karan AI"]
+  }[result.response_type] || ["AI", "Karan AI"];
   ragOutput.innerHTML = `
     <div class="answer-header">
-      <span class="answer-icon">${result.abstained ? "!" : "AI"}</span>
-      <div><strong>${result.abstained ? "I don't have enough evidence for that yet." : "Here's what I found."}</strong><small>${result.generated ? "Generated from verified portfolio evidence" : "Based on Karan's portfolio"}</small></div>
+      <span class="answer-icon">${presentation[0]}</span>
+      <div><strong>${presentation[1]}</strong></div>
     </div>
     <p class="answer-body">${escapeHtml(result.answer)}</p>
-    ${result.genai_error ? `<p class="answer-error">${escapeHtml(result.genai_error)}</p>` : ""}
     ${points}
-    <div class="citation-row">${result.citations.map((citation) => `<span>${citation.source} / ${citation.section}</span>`).join("")}</div>
   `;
   latestQuestion = result.query;
   shareQuestion.disabled = false;
@@ -433,11 +644,25 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[character]);
 }
 
+function capitalizeFirstAlpha(value) {
+  const text = String(value || "");
+  const index = text.search(/[A-Za-z]/);
+  if (index < 0) return text;
+  return `${text.slice(0, index)}${text[index].toUpperCase()}${text.slice(index + 1)}`;
+}
+
 function renderConversation() {
   conversationHistory.innerHTML = ragHistory.length ? ragHistory.map(turn => `
-    <article><span>You / ${escapeHtml(turn.role)}</span><strong>${escapeHtml(turn.question)}</strong><p>${escapeHtml(turn.answer)}</p></article>
-  `).join("") : `<p>Start with a suggested question or ask anything.</p>`;
+    <article><span>You / ${escapeHtml(turn.role)}</span><strong>${escapeHtml(capitalizeFirstAlpha(turn.question))}</strong><p>${escapeHtml(capitalizeFirstAlpha(turn.answer))}</p></article>
+  `).join("") : `<p>Start with a suggested question or ask about Karan's work.</p>`;
 }
+
+conversationToggle.addEventListener("click", () => {
+  const expanded = conversationToggle.getAttribute("aria-expanded") === "true";
+  conversationToggle.setAttribute("aria-expanded", String(!expanded));
+  conversationToggle.textContent = expanded ? "Show history" : "Hide history";
+  conversationHistory.hidden = expanded;
+});
 
 function renderFollowUps(suggestions = []) {
   followUpPrompts.hidden = !suggestions.length;
@@ -446,15 +671,20 @@ function renderFollowUps(suggestions = []) {
 
 function renderRetrievalTrace(result) {
   const trace = result.trace;
+  if (result.response_type === "conversation" || result.response_type === "scope") {
+    retrievalInspector.hidden = true;
+    return;
+  }
   retrievalInspector.hidden = false;
   traceSummary.textContent = `${trace.intent} intent / ${trace.retrieved} passages`;
   const metrics = [
     ["Target role", trace.role],
     ["Context", trace.context_used ? "Follow-up" : "Standalone"],
+    ["Corrections", Object.entries(trace.corrections || {}).map(([from, to]) => `${from} -> ${to}`).join(", ") || "None"],
     ["Candidates", trace.candidates],
     ["Top relevance", trace.top_score.toFixed(3)],
     ["Score margin", trace.score_margin.toFixed(3)],
-    ["Decision", result.abstained ? "Abstain" : "Answer"]
+    ["Decision", result.response_type === "generated" ? "Generated" : "Evidence-backed answer"]
   ];
   traceMetrics.innerHTML = metrics.map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("");
   evidenceList.innerHTML = result.citations.length ? result.citations.map((citation, index) => `
@@ -494,7 +724,7 @@ async function queryRag(question) {
   ragOutput.innerHTML = `
     <div class="answer-header">
       <span class="answer-icon">AI</span>
-      <div><strong>Thinking...</strong><small>Looking through Karan's portfolio</small></div>
+      <div><strong>Preparing an answer...</strong></div>
     </div>
   `;
 
@@ -504,13 +734,51 @@ async function queryRag(question) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: question, role: selectedRole, answer_mode: selectedAnswerMode, history: ragHistory })
     });
-    if (!response.ok) throw new Error("RAG API unavailable");
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      if (requestId === latestRagRequest) renderRequestError(error.error || "The question could not be processed.");
+      return;
+    }
     const result = await response.json();
     if (requestId === latestRagRequest) renderApiAnswer(result);
   } catch {
     if (requestId === latestRagRequest) renderAnswer(question);
   }
 }
+
+async function submitRagQuestion(question) {
+  const normalizedQuestion = String(question || "").trim();
+  if (!normalizedQuestion) return;
+  ragInput.value = "";
+  ragInput.focus();
+  await queryRag(normalizedQuestion);
+}
+
+async function typeAndSubmitProjectQuestion(question) {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ragInput.value = "";
+  ragInput.focus();
+  if (!reducedMotion) {
+    for (const character of question) {
+      ragInput.value += character;
+      await new Promise((resolve) => window.setTimeout(resolve, 18));
+    }
+    await new Promise((resolve) => window.setTimeout(resolve, 220));
+  } else {
+    ragInput.value = question;
+  }
+  await submitRagQuestion(question);
+}
+
+document.addEventListener("click", async (event) => {
+  const link = event.target.closest("[data-project-question]");
+  if (!link) return;
+  event.preventDefault();
+  const question = link.dataset.projectQuestion;
+  history.pushState(null, "", buildShareUrl(question, targetRole.value));
+  aiSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  await typeAndSubmitProjectQuestion(question);
+});
 
 function buildShareUrl(question, role) {
   const url = new URL(window.location.href);
@@ -540,8 +808,7 @@ async function loadSharedQuestion() {
   const role = params.get("role");
   if (!question) return;
   if ([...targetRole.options].some(option => option.value === role)) targetRole.value = role;
-  ragInput.value = question;
-  await queryRag(question);
+  await submitRagQuestion(question);
 }
 
 async function checkApiStatus() {
@@ -588,14 +855,12 @@ function renderEvaluationCases() {
 
 ragForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const question = ragInput.value.trim();
-  if (question) await queryRag(question);
+  await submitRagQuestion(ragInput.value);
 });
 
 promptButtons.forEach((button) => {
   button.addEventListener("click", async () => {
-    ragInput.value = button.dataset.question;
-    await queryRag(button.dataset.question);
+    await submitRagQuestion(button.dataset.question);
   });
 });
 
@@ -609,8 +874,7 @@ answerModeButtons.forEach((button) => {
 followUpPrompts.addEventListener("click", async (event) => {
   const button = event.target.closest("[data-follow-up]");
   if (!button) return;
-  ragInput.value = button.dataset.followUp;
-  await queryRag(button.dataset.followUp);
+  await submitRagQuestion(button.dataset.followUp);
 });
 
 clearConversation.addEventListener("click", () => {
@@ -619,9 +883,14 @@ clearConversation.addEventListener("click", () => {
   renderFollowUps();
   retrievalInspector.hidden = true;
   latestQuestion = "";
+  ragInput.value = "";
+  ragInput.focus();
   shareQuestion.disabled = true;
   shareStatus.textContent = "";
-  ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Conversation cleared</strong><small>Ask anything to begin again.</small></div></div>`;
+  conversationHistory.hidden = true;
+  conversationToggle.setAttribute("aria-expanded", "false");
+  conversationToggle.textContent = "Show history";
+  ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Conversation cleared</strong><small>Ask about Karan's work to begin again.</small></div></div>`;
 });
 
 shareQuestion.addEventListener("click", copyShareLink);
@@ -629,6 +898,8 @@ evaluationToggle.addEventListener("click", () => {
   evaluationExpanded = !evaluationExpanded;
   renderEvaluationCases();
 });
+
+window.KaranAI = Object.freeze({ capitalizeFirstAlpha });
 checkApiStatus();
 loadEvaluation();
 loadSharedQuestion();

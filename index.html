@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=30">
+  <link rel="stylesheet" href="styles.css?v=43">
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
 <body>
@@ -58,10 +58,15 @@
         <a href="#contact">Contact</a>
       </div>
       <div class="nav-actions">
+        <div class="nav-cta-links" aria-label="Recruiter links">
+          <a href="assets/karan-rajendra-resume.pdf" target="_blank" rel="noopener">Resume</a>
+          <a href="https://github.com/karan-rk" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/karan-rajendra" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="#contact">Contact</a>
+        </div>
         <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme">
           <span class="theme-icon" aria-hidden="true"></span>
         </button>
-        <a class="button button-small desktop-contact" href="mailto:karan.dee2905@gmail.com">Let's talk</a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
           <span></span><span></span>
         </button>
@@ -77,6 +82,8 @@
         <div class="mobile-menu-actions">
           <a class="button" href="assets/karan-rajendra-resume.pdf" target="_blank" rel="noopener">View resume</a>
           <a class="button button-outline" href="mailto:karan.dee2905@gmail.com">Let's talk</a>
+          <a class="button button-outline" href="https://github.com/karan-rk" target="_blank" rel="noopener">GitHub</a>
+          <a class="button button-outline" href="https://www.linkedin.com/in/karan-rajendra" target="_blank" rel="noopener">LinkedIn</a>
         </div>
         <button class="mobile-theme-toggle" type="button"><span class="theme-icon" aria-hidden="true"></span><strong>Switch theme</strong></button>
       </div>
@@ -91,9 +98,13 @@
       </div>
       <div class="hero-copy reveal">
         <p class="eyebrow"><span class="status-dot"></span> Software Engineering &middot; Machine Learning &middot; Applied AI</p>
+        <div class="hero-credentials" aria-label="Career highlights">
+          <strong>Former Meta / Instagram Software Engineer</strong>
+          <span>M.S. Computer Engineering @ Stony Brook University</span>
+        </div>
         <h1>I build scalable software and production-ready ML products.</h1>
         <p class="hero-text">
-          I'm Karan, a New York-based software and machine learning engineer. My work spans distributed backend services, billion-scale data pipelines, applied ML research, and end-to-end intelligent products.
+          Former Meta engineer building distributed backend systems and production-ready ML products, with experience processing 1.2B+ interactions at scale.
         </p>
         <div class="hero-actions">
           <a class="button" href="#projects">View selected projects</a>
@@ -123,62 +134,11 @@
         </div>
         <div class="hero-pipeline" aria-hidden="true"><span>Research</span><i></i><span>Build</span><i></i><span>Scale</span></div>
       </aside>
-    </section>
-
-    <section class="capabilities section container">
-      <div class="capabilities-heading reveal">
-        <div>
-          <p class="section-kicker">Core strengths</p>
-          <h2>Engineering across systems, data, and intelligent products.</h2>
-        </div>
-        <p>I build the software foundations, data workflows, and machine learning capabilities needed to take ideas into production.</p>
-      </div>
-
-      <div class="capability-grid">
-        <article class="capability-card reveal">
-          <div class="capability-visual model-visual" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-            <i></i><i></i><i></i>
-          </div>
-          <p class="capability-number">01 / Backend</p>
-          <h3>Backend &amp; Distributed Systems</h3>
-          <p>Build APIs, Kafka/gRPC services, async workflows, and fault-tolerant systems that stay reliable under load.</p>
-          <div class="capability-proof"><strong>+25%</strong><span>throughput improvement</span></div>
-          <div class="capability-tags"><span>C++</span><span>Python</span><span>Kafka</span><span>gRPC</span></div>
-        </article>
-
-        <article class="capability-card capability-featured reveal">
-          <div class="capability-visual systems-visual" aria-hidden="true">
-            <span>API</span><i></i><span>ML</span><i></i><span>DATA</span>
-          </div>
-          <p class="capability-number">02 / Machine Learning</p>
-          <h3>Applied ML &amp; AI Products</h3>
-          <p>Develop predictive models, NLP systems, retrieval workflows, and real-time inference experiences built around real users.</p>
-          <div class="capability-proof"><strong>40%</strong><span>inference latency reduction</span></div>
-          <div class="capability-tags"><span>PyTorch</span><span>NLP</span><span>RAG</span><span>FastAPI</span></div>
-        </article>
-
-        <article class="capability-card reveal">
-          <div class="capability-visual deploy-visual" aria-hidden="true">
-            <span>Ingest</span><i></i><span>Process</span><i></i><span>Serve</span>
-          </div>
-          <p class="capability-number">03 / Data Engineering</p>
-          <h3>Data Platforms &amp; Analytics</h3>
-          <p>Design scalable pipelines, behavioral signals, and monitoring workflows that turn large datasets into useful decisions.</p>
-          <div class="capability-proof"><strong>1.2B</strong><span>user pairs processed</span></div>
-          <div class="capability-tags"><span>Spark</span><span>SQL</span><span>Kafka</span><span>Analytics</span></div>
-        </article>
-
-        <article class="capability-card reveal">
-          <div class="capability-visual deploy-visual" aria-hidden="true">
-            <span>Build</span><i></i><span>Ship</span><i></i><span>Observe</span>
-          </div>
-          <p class="capability-number">04 / Production Delivery</p>
-          <h3>Deployment &amp; Reliability</h3>
-          <p>Package, deploy, monitor, and improve software and ML workloads using repeatable delivery and cloud infrastructure.</p>
-          <div class="capability-proof"><strong>20%</strong><span>runtime overhead reduction</span></div>
-          <div class="capability-tags"><span>Docker</span><span>Kubernetes</span><span>CI/CD</span><span>AWS</span></div>
-        </article>
+      <div class="hero-impact-row reveal" aria-label="Selected measurable impact">
+        <div><strong data-count="1.2" data-suffix="B">1.2B</strong><span>user pairs processed</span></div>
+        <div><strong data-count="500" data-suffix="M">500M</strong><span>users analyzed</span></div>
+        <div><strong data-count="5" data-suffix="x">5x</strong><span>pipeline performance improvement</span></div>
+        <div><strong data-count="40" data-suffix="%">40%</strong><span>inference latency reduction</span></div>
       </div>
     </section>
 
@@ -299,18 +259,18 @@
           <p>Selected work across full-stack products, applied machine learning, reliable systems, and production delivery.</p>
         </div>
         <div class="projects-grid">
-          <article class="project-card project-infra reveal" id="project-cloud-infrastructure">
-            <div class="project-topline"><p class="project-number">02 / Full-stack system</p><span>Source available</span></div>
+          <article class="project-card project-infra project-supporting reveal" id="project-cloud-infrastructure">
+            <div class="project-topline"><p class="project-number">Full-stack system</p><span>Architecture + source</span></div>
             <div class="project-visual infra-project-visual real-project-shot">
-              <img src="assets/aws-three-tier-warm-standby-architecture.gif" alt="Detailed AWS warm standby disaster recovery architecture with frontend, backend, database, backup, and regional failover components">
+              <img src="assets/aws-three-tier-warm-standby-architecture.gif" loading="lazy" decoding="async" alt="Animated AWS warm standby disaster recovery architecture showing frontend, backend, database, backup, and regional failover components">
               <span class="screenshot-label">Warm-standby architecture</span>
             </div>
             <div class="project-summary">
               <p class="project-tag">Full-stack engineering / Three-tier architecture</p>
               <h3>AWS Three-Tier Book Application</h3>
-              <p>Full-stack CRUD application separating a React presentation layer, Node.js REST API, and MySQL data layer for AWS deployment.</p>
+              <p>Designed a resilient AWS-ready book platform that separates the user interface, API, and database so each layer can scale, recover, and evolve independently.</p>
               <div class="project-stack"><span>React</span><span>Node.js</span><span>Express</span><span>MySQL</span><span>AWS</span></div>
-              <div class="project-results"><span><strong>3-tier</strong> architecture</span><span><strong>REST</strong> CRUD API</span><span><strong>RDS-ready</strong> database</span></div>
+              <div class="project-results"><span><strong>Reliability</strong> design</span><span><strong>Regional</strong> failover</span><span><strong>Independent</strong> scaling</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="https://github.com/karan-rk/aws-three-tier-book-app" target="_blank" rel="noopener">View source <span>&nearr;</span></a>
                 <a class="project-action-secondary" href="projects/aws-three-tier/architecture.html" target="_blank" rel="noopener">View full architecture <span>&nearr;</span></a>
@@ -318,48 +278,54 @@
               </div>
             </div>
             <div class="project-details" aria-hidden="true">
-              <div><span>Architecture</span><p>Separated the application into React presentation, Express application, and MySQL data tiers.</p></div>
-              <div><span>Backend</span><p>Built REST endpoints for listing, creating, updating, and deleting books with environment-based database configuration.</p></div>
-              <div><span>Cloud path</span><p>Prepared the application for an AWS deployment using a hosted frontend, Node.js API service, and Amazon RDS MySQL database.</p></div>
+              <div><span>Problem</span><p>Build a maintainable web application that can scale beyond a single server and continue serving users during infrastructure failures.</p></div>
+              <div><span>Technical challenge</span><p>Keep presentation, application logic, persistence, and regional recovery independently deployable without making the product workflow feel fragmented.</p></div>
+              <div><span>Key decision</span><p>Separated presentation, application, and data responsibilities so each tier can be deployed, scaled, secured, and replaced independently.</p></div>
+              <div><span>Result</span><p>Delivered a functional three-tier product with a clear AWS deployment path using hosted frontend infrastructure, an API service, and Amazon RDS.</p></div>
+              <div><span>Production readiness</span><p>Designed a warm-standby architecture using health checks, load balancing, Auto Scaling, backups, and regional failover.</p></div>
             </div>
           </article>
-          <article class="project-card project-dark reveal" id="project-sentinel">
-            <div class="project-topline"><p class="project-number">03 / Predictive system</p><span>Live MVP</span></div>
+          <article class="project-card project-dark project-supporting reveal" id="project-sentinel">
+            <div class="project-topline"><p class="project-number">Predictive system</p><span>Interactive MVP</span></div>
             <div class="project-visual risk-visual" aria-hidden="true">
-              <div class="risk-chart"><i></i><i></i><i></i><i></i><i></i><b></b></div>
-              <div class="risk-score"><span>Risk score</span><strong>0.82</strong><small>High priority</small></div>
+              <div class="risk-flow">
+                <span><b>01</b>Records</span><i></i><span><b>02</b>Validate</span><i></i><span><b>03</b>Calibrate</span><i></i><span><b>04</b>Explain</span><i></i><span><b>05</b>Act</span>
+              </div>
+              <div class="risk-decision"><span>Decision output</span><strong>High priority</strong><small>Calibrated risk + local explanation</small></div>
             </div>
             <div class="project-summary">
               <p class="project-tag">Predictive modeling / Intervention analysis</p>
               <h3>High-Risk Counterparty Prediction</h3>
-              <p>Reproducible risk-ranking system that benchmarks three models on 20K synthetic longitudinal records, then deploys the measured temporal-holdout champion.</p>
+              <p>Built an explainable risk-ranking workflow that helps analysts prioritize counterparties likely to enter a watchlist within 90 days.</p>
               <div class="project-stack"><span>Model Benchmarking</span><span>Temporal Validation</span><span>Probability Calibration</span><span>Local Explanations</span><span>IPW</span></div>
               <div class="project-results"><span><strong>0.724</strong> ROC-AUC</span><span><strong>0.0197</strong> calibrated ECE</span><span><strong>Logistic</strong> champion</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="projects/counterparty-risk/index.html" target="_blank" rel="noopener">Launch Sentinel <span>&nearr;</span></a>
+                <a class="project-action-secondary" href="projects/counterparty-risk/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
                 <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
               </div>
             </div>
             <div class="project-details" aria-hidden="true">
               <div><span>Problem</span><p>Prioritize counterparties likely to enter a watchlist within 90 days while keeping the action queue inspectable.</p></div>
-              <div><span>System flow</span><p>Longitudinal records are validated and transformed into leakage-safe features, candidate models are benchmarked on a temporal holdout, calibrated risk scores are ranked, and local explanations make each prediction inspectable.</p></div>
-              <div><span>Approach</span><p>Leakage-safe benchmarking across three models, Platt probability calibration, exact local Logistic Regression contributions, and inverse propensity weighting.</p></div>
-              <div><span>Evaluation</span><p>Months 1-18 train the model; months 19-24 form a strict temporal holdout to reduce leakage.</p></div>
+              <div><span>Technical challenge</span><p>Prevent temporal leakage while producing calibrated, explainable predictions that analysts can inspect before acting.</p></div>
+              <div><span>Key decision</span><p>Used a strict temporal holdout and selected Logistic Regression as the measured champion, favoring dependable ranking and inspectable local contributions.</p></div>
+              <div><span>Result</span><p>Achieved 0.724 ROC-AUC and 0.0197 calibrated expected calibration error while producing an actionable ranked queue.</p></div>
+              <div><span>Production readiness</span><p>Included probability calibration, risk bands, local explanations, intervention analysis, and monitoring outputs so analysts can review and act on predictions.</p></div>
             </div>
           </article>
-          <article class="project-card project-accent reveal" id="project-speech">
-            <div class="project-topline"><p class="project-number">01 / Applied ML product</p><span>Featured case study</span></div>
+          <article class="project-card project-accent project-featured reveal" id="project-speech">
+            <div class="project-topline"><p class="project-number">Applied ML product</p><span>Live demo</span></div>
             <div class="project-visual speech-visual real-project-shot">
-              <img src="assets/speech-emotion-app.png" alt="Speech Emotion Detection application showing the emotion journal, recorder, and audio upload interface">
+              <img src="assets/speech-emotion-app.png" loading="lazy" decoding="async" alt="Speech Emotion Detection application showing the emotion journal, recorder, and audio upload interface">
               <span class="screenshot-label">Real product UI</span>
               <div class="emotion-result"><span>Model scope</span><strong>8 emotions</strong><small>73% test accuracy</small></div>
             </div>
             <div class="project-summary">
               <p class="project-tag">Deep learning / Real-time inference</p>
               <h3>Speech Emotion Detection</h3>
-              <p>Full-stack mental-health journaling application that records or uploads speech, predicts emotion with confidence, and saves editable audio journal entries.</p>
+              <p>Built a full-stack speech journal that turns recorded audio into emotion predictions, confidence scores, and editable reflections.</p>
               <div class="project-stack"><span>Keras</span><span>Librosa</span><span>FastAPI</span><span>React</span><span>Framer Motion</span></div>
-              <div class="project-results"><span><strong>12,162</strong> source audio clips</span><span><strong>8</strong> emotion classes</span><span><strong>73%</strong> test accuracy</span></div>
+              <div class="project-results"><span><strong>73%</strong> test accuracy</span><span><strong>40%</strong> lower API latency</span><span><strong>12,162</strong> source audio clips</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="projects/speech-emotion-detection/live/index.html" target="_blank" rel="noopener">Launch live demo <span>&nearr;</span></a>
                 <a class="project-action-secondary" href="projects/speech-emotion-detection/pipeline.html" target="_blank" rel="noopener">Explore ML pipeline <span>&nearr;</span></a>
@@ -368,57 +334,62 @@
             </div>
             <div class="project-details" aria-hidden="true">
               <div><span>Problem</span><p>Help users recognize emotional patterns from speech and reflect on them through a persistent audio journal.</p></div>
-              <div><span>System flow</span><p>The React client records or uploads audio, FastAPI validates it, the feature pipeline extracts acoustic representations, the trained classifier returns emotion probabilities, and the journal stores the result with user notes.</p></div>
-              <div><span>Model</span><p>Extracted ZCR, chroma, MFCC, RMS, and mel-spectrogram features from RAVDESS, CREMA-D, TESS, and SAVEE, then trained a CNN-BiLSTM-Attention classifier with five-fold validation.</p></div>
-              <div><span>Product</span><p>React users can record or upload audio, view the predicted emotion and confidence, replay entries, and edit journal notes through FastAPI endpoints.</p></div>
+              <div><span>Technical challenge</span><p>Turn variable-length, noisy audio into a consistent real-time inference path while preserving enough context for reliable eight-class predictions.</p></div>
+              <div><span>Key decision</span><p>Combined CNN feature learning, bidirectional sequence modeling, and attention across ZCR, chroma, MFCC, RMS, and mel-spectrogram features.</p></div>
+              <div><span>Result</span><p>Trained across 12,162 source clips, predicted eight emotion classes, reached 73 percent test accuracy, and reduced API latency by 40 percent.</p></div>
+              <div><span>Production readiness</span><p>Deployed the inference path with Docker and Google Cloud Run and supported more than 100 real-time inference requests.</p></div>
             </div>
           </article>
-          <article class="project-card project-rag reveal" id="project-portfolio-ai">
+          <article class="project-card project-rag project-featured reveal" id="project-portfolio-ai">
             <div class="project-rag-copy">
-              <div class="project-topline"><p class="project-number">04 / Retrieval systems</p><span>Live prototype</span></div>
+              <div class="project-topline"><p class="project-number">Conversational AI system</p><span>Live portfolio feature</span></div>
               <div class="project-summary">
-                <p class="project-tag">Hybrid retrieval / Grounded generation</p>
+                <p class="project-tag">Conversational AI / Recruiter experience</p>
                 <h3>AI Portfolio Assistant</h3>
-                <p>A recruiter-facing assistant that answers questions about my experience, skills, projects, and measurable impact using cited portfolio evidence.</p>
-                <div class="project-stack"><span>Python</span><span>Evidence Retrieval</span><span>Confidence Gate</span><span>Citations</span></div>
-                <div class="project-results"><span><strong>4</strong> evidence sources</span><span><strong>15</strong> recruiter scenarios</span><span><strong>14</strong> focused evidence chunks</span></div>
+                <p>Built a conversational portfolio guide that helps recruiters quickly understand my experience, projects, architecture decisions, and role fit.</p>
+                <div class="project-stack"><span>Python</span><span>Evidence Retrieval</span><span>Confidence Gate</span><span>Conversation</span></div>
+                <div class="project-results"><span><strong>21</strong> evaluation scenarios</span><span><strong>Reliable</strong> offline answers</span><span><strong>Automated</strong> workflows</span></div>
                 <div class="project-actions">
                   <a class="project-action-primary" href="#rag-lab">Ask portfolio AI <span>&darr;</span></a>
+                  <a class="project-action-secondary" href="projects/portfolio-ai/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
                   <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
                 </div>
               </div>
               <div class="project-details" aria-hidden="true">
-                <div><span>Problem</span><p>Generate useful answers without losing traceability to trusted source material.</p></div>
-                <div><span>System flow</span><p>A question is classified by intent, matched against trusted portfolio chunks, reranked for relevance, checked against a confidence threshold, and converted into a cited answer or a deliberate abstention.</p></div>
-                <div><span>Approach</span><p>Intent-aware lexical and semantic-style ranking retrieves the strongest chunks before building an evidence-backed response.</p></div>
-                <div><span>Reliability</span><p>Health checks, citations, confidence labels, automated retrieval tests, and an offline frontend fallback keep the demo dependable.</p></div>
+                <div><span>Problem</span><p>Recruiters should be able to understand a candidate's work quickly without searching through every project card and resume bullet.</p></div>
+                <div><span>Technical challenge</span><p>Answer natural and typo-heavy recruiter questions without inventing claims, even when the generative AI backend is unavailable.</p></div>
+                <div><span>Key decision</span><p>Separated verified portfolio content from the interface so answers remain accurate while the content stays easy to update.</p></div>
+                <div><span>Result</span><p>The assistant answers natural recruiter questions about experience, projects, skills, architecture, and role fit, even when general AI is offline.</p></div>
+                <div><span>Production readiness</span><p>Uses confidence checks, deliberate abstentions, request validation, conversational edge-case handling, and a 21-scenario evaluation suite.</p></div>
               </div>
             </div>
             <div class="project-visual rag-project-visual" aria-hidden="true">
               <div class="rag-project-query">What impact did Karan have at Meta?</div>
-              <div class="rag-project-flow"><span>Query</span><i></i><span>Retrieve</span><i></i><span>Rerank</span><i></i><span>Cite</span></div>
-              <div class="rag-project-answer"><b>Evidence-backed answer</b><small>High confidence / portfolio citations</small><em></em><em></em><em></em></div>
+              <div class="rag-project-flow"><span>Ask</span><i></i><span>Understand</span><i></i><span>Answer</span><i></i><span>Follow up</span></div>
+              <div class="rag-project-answer"><b>Clear recruiter answer</b><small>Natural questions / verified portfolio context</small><em></em><em></em><em></em></div>
             </div>
           </article>
-          <article class="project-card project-match reveal" id="project-rolefit">
+          <article class="project-card project-match project-featured reveal" id="project-rolefit">
             <div class="project-match-copy">
-              <div class="project-topline"><p class="project-number">05 / Explainable NLP product</p><span>Live MVP</span></div>
+              <div class="project-topline"><p class="project-number">Resume analysis product</p><span>Interactive MVP</span></div>
               <div class="project-summary">
-                <p class="project-tag">Information retrieval / Product analytics</p>
+                <p class="project-tag">Resume analysis / Product UX</p>
                 <h3>RoleFit Resume Analyzer</h3>
-                <p>An upload-first resume improvement workspace with target-role scoring, ATS checks, evidence-safe bullet rewrites, and before-and-after comparison.</p>
+                <p>Built a resume improvement workspace that shows candidates what is working, what is missing, and how to improve without inventing achievements.</p>
                 <div class="project-stack"><span>JavaScript</span><span>Python</span><span>PDF Parsing</span><span>Evidence-Safe Rewrites</span></div>
-                <div class="project-results"><span><strong>4</strong> target roles</span><span><strong>ATS</strong> compatibility report</span><span><strong>Before/after</strong> comparison</span></div>
+                <div class="project-results"><span><strong>4</strong> role workflows</span><span><strong>Evidence-safe</strong> guidance</span><span><strong>Automated</strong> comparison</span></div>
                 <div class="project-actions">
                   <a class="project-action-primary" href="projects/resume-job-match/index.html" target="_blank" rel="noopener">Launch RoleFit <span>&nearr;</span></a>
+                  <a class="project-action-secondary" href="projects/resume-job-match/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
                   <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
                 </div>
               </div>
               <div class="project-details" aria-hidden="true">
                 <div><span>Problem</span><p>Resume reviews are often vague and do not explain which evidence is strong or which bullets need improvement.</p></div>
-                <div><span>System flow</span><p>The uploaded PDF is parsed into resume sections, scored against the selected role and ATS checks, then converted into traceable recommendations and evidence-safe before-and-after rewrites.</p></div>
-                <div><span>Approach</span><p>Weighted analysis combines general resume quality, role-specific skill expectations, ATS text checks, impact signals, and section quality.</p></div>
-                <div><span>Product</span><p>Upload an original and revised PDF to measure improvements, with rewrite suggestions that preserve evidence and never invent metrics.</p></div>
+                <div><span>Technical challenge</span><p>Convert inconsistent resume PDFs into useful recommendations while ensuring every suggested rewrite remains grounded in the candidate's existing evidence.</p></div>
+                <div><span>Key decision</span><p>Kept recommendations deterministic and evidence-safe so every rewrite remains grounded in facts already present in the resume.</p></div>
+                <div><span>Result</span><p>Turns a resume into prioritized, role-specific improvements instead of a generic score or unexplained checklist.</p></div>
+                <div><span>Production readiness</span><p>Handles uploaded PDFs through the portfolio backend and provides inspectable scoring, compatibility checks, and before-and-after validation.</p></div>
               </div>
             </div>
             <div class="project-visual match-project-visual" aria-hidden="true">
@@ -431,18 +402,18 @@
               <div class="match-tags"><span>Python</span><span>PyTorch</span><span>+ SQL</span><em>Kubernetes gap</em></div>
             </div>
           </article>
-          <article class="project-card project-gitops reveal" id="project-gitops-todo">
-            <div class="project-topline"><p class="project-number">06 / GitOps delivery</p><span>Source available</span></div>
+          <article class="project-card project-gitops project-supporting reveal" id="project-gitops-todo">
+            <div class="project-topline"><p class="project-number">GitOps delivery</p><span>Architecture + source</span></div>
             <a class="project-visual gitops-project-visual real-project-shot" href="projects/eks-gitops/architecture.html" target="_blank" rel="noopener" aria-label="View and understand the full EKS GitOps architecture">
-              <img src="assets/eks-gitops-architecture.gif" alt="GitOps delivery architecture showing CircleCI, Docker registry, Terraform, Argo CD, and Amazon EKS">
+              <img src="assets/eks-gitops-architecture.gif" loading="lazy" decoding="async" alt="Animated GitOps delivery architecture showing CircleCI, Docker registry, Terraform, Argo CD, and Amazon EKS">
               <span class="screenshot-label">View full architecture</span>
             </a>
             <div class="project-summary">
               <p class="project-tag">Cloud engineering / Continuous delivery</p>
               <h3>EKS GitOps Todo Application</h3>
-              <p>Containerized React application with a CircleCI pipeline and an Argo CD GitOps delivery path to Amazon EKS.</p>
+              <p>Built a GitOps delivery workflow that separates image creation from Kubernetes deployment, making releases repeatable and recoverable.</p>
               <div class="project-stack"><span>React</span><span>Docker</span><span>CircleCI</span><span>Argo CD</span><span>Amazon EKS</span></div>
-              <div class="project-results"><span><strong>Multi-stage</strong> Docker build</span><span><strong>GitOps</strong> delivery</span><span><strong>EKS</strong> deployment path</span></div>
+              <div class="project-results"><span><strong>GitOps</strong> automation</span><span><strong>Repeatable</strong> releases</span><span><strong>Drift</strong> recovery</span></div>
               <div class="project-actions">
                 <a class="project-action-primary" href="https://github.com/karan-rk/eks-gitops-todo-app" target="_blank" rel="noopener">View source <span>&nearr;</span></a>
                 <a class="project-action-secondary" href="projects/eks-gitops/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
@@ -450,9 +421,11 @@
               </div>
             </div>
             <div class="project-details" aria-hidden="true">
-              <div><span>Application</span><p>Built a React Todo application with add, edit, complete, and delete workflows.</p></div>
-              <div><span>Pipeline</span><p>Configured CircleCI to build and publish versioned container images, then update a Kubernetes manifest repository.</p></div>
-              <div><span>Delivery</span><p>Designed a declarative deployment path where Argo CD synchronizes manifest changes to Amazon EKS.</p></div>
+              <div><span>Problem</span><p>Deploy application changes to Kubernetes consistently while keeping the desired production state reviewable and easy to recover.</p></div>
+              <div><span>Technical challenge</span><p>Make releases repeatable and recoverable while separating image creation from the production cluster's declared desired state.</p></div>
+              <div><span>Key decision</span><p>Separated continuous integration from deployment: CircleCI publishes versioned images, while Argo CD reconciles the approved manifest state.</p></div>
+              <div><span>Result</span><p>Delivered a repeatable path from source commit to a containerized application running on Amazon EKS.</p></div>
+              <div><span>Production readiness</span><p>Versioned images, declarative manifests, health checks, replacement pods, and continuous reconciliation improve release safety and recovery.</p></div>
             </div>
           </article>
         </div>
@@ -475,10 +448,10 @@
       <div class="container">
         <div class="section-heading reveal">
           <div>
-            <p class="section-kicker">Ask me anything</p>
-            <h2>Talk with Karan AI.</h2>
+            <p class="section-kicker">Supporting portfolio guide</p>
+            <h2>Have a specific question?</h2>
           </div>
-          <p>Ask anything. Karan AI can answer general questions and already knows my resume, experience, projects, skills, and research.</p>
+          <p>Use Karan AI to quickly find relevant experience, projects, architecture decisions, and role-fit details.</p>
         </div>
 
         <div class="rag-shell reveal">
@@ -495,7 +468,7 @@
               <div class="source-item"><span>02</span><div><strong>Projects</strong><small>Software and ML case studies</small></div></div>
               <div class="source-item"><span>03</span><div><strong>Skills</strong><small>Technical toolkit</small></div></div>
               <div class="source-item"><span>04</span><div><strong>Resume</strong><small>Profile and education</small></div></div>
-              <div class="index-status"><span class="status-dot"></span><div><strong>Portfolio indexed</strong><small id="index-stats">4 sources / 14 evidence chunks</small></div></div>
+              <div class="index-status"><span class="status-dot"></span><div><strong>Portfolio indexed</strong><small id="index-stats">5 sources / 29 evidence chunks</small></div></div>
             </aside>
 
             <div class="rag-console">
@@ -508,10 +481,11 @@
               </div>
 
               <div class="suggested-prompts" aria-label="Suggested questions">
-                <button type="button" data-question="Tell me about yourself">Tell me about yourself</button>
-                <button type="button" data-question="What software engineering impact has Karan delivered?">Software engineering impact</button>
-                <button type="button" data-question="What machine learning systems has Karan built?">Machine learning work</button>
                 <button type="button" data-question="Why is Karan a strong candidate?">Why hire Karan?</button>
+                <button type="button" data-question="What is Karan's most relevant experience?">Most relevant experience</button>
+                <button type="button" data-question="What backend engineering work has Karan done?">Backend engineering work</button>
+                <button type="button" data-question="What machine learning projects has Karan built?">Machine learning projects</button>
+                <button type="button" data-question="Summarize Karan's resume">Resume summary</button>
               </div>
 
               <div class="role-selector">
@@ -526,23 +500,23 @@
               <div class="answer-mode-selector" aria-label="Answer detail">
                 <span>Answer style</span>
                 <div>
-                  <button class="active" type="button" data-answer-mode="short">Short</button>
-                  <button type="button" data-answer-mode="detailed">Detailed</button>
+                  <button type="button" data-answer-mode="short">Short</button>
+                  <button class="active" type="button" data-answer-mode="detailed">Detailed</button>
                   <button type="button" data-answer-mode="bullets">Bullets</button>
                 </div>
               </div>
 
               <div class="conversation-header">
                 <span>Conversation</span>
-                <button id="clear-conversation" type="button">Clear</button>
+                <div><button id="conversation-toggle" type="button" aria-expanded="false" aria-controls="conversation-history">Show history</button><button id="clear-conversation" type="button">Clear</button></div>
               </div>
-              <div class="conversation-history" id="conversation-history">
-                <p>Start with a suggested question or ask anything about Karan.</p>
+              <div class="conversation-history" id="conversation-history" hidden>
+                <p>Start with a suggested question or ask about Karan's work.</p>
               </div>
 
               <form class="rag-form" id="rag-form">
                 <label class="sr-only" for="rag-question">Ask Karan AI a question</label>
-                <input id="rag-question" type="text" placeholder="Ask anything..." autocomplete="off">
+                <input id="rag-question" type="text" placeholder="Ask about Karan's work..." maxlength="500" autocomplete="off">
                 <button type="submit">Ask</button>
               </form>
               <div class="share-row">
@@ -551,7 +525,7 @@
               </div>
 
               <div class="rag-output" id="rag-output" aria-live="polite">
-                <div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask me anything. I also know Karan's complete portfolio background.</small></div></div>
+                <div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask about Karan's work, projects, skills, architecture, or resume.</small></div></div>
               </div>
               <div class="follow-up-prompts" id="follow-up-prompts" hidden></div>
               <div class="retrieval-inspector" id="retrieval-inspector" hidden>
@@ -606,28 +580,28 @@
           <h3>Software &amp; Distributed Systems</h3>
           <p>Building reliable services, APIs, concurrent systems, and product interfaces with the right language for each layer.</p>
           <div class="skill-chips"><span>Python</span><span>C++</span><span>Java</span><span>JavaScript</span><span>TypeScript</span><span>SQL</span><span>Kafka</span><span>gRPC</span><span>REST APIs</span><span>Microservices</span></div>
-          <small>Core languages: Python, C++, Java, JavaScript, TypeScript, SQL, and Scala</small>
+          <small>Evidence: Python in Meta pipelines and Portfolio AI; Kafka and gRPC in distributed systems research.</small>
         </article>
         <article class="skill-card skill-featured reveal">
           <div class="skill-card-top"><span>02</span><p>Model intelligence</p></div>
           <h3>Machine Learning &amp; Applied AI</h3>
           <p>Training, fine-tuning, evaluating, and serving modern predictive, deep-learning, NLP, and retrieval systems.</p>
           <div class="skill-chips"><span>PyTorch</span><span>TensorFlow</span><span>Scikit-learn</span><span>Hugging Face</span><span>Transformers</span><span>LoRA</span><span>NLP</span><span>Deep Learning</span><span>Model Evaluation</span><span>Predictive Modeling</span></div>
-          <small>Applied across persuasion research, speech systems, risk modeling, and AI products</small>
+          <small>Evidence: persuasion research, Speech Emotion Detection, Sentinel, and Portfolio AI.</small>
         </article>
         <article class="skill-card reveal">
           <div class="skill-card-top"><span>03</span><p>Data at scale</p></div>
           <h3>Data Engineering &amp; Analytics</h3>
           <p>Designing large-scale pipelines, data models, analytical workflows, and dependable persistence layers.</p>
           <div class="skill-chips"><span>Spark</span><span>SQL</span><span>Hive</span><span>HDFS</span><span>PostgreSQL</span><span>MySQL</span><span>MongoDB</span><span>Redis</span><span>Tableau</span><span>Power BI</span></div>
-          <small>Applied from billion-scale behavioral data to product monitoring and analysis</small>
+          <small>Evidence: Meta's billion-scale pipeline, behavioral analysis, and product dashboards.</small>
         </article>
         <article class="skill-card reveal">
           <div class="skill-card-top"><span>04</span><p>Production lifecycle</p></div>
           <h3>Cloud, DevOps &amp; Reliability</h3>
           <p>Deploying, monitoring, profiling, and improving software and ML workloads after launch.</p>
           <div class="skill-chips"><span>AWS</span><span>GCP</span><span>Docker</span><span>Kubernetes</span><span>Terraform</span><span>GitHub Actions</span><span>CI/CD</span><span>Linux</span><span>GDB</span><span>Valgrind</span><span>perf</span><span>W&amp;B</span></div>
-          <small>Used for automated delivery, multi-node systems, observability, and performance tuning</small>
+          <small>Evidence: AWS three-tier architecture, EKS GitOps, Docker delivery, and systems profiling.</small>
         </article>
       </div>
     </section>
@@ -641,19 +615,21 @@
       <div class="education-cards">
         <article class="education-card education-primary reveal">
           <div class="education-card-top">
-            <div class="education-logo"><img src="assets/brands/stony-brook.jpg" alt="Stony Brook University"></div>
+            <div class="education-logo"><img src="assets/brands/stony-brook.jpg" loading="lazy" decoding="async" alt="Stony Brook University"></div>
             <span>2024 - 2026</span>
           </div>
           <p class="degree-label">Master of Science</p>
           <h3>Computer Engineering</h3>
           <div class="education-stats"><div><strong>3.9</strong><span>GPA / 4.0</span></div><div><strong>NY</strong><span>Stony Brook</span></div></div>
           <div class="coursework"><span>Machine Learning</span><span>Deep Learning</span><span>NLP</span><span>Distributed Systems</span></div>
+          <div class="education-focus"><strong>Specialization</strong><span>Production ML, distributed systems, reliable software, and human-centered AI.</span></div>
         </article>
         <article class="education-card reveal">
           <div class="education-card-top"><div class="school-monogram" aria-hidden="true">VTU</div><span>2019 - 2023</span></div>
           <p class="degree-label">Bachelor of Engineering</p>
           <h3>Computer Science</h3>
           <p class="school-name">Visvesvaraya Technological University</p>
+          <div class="coursework"><span>Algorithms</span><span>Operating Systems</span><span>Databases</span><span>Software Engineering</span></div>
           <div class="education-focus"><strong>Foundation</strong><span>Computer science, algorithms, software engineering, and data systems.</span></div>
         </article>
       </div>
@@ -662,12 +638,14 @@
     <section class="contact section container reveal" id="contact">
       <div class="contact-main">
         <p class="section-kicker">Let's build something useful</p>
-        <h2>Have a challenging engineering problem?</h2>
-        <p>I'm interested in software and machine learning engineering opportunities where scalable systems and intelligent products create real-world impact.</p>
-        <div class="contact-status"><span class="status-dot"></span><strong>Available for software &amp; ML engineering opportunities</strong><small>New York, NY / Open to relocation</small></div>
+        <h2>Available for Software Engineering, Backend Engineering, and Applied AI opportunities.</h2>
+        <p>Looking for an engineer who can connect scalable systems, data, and practical machine learning? Let's talk.</p>
+        <div class="contact-status"><span class="status-dot"></span><strong>Available for high-impact engineering opportunities</strong><small>New York, NY / Open to relocation</small></div>
         <div class="contact-actions">
-          <a class="button button-light" href="mailto:karan.dee2905@gmail.com">Start a conversation <span>&nearr;</span></a>
+          <a class="button button-light" href="mailto:karan.dee2905@gmail.com">Email me <span>&nearr;</span></a>
           <a class="button contact-outline" href="assets/karan-rajendra-resume.pdf" target="_blank" rel="noopener">View resume</a>
+          <a class="button contact-outline" href="https://www.linkedin.com/in/karan-rajendra" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="button contact-outline" href="https://github.com/karan-rk" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
       <div class="contact-panel">
@@ -676,7 +654,7 @@
         <a href="tel:+16313712656"><span>Phone</span><strong>(631) 371-2656</strong><i>&nearr;</i></a>
         <div class="contact-focus">
           <span>Interested in</span>
-          <div><strong>Software Engineering</strong><strong>Machine Learning</strong><strong>Applied AI</strong></div>
+          <div><strong>Software Engineering</strong><strong>Backend Engineering</strong><strong>Applied AI</strong></div>
         </div>
       </div>
     </section>
@@ -685,10 +663,10 @@
   <button class="return-to-assistant" id="return-to-assistant" type="button" hidden>Return to Portfolio AI <span>&uarr;</span></button>
 
   <footer class="container">
-    <p>Â© <span id="year"></span> Karan Rajendra</p>
+    <p>&copy; <span id="year"></span> Karan Rajendra</p>
     <p>New York, NY</p>
   </footer>
 
-  <script src="script.js?v=21"></script>
+  <script src="script.js?v=40"></script>
 </body>
 </html>

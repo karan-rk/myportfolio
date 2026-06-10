@@ -229,6 +229,8 @@
       }
       .intro, .explanation-grid { grid-template-columns: 1fr; }
     }
+    .eyebrow, .flow span, figcaption, .summary-list strong, a, .steps li::before { font-size: 11px; }
+    a { min-height: 44px; display: inline-flex; align-items: center; }
   </style>
 </head>
 <body>
@@ -243,7 +245,7 @@
   <main>
     <section class="intro">
       <div class="panel">
-        <p class="eyebrow">Architecture meaning</p>
+        <p class="eyebrow">System Objective</p>
         <h2>A resilient three-tier web application with a warm standby region.</h2>
         <p>The application separates the web, application, and database layers so each tier can scale and fail independently. A smaller secondary-region environment remains ready to take production traffic if the primary region becomes unavailable.</p>
         <div class="flow" aria-label="Normal request path">
@@ -262,23 +264,23 @@
 
     <section class="architecture-grid" aria-label="AWS architecture diagrams">
       <figure>
-        <figcaption><span>01</span> Full Warm-Standby Architecture</figcaption>
-        <a href="../../assets/aws-three-tier-warm-standby-architecture.gif" target="_blank" rel="noopener" aria-label="Open warm-standby architecture at full resolution">
-          <img src="../../assets/aws-three-tier-warm-standby-architecture.gif" alt="Detailed AWS warm standby disaster recovery architecture with frontend, backend, database, backup, and regional failover components">
+        <figcaption><span>Architecture Diagram</span> Full Warm-Standby Architecture</figcaption>
+        <a href="../../assets/aws-three-tier-warm-standby-architecture.webp" target="_blank" rel="noopener" aria-label="Open warm-standby architecture at full resolution">
+          <img src="../../assets/aws-three-tier-warm-standby-architecture.webp" loading="lazy" decoding="async" alt="Detailed AWS warm standby disaster recovery architecture with frontend, backend, database, backup, and regional failover components">
         </a>
       </figure>
 
       <figure>
         <figcaption><span>02</span> Failover Overview</figcaption>
-        <a href="../../assets/aws-three-tier-failover-preview.gif" target="_blank" rel="noopener" aria-label="Open failover overview at full resolution">
-          <img src="../../assets/aws-three-tier-failover-preview.gif" alt="AWS Route 53 active failover architecture across primary and secondary regions">
+        <a href="../../assets/aws-three-tier-failover-preview.webp" target="_blank" rel="noopener" aria-label="Open failover overview at full resolution">
+          <img src="../../assets/aws-three-tier-failover-preview.webp" loading="lazy" decoding="async" alt="AWS Route 53 active failover architecture across primary and secondary regions">
         </a>
       </figure>
     </section>
 
     <section class="explanation-grid" aria-label="Architecture explanations">
       <article class="panel">
-        <p class="eyebrow">01 / Normal operation</p>
+        <p class="eyebrow">Request / Data Flow</p>
         <h2>How the full warm-standby architecture works</h2>
         <ol class="steps">
           <li>Route 53 resolves the application domain and sends normal production traffic toward the primary region.</li>
@@ -290,7 +292,7 @@
         </ol>
       </article>
       <article class="panel">
-        <p class="eyebrow">02 / Regional failure</p>
+        <p class="eyebrow">Reliability &amp; Failure Handling</p>
         <h2>What happens during failover</h2>
         <ol class="steps">
           <li>Health checks detect that the primary-region endpoint is no longer healthy.</li>
@@ -300,6 +302,11 @@
           <li>After recovery and validation, traffic can be deliberately failed back to the original primary region.</li>
         </ol>
       </article>
+    </section>
+    <section class="explanation-grid" aria-label="Architecture decisions and improvements">
+      <article class="panel"><p class="eyebrow">Engineering Decisions</p><h2>Separate tiers and keep recovery warm</h2><p>Independent web, application, and data tiers allow targeted scaling and tighter network boundaries. Warm standby reduces recovery time without paying for a fully active second region.</p></article>
+      <article class="panel"><p class="eyebrow">Tradeoffs</p><h2>Recovery speed versus operating cost</h2><p>A warm standby is faster to recover than backup-and-restore, but costs more because secondary capacity and replication remain active.</p></article>
+      <article class="panel"><p class="eyebrow">Future Improvements</p><h2>Prove recovery behavior continuously</h2><p>Add infrastructure-as-code modules, automated failover drills, measured RTO/RPO targets, observability dashboards, and controlled failback automation.</p></article>
     </section>
   </main>
 </body>

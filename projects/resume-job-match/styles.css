@@ -134,6 +134,14 @@ textarea:focus { border-color: var(--green-dark); box-shadow: 0 0 0 3px rgba(40,
 .ats-item p { margin: 0; color: #99a39e; font-size: 9px; line-height: 1.45; }
 .ats-item span { color: #aeb7b2; font-size: 8px; font-weight: 800; text-transform: uppercase; }
 footer { padding: 20px 4vw 35px; display: flex; justify-content: space-between; color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
+
+/* Readability baseline shared with the portfolio */
+.eyebrow, .hero-note span, .optional-label, .upload-zone small, .upload-zone b, .role-selector button,
+.upload-explainer span, .input-divider, .text-meta, .score-ring span, .score-card span, .insight-heading span,
+.chip-list span, .evidence-row strong, .bullet-topline span, .bullet-topline strong, .bullet-item small,
+.bullet-rewrite span, .bullet-rewrite p, .comparison-card span, .comparison-card p, .section-card span,
+.section-card p, .ats-item p, .ats-item span, footer { font-size: 11px; }
+button, .role-selector button, .upload-zone { min-height: 44px; }
 @media (max-width: 1100px) { .score-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 950px) { .workspace { grid-template-columns: 1fr; }.hero { grid-template-columns: 1fr; }.hero-note { display: none; }.results-panel { min-height: auto; }.empty-state { min-height: 400px; } }
 @media (max-width: 600px) { .topbar p { display: none; }.hero { padding-top: 45px; }.workspace { width: 100%; }.input-panel, .results-panel { padding: 18px; }.score-grid, .insight-grid, .section-grid, .role-selector, .comparison-grid { grid-template-columns: 1fr; }.report-top { grid-template-columns: 1fr; }.score-ring { width: 125px; height: 125px; }.evidence-row { grid-template-columns: 1fr; } footer { gap: 15px; flex-direction: column; } }
