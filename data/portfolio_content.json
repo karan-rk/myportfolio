@@ -44,8 +44,8 @@
     "source": "Resume",
     "title": "Resume experience chronology",
     "summary": "Karan's resume spans industry engineering, research, and graduate teaching",
-    "content": "Karan worked as a Software Engineer at Meta from August 2023 through June 2024. He served as a Graduate Teaching Assistant at Stony Brook University from August 2024 through December 2024 and has worked as a Research Assistant there since January 2025.",
-    "keywords": ["resume", "chronology", "timeline", "dates", "work history", "meta", "research assistant", "teaching assistant", "august 2023", "january 2025"]
+    "content": "Karan worked as a Software Engineer at Meta from August 2023 through June 2024. He served as a Graduate Teaching Assistant at Stony Brook University from August 2024 through December 2024. Since January 2025, he has worked as a Research Assistant at Stony Brook University in two concurrent roles: distributed systems research and persuasion modeling research in Prof. H. Andrew Schwartz's Lab.",
+    "keywords": ["resume", "chronology", "timeline", "dates", "work history", "meta", "research assistant", "teaching assistant", "august 2023", "january 2025", "persuasion research", "distributed systems research"]
   },
   {
     "id": "experience-meta",
@@ -88,18 +88,18 @@
     "target": "experience-persuasion",
     "source": "Experience",
     "title": "Machine learning and persuasion research",
-    "summary": "Karan applies modern machine learning and language-model fine-tuning methods to persuasion research",
-    "content": "Karan's machine learning research includes fine-tuning Llama 2-7B with LoRA and Direct Preference Optimization on r/ChangeMyView data, reaching 0.7 reward accuracy. His research also uses Transformers, PyTorch, WhisperX, and NVIDIA NeMo for large-scale text and multimodal speech analysis.",
-    "keywords": ["machine learning research", "persuasion research", "llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "whisperx", "nemo", "language model", "research methods"]
+    "summary": "Karan applies modern language-model fine-tuning to persuasion modeling for mental health applications in Prof. H. Andrew Schwartz's Lab",
+    "content": "In Prof. H. Andrew Schwartz's Lab at Stony Brook University (January 2025 to present), Karan fine-tunes Llama 2-7B with LoRA and Direct Preference Optimization on approximately 145,000 examples from r/ChangeMyView discussion data to model persuasion for mental health applications including CBT and counseling. He uses Optuna for hyperparameter search, Weights and Biases (W&B) for experiment tracking, and runs experiments on dual NVIDIA A6000 GPUs.",
+    "keywords": ["machine learning research", "persuasion research", "llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "changeMyView", "r/changeMyView", "mental health", "cbt", "counseling", "optuna", "w&b", "weights and biases", "h andrew schwartz", "stony brook", "language model", "research methods", "january 2025"]
   },
   {
     "id": "experience-research-results",
     "target": "experience-persuasion",
     "source": "Experience",
     "title": "Persuasion modeling research results",
-    "summary": "Karan's persuasion research includes measured language-model and authorship-analysis results",
-    "content": "Karan's persuasion modeling research reached 0.7 reward accuracy after preference optimization, performed 6 percent better than human persuasive responses in the reported evaluation, and achieved 92 percent ROC-AUC on author-style detection across more than 40 million documents.",
-    "keywords": ["persuasion", "research results", "reward accuracy", "0.7", "6 percent", "human responses", "92 percent", "roc auc", "40 million", "author style"]
+    "summary": "Karan's ongoing persuasion research (January 2025 to present) includes measured language-model and authorship-analysis results",
+    "content": "Karan's persuasion modeling research in Prof. H. Andrew Schwartz's Lab reached 0.7 reward accuracy after preference optimization, performed 6 percent better than human persuasive responses in the reported evaluation, and achieved 92 percent ROC-AUC on author-style detection across more than 40 million documents. The research is ongoing from January 2025 and targets mental health applications including CBT and counseling.",
+    "keywords": ["persuasion", "research results", "reward accuracy", "0.7", "6 percent", "human responses", "92 percent", "roc auc", "40 million", "author style", "january 2025", "ongoing", "mental health"]
   },
   {
     "id": "experience-teaching",
