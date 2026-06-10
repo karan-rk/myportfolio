@@ -132,10 +132,10 @@
     "id": "projects-speech-production",
     "target": "project-speech",
     "source": "Projects",
-    "title": "Speech emotion production and inference performance",
-    "summary": "The speech emotion application includes a deployed real-time inference path",
-    "content": "The speech emotion application uses a FastAPI backend and React frontend and was deployed through Docker and Google Cloud Run. Asynchronous I/O reduced API response latency by 40 percent, from 650 milliseconds to 390 milliseconds, while serving more than 100 real-time inference requests.",
-    "keywords": ["speech emotion", "production", "deployment", "google cloud run", "gcp", "docker", "latency", "650", "390", "40 percent", "100 requests", "real time inference"]
+    "title": "Speech emotion ML model deployment",
+    "summary": "Karan deployed a CNN-BiLSTM-Attention machine learning model to production on Google Cloud Run",
+    "content": "The speech emotion CNN-BiLSTM-Attention machine learning model uses a FastAPI backend and React frontend and is deployed through Docker on Google Cloud Run. This is Karan's primary example of a deployed machine learning system in production. Asynchronous I/O reduced API response latency by 40 percent, from 650 milliseconds to 390 milliseconds, while serving more than 100 real-time inference requests.",
+    "keywords": ["speech emotion", "production", "deployment", "google cloud run", "gcp", "docker", "latency", "650", "390", "40 percent", "100 requests", "real time inference", "machine learning", "machine learning system", "deployed ml", "deployed model", "ml deployment", "deployed machine learning", "ml in production", "model serving", "production ml"]
   },
   {
     "id": "projects-rolefit",
@@ -151,9 +151,9 @@
     "target": "project-portfolio-ai",
     "source": "Projects",
     "title": "AI Portfolio Assistant",
-    "summary": "The portfolio assistant helps recruiters quickly understand Karan's work through natural conversation",
-    "content": "Karan built the AI Portfolio Assistant's question routing, retrieval, typo correction, conversational follow-ups, answer composition, and automated evaluation workflows. Verified portfolio content is separated from the interface so it remains easy to update. The assistant answers questions about experience, projects, skills, architecture, and role fit even when general AI is offline, and is validated by a 21-scenario evaluation suite.",
-    "keywords": ["portfolio assistant", "karan ai", "rag", "nlp", "retrieval", "question answering", "recruiter", "conversation", "follow up", "evaluation"]
+    "summary": "The portfolio assistant is deployed on Render and helps recruiters quickly understand Karan's work through natural conversation",
+    "content": "Karan built the AI Portfolio Assistant's question routing, retrieval, typo correction, conversational follow-ups, answer composition, and automated evaluation workflows. The backend is deployed as a live production API on Render. Verified portfolio content is separated from the interface so it remains easy to update. The assistant answers questions about experience, projects, skills, architecture, and role fit even when general AI is offline, and is validated by a 21-scenario evaluation suite.",
+    "keywords": ["portfolio assistant", "karan ai", "rag", "nlp", "retrieval", "question answering", "recruiter", "conversation", "follow up", "evaluation", "deployed", "render", "production deployment", "hosted", "live api", "machine learning system", "deployed ml system", "production api"]
   },
   {
     "id": "projects-cloud-infrastructure",
