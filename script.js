@@ -814,14 +814,37 @@ async function loadSharedQuestion() {
 async function checkApiStatus() {
   const status = document.getElementById("api-status");
   const stats = document.getElementById("index-stats");
+
+  // Show warm-up notice if the Render backend takes more than 5 seconds to respond
+  const warmupTimer = window.setTimeout(() => {
+    if (status.textContent === "Starting…") {
+      ragOutput.innerHTML = `
+    <div class="answer-header">
+      <span class="answer-icon">AI</span>
+      <div><strong>The AI is warming up.</strong><small>The backend takes ~30 seconds to start — ask your question now and it will be answered once ready.</small></div>
+    </div>
+    <p class="answer-body">Feel free to explore projects and experience in the meantime, or wait a moment and try a question.</p>
+  `;
+    }
+  }, 5000);
+
   try {
     const response = await fetch(apiUrl("/api/health"));
+    clearTimeout(warmupTimer);
     if (!response.ok) throw new Error("API unavailable");
     const health = await response.json();
     status.textContent = "Live";
     stats.textContent = `${health.documents} sources / ${health.chunks} evidence chunks`;
+    // If the warm-up notice is showing, swap it back to the ready greeting
+    if (ragOutput.querySelector(".answer-body")?.textContent.includes("explore projects")) {
+      ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>The assistant is ready — ask about Karan's work, projects, skills, or resume.</small></div></div>`;
+    }
   } catch {
+    clearTimeout(warmupTimer);
     status.textContent = "Demo";
+    if (ragOutput.querySelector(".answer-body")?.textContent.includes("explore projects")) {
+      ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask about Karan's work, projects, skills, architecture, or resume.</small></div></div>`;
+    }
   }
 }
 
