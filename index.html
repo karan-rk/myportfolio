@@ -43,6 +43,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=45">
+  <style>
+    /* cursor spotlight */
+    .cursor-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(140,255,193,.10) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0;top:0;left:0;will-change:transform;transition:opacity .4s ease}
+    .project-dark{overflow:hidden}
+    .rag-section{overflow:hidden}
+    /* hero stagger */
+    @keyframes heroFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .hero .hero-copy.reveal,.hero .hero-card.reveal{opacity:1;transform:none;transition:none}
+    .hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:0;animation:heroFadeUp .6s ease forwards}
+    .hero-copy .eyebrow{animation-delay:.08s}
+    .hero-copy .hero-credentials{animation-delay:.20s}
+    .hero-copy h1{animation-delay:.36s}
+    .hero-copy .hero-text{animation-delay:.54s}
+    .hero-copy .hero-actions{animation-delay:.68s}
+    .hero-copy .hero-specialties{animation-delay:.82s}
+    .hero-card{animation-delay:.28s}
+    @media (prefers-reduced-motion:reduce){.hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:1;animation:none}}
+  </style>
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
 <body>
@@ -663,5 +681,27 @@
   </footer>
 
   <script src="script.js?v=41"></script>
+  <script>
+    /* cursor spotlight on dark sections */
+    (function () {
+      if (window.matchMedia("(pointer: coarse)").matches) return;
+      var targets = document.querySelectorAll(".project-dark, .rag-section, .contact");
+      targets.forEach(function (el) {
+        var glow = document.createElement("div");
+        glow.className = "cursor-glow";
+        el.appendChild(glow);
+        el.addEventListener("mousemove", function (e) {
+          var rect = el.getBoundingClientRect();
+          var x = e.clientX - rect.left - 350;
+          var y = e.clientY - rect.top - 350;
+          glow.style.transform = "translate(" + x + "px," + y + "px)";
+          glow.style.opacity = "1";
+        }, { passive: true });
+        el.addEventListener("mouseleave", function () {
+          glow.style.opacity = "0";
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
