@@ -44,18 +44,12 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=45">
   <style>
-    /* ── cursor spotlight ─────────────────────────────────────────────────────
-       position:relative is required so the glow's absolute positioning is
-       contained within each dark section, not the page root.
-       .project-card already carries overflow:hidden so we omit it on project-dark. */
+    /* ── cursor spotlight ────────────────────────────────────────────────── */
     .cursor-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(140,255,193,.10) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0;top:0;left:0;will-change:transform;transition:opacity .4s ease}
     .project-dark{position:relative}
     .rag-section{overflow:hidden;position:relative}
 
-    /* ── hero stagger ─────────────────────────────────────────────────────────
-       fill-mode:both ensures the from-keyframe (opacity:0) applies during the
-       animation-delay so elements don't flash at cascade opacity:1 before the
-       animation begins, then snap back to 0. */
+    /* ── hero stagger ────────────────────────────────────────────────────── */
     @keyframes heroFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
     .hero .hero-copy.reveal,.hero .hero-card.reveal{opacity:1;transform:none;transition:none}
     .hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:0;animation:heroFadeUp .6s ease both}
@@ -68,72 +62,128 @@
     .hero-card{animation-delay:.28s}
     @media (prefers-reduced-motion:reduce){.hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:1;animation:none}}
 
-    /* ── project grid alignment fix ───────────────────────────────────────────
-       The base styles.css contains a late override block that forces
-       .project-match and .project-rag from grid-column:1/-1 (full-width grid)
-       back to grid-column:auto;display:flex — making them render as half-width
-       cards at desktop. This block restores the intended full-width two-column
-       grid layout for all three cards at viewports wider than 980px.
-
-       .project-dark (Sentinel) has no grid-column:1/-1 in the base CSS and no
-       partner card, so it orphans alone in its row. This block promotes it to
-       full-width and places the risk visualization in the right column. */
+    /* ── uniform 2-column project grid ──────────────────────────────────────
+       All 6 cards are the same width (1fr each) and stretch to match their
+       row partner's height. GIF visuals are locked at 230px so they always
+       show fully. CSS visualizations (score bars, risk flow, RAG preview)
+       use the same height — their top content is the most important part
+       so clipping the bottom looks intentional.                             */
     @media (min-width:981px){
-      /* Restore project-match to full-width grid */
-      .project-match{
-        grid-column:1/-1!important;
-        display:grid!important;
-        grid-template-columns:.95fr 1.05fr;
-        gap:35px;
-        min-height:510px;
-      }
-      .project-match .match-project-visual{
-        order:0;
-        height:auto;
-        min-height:430px;
-        margin-bottom:0;
-        padding:28px;
-        width:auto;
-      }
 
-      /* Restore project-rag to full-width grid */
-      .project-rag{
-        grid-column:1/-1!important;
-        display:grid!important;
-        grid-template-columns:.9fr 1.1fr;
-        gap:35px;
-        min-height:510px;
-      }
-      .project-rag .rag-project-visual{
-        order:0;
-        height:auto;
-        min-height:425px;
-        margin:0;
-        padding:28px;
-        width:auto;
-      }
-
-      /* Promote project-dark (Sentinel) to full-width two-column layout.
-         Visual goes right column; copy stays left. */
-      .project-dark{
-        grid-column:1/-1!important;
-        display:grid!important;
+      /* Equal-size 2-column grid, rows stretch to tallest card */
+      .projects-grid{
         grid-template-columns:1fr 1fr;
-        gap:25px 35px;
+        align-items:stretch;
+        gap:22px;
       }
-      .project-dark .project-topline{grid-column:1/-1;grid-row:1}
-      .project-dark .project-visual{
-        grid-column:2;
-        grid-row:2;
-        height:auto;
-        min-height:300px;
-        margin-bottom:0;
+
+      /* Every card: half-width flex column regardless of original class */
+      .project-infra,
+      .project-accent,
+      .project-dark,
+      .project-rag,
+      .project-match,
+      .project-gitops{
+        grid-column:auto!important;
+        display:flex!important;
+        flex-direction:column!important;
+        min-height:0!important;
+        gap:0!important;
+        grid-template-columns:unset!important;
       }
-      .project-dark .project-summary{
-        grid-column:1;
-        grid-row:2;
+
+      /* project-rag / project-match have a copy-wrapper div — flatten it
+         so topline + summary become direct flex children of the card      */
+      .project-rag-copy,
+      .project-match-copy{
+        display:contents;
+      }
+
+      /* Re-order rag/match children into: topline → visual → summary      */
+      .project-rag .project-topline,
+      .project-match .project-topline{ order:1 }
+      .project-rag .rag-project-visual,
+      .project-match .match-project-visual{ order:2 }
+      .project-rag .project-summary,
+      .project-match .project-summary{ order:3 }
+      .project-rag .project-details,
+      .project-match .project-details{ order:4 }
+
+      /* ── uniform visual height for all card types ── */
+
+      /* GIF / screenshot visuals */
+      .project-visual{
+        height:230px!important;
+        min-height:230px!important;
+        max-height:230px;
+        flex-shrink:0;
+        width:100%;
+        margin-bottom:22px;
+        overflow:hidden;
+      }
+
+      /* infra-project-visual is a sibling class, not .project-visual */
+      .infra-project-visual{
+        height:230px!important;
+        min-height:230px!important;
+        max-height:230px;
+        flex-shrink:0;
+        margin-bottom:22px;
+        overflow:hidden;
+      }
+
+      /* CSS visualizations (rag, match) — same locked height */
+      .rag-project-visual{
+        height:230px!important;
+        min-height:230px!important;
+        max-height:230px;
+        flex-shrink:0;
+        width:100%;
+        margin:0 0 22px!important;
+        padding:18px 20px!important;
+        overflow:hidden;
+        border-radius:14px;
+        border:1px solid #40524b;
+      }
+      .match-project-visual{
+        height:230px!important;
+        min-height:230px!important;
+        max-height:230px;
+        flex-shrink:0;
+        width:100%;
+        margin-bottom:22px;
+        padding:18px 20px!important;
+        overflow:hidden;
+        border-radius:14px;
+      }
+
+      /* gitops visual is an <a> with aspect-ratio — override to fixed height */
+      .gitops-project-visual{
+        aspect-ratio:unset!important;
+        height:230px!important;
+        min-height:230px!important;
+        max-height:230px;
+        flex-shrink:0;
+        margin-bottom:22px;
+        overflow:hidden;
+        display:block;
+      }
+
+      /* ── summary fills remaining space, actions pin to bottom ── */
+      .project-card .project-summary{
+        flex:1;
         display:flex;
         flex-direction:column;
+      }
+      .project-card .project-actions{
+        margin-top:auto;
+        padding-top:18px;
+      }
+
+      /* h3 size consistent across all card types */
+      .project-match .project-summary h3,
+      .project-rag .project-summary h3{
+        font-size:30px;
       }
     }
   </style>
