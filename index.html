@@ -62,130 +62,56 @@
     .hero-card{animation-delay:.28s}
     @media (prefers-reduced-motion:reduce){.hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:1;animation:none}}
 
-    /* ── uniform 2-column project grid ──────────────────────────────────────
-       All 6 cards are the same width (1fr each) and stretch to match their
-       row partner's height. GIF visuals are locked at 230px so they always
-       show fully. CSS visualizations (score bars, risk flow, RAG preview)
-       use the same height — their top content is the most important part
-       so clipping the bottom looks intentional.                             */
+    /* ── uniform 2-column project grid ──────────────────────────────────── */
     @media (min-width:981px){
-
-      /* Equal-size 2-column grid, rows stretch to tallest card */
-      .projects-grid{
-        grid-template-columns:1fr 1fr;
-        align-items:stretch;
-        gap:22px;
-      }
-
-      /* Every card: half-width flex column regardless of original class */
-      .project-infra,
-      .project-accent,
-      .project-dark,
-      .project-rag,
-      .project-match,
-      .project-gitops{
-        grid-column:auto!important;
-        display:flex!important;
-        flex-direction:column!important;
-        min-height:0!important;
-        gap:0!important;
-        grid-template-columns:unset!important;
-      }
-
-      /* project-rag / project-match have a copy-wrapper div — flatten it
-         so topline + summary become direct flex children of the card      */
-      .project-rag-copy,
-      .project-match-copy{
-        display:contents;
-      }
-
-      /* Re-order rag/match children into: topline → visual → summary      */
-      .project-rag .project-topline,
-      .project-match .project-topline{ order:1 }
-      .project-rag .rag-project-visual,
-      .project-match .match-project-visual{ order:2 }
-      .project-rag .project-summary,
-      .project-match .project-summary{ order:3 }
-      .project-rag .project-details,
-      .project-match .project-details{ order:4 }
-
-      /* ── uniform visual height for all card types ── */
-
-      /* GIF / screenshot visuals */
-      .project-visual{
-        height:230px!important;
-        min-height:230px!important;
-        max-height:230px;
-        flex-shrink:0;
-        width:100%;
-        margin-bottom:22px;
-        overflow:hidden;
-      }
-
-      /* infra-project-visual is a sibling class, not .project-visual */
-      .infra-project-visual{
-        height:230px!important;
-        min-height:230px!important;
-        max-height:230px;
-        flex-shrink:0;
-        margin-bottom:22px;
-        overflow:hidden;
-      }
-
-      /* CSS visualizations (rag, match) — same locked height */
-      .rag-project-visual{
-        height:230px!important;
-        min-height:230px!important;
-        max-height:230px;
-        flex-shrink:0;
-        width:100%;
-        margin:0 0 22px!important;
-        padding:18px 20px!important;
-        overflow:hidden;
-        border-radius:14px;
-        border:1px solid #40524b;
-      }
-      .match-project-visual{
-        height:230px!important;
-        min-height:230px!important;
-        max-height:230px;
-        flex-shrink:0;
-        width:100%;
-        margin-bottom:22px;
-        padding:18px 20px!important;
-        overflow:hidden;
-        border-radius:14px;
-      }
-
-      /* gitops visual is an <a> with aspect-ratio — override to fixed height */
-      .gitops-project-visual{
-        aspect-ratio:unset!important;
-        height:230px!important;
-        min-height:230px!important;
-        max-height:230px;
-        flex-shrink:0;
-        margin-bottom:22px;
-        overflow:hidden;
-        display:block;
-      }
-
-      /* ── summary fills remaining space, actions pin to bottom ── */
-      .project-card .project-summary{
-        flex:1;
-        display:flex;
-        flex-direction:column;
-      }
-      .project-card .project-actions{
-        margin-top:auto;
-        padding-top:18px;
-      }
-
-      /* h3 size consistent across all card types */
-      .project-match .project-summary h3,
-      .project-rag .project-summary h3{
-        font-size:30px;
-      }
+      .projects-grid{grid-template-columns:1fr 1fr;align-items:stretch;gap:22px}
+      .project-infra,.project-accent,.project-dark,.project-rag,.project-match,.project-gitops{grid-column:auto!important;display:flex!important;flex-direction:column!important;min-height:0!important;gap:0!important;grid-template-columns:unset!important}
+      .project-rag-copy,.project-match-copy{display:contents}
+      .project-rag .project-topline,.project-match .project-topline{order:1}
+      .project-rag .rag-project-visual,.project-match .match-project-visual{order:2}
+      .project-rag .project-summary,.project-match .project-summary{order:3}
+      .project-rag .project-details,.project-match .project-details{order:4}
+      .project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin-bottom:22px;overflow:hidden}
+      .infra-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;margin-bottom:22px;overflow:hidden}
+      .rag-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin:0 0 22px!important;padding:18px 20px!important;overflow:hidden;border-radius:14px;border:1px solid #40524b}
+      .match-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin-bottom:22px;padding:18px 20px!important;overflow:hidden;border-radius:14px}
+      .gitops-project-visual{aspect-ratio:unset!important;height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;margin-bottom:22px;overflow:hidden;display:block}
+      .project-card .project-summary{flex:1;display:flex;flex-direction:column}
+      .project-card .project-actions{margin-top:auto;padding-top:18px}
+      .project-match .project-summary h3,.project-rag .project-summary h3{font-size:30px}
     }
+
+    /* ── experience section improvements ────────────────────────────────────
+       1. Gradient timeline line — green at top (industry) fading to grey
+       2. Larger, bolder timeline dots
+       3. Meta card: permanent green left accent strip + "Industry · Meta" badge
+       4. Metric rows: distinct styled units with left accent and larger numbers
+       5. Two-group separator: full-width divider between the two timeline acts
+       6. Hover: left accent flash on all cards                               */
+
+    /* 1 + 2 — Timeline line & dots */
+    .timeline{border-left:none}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#24aa70 0%,#aebbb6 55%,transparent 100%);pointer-events:none}
+    .timeline-dot{width:20px;height:20px;left:-55px;top:47px;border-width:3px}
+
+    /* 3 — Meta card accent strip + badge */
+    .experience-primary{border-left-color:transparent;box-shadow:inset 4px 0 0 #24aa70,0 18px 45px var(--shadow)}
+    @media (min-width:761px){
+      .experience-primary::after{content:"Industry \B7 Meta";position:absolute;top:16px;right:16px;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,#24aa70 12%,transparent);color:#187d53;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    }
+
+    /* 4 — Metric rows */
+    .metric-row{padding:10px 13px;border-radius:10px;background:color-mix(in srgb,currentColor 5%,transparent);border-left:2px solid color-mix(in srgb,currentColor 25%,transparent)}
+    .metric-row strong{display:block;font:800 22px/1.1 var(--display);letter-spacing:-.04em;margin-bottom:3px}
+    .metric-row span{font-size:11px;line-height:1.4;opacity:.65}
+
+    /* 5 — Two-group separator */
+    .timeline-group-secondary{margin-top:52px}
+    .timeline-group-secondary::after{content:'';position:absolute;top:-26px;left:-59px;right:0;height:1px;background:linear-gradient(to right,#24aa70,var(--line) 25%,var(--line))}
+
+    /* 6 — Hover: left accent flash */
+    .experience-card:hover{box-shadow:inset 3px 0 0 #24aa70,0 20px 50px var(--shadow)}
+    .experience-primary:hover{box-shadow:inset 4px 0 0 #24aa70,0 24px 60px var(--shadow)}
   </style>
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
