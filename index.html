@@ -44,14 +44,19 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=45">
   <style>
-    /* cursor spotlight */
+    /* cursor spotlight — position:relative required so the glow's absolute
+       positioning is contained within each dark section, not the page root.
+       .project-card already carries overflow:hidden so we omit it here. */
     .cursor-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(140,255,193,.10) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0;top:0;left:0;will-change:transform;transition:opacity .4s ease}
-    .project-dark{overflow:hidden}
-    .rag-section{overflow:hidden}
-    /* hero stagger */
+    .project-dark{position:relative}
+    .rag-section{overflow:hidden;position:relative}
+
+    /* hero stagger — fill-mode:both ensures the from-keyframe (opacity:0)
+       applies during the animation-delay so elements don't flash at cascade
+       opacity:1 before the animation begins, then snap back to 0. */
     @keyframes heroFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
     .hero .hero-copy.reveal,.hero .hero-card.reveal{opacity:1;transform:none;transition:none}
-    .hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:0;animation:heroFadeUp .6s ease forwards}
+    .hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:0;animation:heroFadeUp .6s ease both}
     .hero-copy .eyebrow{animation-delay:.08s}
     .hero-copy .hero-credentials{animation-delay:.20s}
     .hero-copy h1{animation-delay:.36s}
