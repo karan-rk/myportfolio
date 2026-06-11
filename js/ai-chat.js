@@ -1,4 +1,4 @@
-/* ─── ai-chat.js ──────────────────────────────────────────────────
+/* ─── ai-chat.js ─────────────────────────────────────────────────
    Portfolio AI (RAG) chat system: API config, query, rendering,
    conversation history, follow-ups, evaluation panel, cold-start.
    Backend endpoint: see meta[name="portfolio-api-url"] in index.html
@@ -38,6 +38,8 @@ let latestQuestion = "";
 let selectedAnswerMode = "detailed";
 let evaluationExpanded = false;
 let latestEvaluationRows = [];
+let backendWarm = false;
+let warmupNoticeActive = false;
 
 function renderAnswer(question) {
   ragOutput.innerHTML = `
@@ -172,10 +174,14 @@ async function queryRag(question) {
   const requestId = ++latestRagRequest;
   const selectedRole = targetRole.value;
   retrievalInspector.hidden = true;
+  warmupNoticeActive = false;
   ragOutput.innerHTML = `
     <div class="answer-header">
       <span class="answer-icon">AI</span>
-      <div><strong>Preparing an answer...</strong></div>
+      <div>
+        <strong>Preparing an answer…</strong>
+        ${!backendWarm ? "<small>The backend is starting up — this first response may take about 30 seconds.</small>" : ""}
+      </div>
     </div>
   `;
 
@@ -266,16 +272,19 @@ async function checkApiStatus() {
   const status = document.getElementById("api-status");
   const stats = document.getElementById("index-stats");
 
-  // Show warm-up notice if the Render backend takes more than 5 seconds to respond
+  // If the Render free-tier backend is cold, health check takes 25-35 seconds.
+  // After 5 seconds with no response, show a warm-up notice so the recruiter
+  // knows the delay is expected, not a broken feature.
   const warmupTimer = window.setTimeout(() => {
-    if (status.textContent === "Starting…") {
+    if (!backendWarm && !warmupNoticeActive) {
+      warmupNoticeActive = true;
       ragOutput.innerHTML = `
-    <div class="answer-header">
-      <span class="answer-icon">AI</span>
-      <div><strong>The AI is warming up.</strong><small>The backend takes ~30 seconds to start — ask your question now and it will be answered once ready.</small></div>
-    </div>
-    <p class="answer-body">Feel free to explore projects and experience in the meantime, or wait a moment and try a question.</p>
-  `;
+        <div class="answer-header">
+          <span class="answer-icon">AI</span>
+          <div><strong>The AI is warming up.</strong><small>The backend takes ~30 seconds to start on first use — ask your question now and it will answer once ready.</small></div>
+        </div>
+        <p class="answer-body">Feel free to explore projects and experience in the meantime.</p>
+      `;
     }
   }, 5000);
 
@@ -284,16 +293,18 @@ async function checkApiStatus() {
     clearTimeout(warmupTimer);
     if (!response.ok) throw new Error("API unavailable");
     const health = await response.json();
+    backendWarm = true;
     status.textContent = "Live";
     stats.textContent = `${health.documents} sources / ${health.chunks} evidence chunks`;
-    // If the warm-up notice is showing, swap it back to the ready greeting
-    if (ragOutput.querySelector(".answer-body")?.textContent.includes("explore projects")) {
+    if (warmupNoticeActive) {
+      warmupNoticeActive = false;
       ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>The assistant is ready — ask about Karan's work, projects, skills, or resume.</small></div></div>`;
     }
   } catch {
     clearTimeout(warmupTimer);
     status.textContent = "Demo";
-    if (ragOutput.querySelector(".answer-body")?.textContent.includes("explore projects")) {
+    if (warmupNoticeActive) {
+      warmupNoticeActive = false;
       ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask about Karan's work, projects, skills, architecture, or resume.</small></div></div>`;
     }
   }
