@@ -1026,53 +1026,77 @@ def validate_query_payload(payload):
 def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short", history=None, use_genai=False):
     evidence_query = resolved_query or query
     answer_passages = select_answer_passages(evidence_query, passages, role)
+
     if not answer_passages:
         answer_passages = passages[:1]
     if not answer_passages:
         raise ValueError("At least one portfolio passage is required")
+
     evidence_limit = 1 if answer_mode == "short" else (8 if comprehensive_query_type(evidence_query) else 4)
     answer_passages = answer_passages[:evidence_limit]
+
     strongest = answer_passages[0]
     top_score = strongest["score"]
     score_margin = top_score - passages[1]["score"] if len(passages) > 1 else top_score
+
     broad_supported = (
         any(phrase in evidence_query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
         or bool(explicit_topic_ids(evidence_query))
     )
-    profile_supported = (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query))) and top_score >= 0.2 and not (
-        detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported
+
+    profile_supported = (
+        (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query)))
+        and top_score >= 0.2
+        and not (
+            detect_intent(evidence_query) == "General"
+            and score_margin < 0.08
+            and not broad_supported
+        )
     )
+
     conversational = offline_conversation_reply(query)
-    generated_answer = generate_profile_answer(query, CHUNKS, history) if use_genai and not conversational else None
+    generated_answer = None
     response_type = "evidence"
     custom_follow_ups = None
+
+    if use_genai and not conversational:
+        genai_passages = answer_passages if profile_supported else CHUNKS[:8]
+        generated_answer = generate_profile_answer(query, genai_passages, history)
+
     if conversational:
         answer = conversational["answer"]
         answer_points = []
         confidence = "high"
         abstained = False
         response_type = "conversation"
+
         custom_follow_ups = conversational["follow_ups"]
+
     elif generated_answer:
         answer = capitalize_answer(generated_answer)
         answer_points = []
         confidence = "high"
         abstained = False
         response_type = "generated"
+
     elif profile_supported:
         answer, answer_points = compose_answer(evidence_query, answer_passages, role, answer_mode)
         answer = capitalize_answer(answer)
         confidence = "high" if top_score >= 0.75 else "medium"
         abstained = False
+        response_type = "evidence"
+
     else:
         if any(re.search(rf"\b{re.escape(term)}\b", normalize_query(evidence_query)) for term in PROFILE_SCOPE_TERMS):
             answer = "I don't have verified portfolio evidence for that detail yet. I can still help with Karan's experience, projects, skills, education, research, architecture, or contact information."
         else:
             answer = "I'm currently focused on Karan's portfolio, so I can't answer that reliably while the general AI connection is offline. Ask me about his experience, projects, skills, architecture, resume, or role fit."
+
         answer_points = []
         confidence = "low"
         abstained = True
         response_type = "scope"
+
     return {
         "query": query,
         "answer": answer,
@@ -1082,7 +1106,7 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         "abstained": abstained,
         "generated": bool(generated_answer),
         "response_type": response_type,
-        "genai_error": "",
+        "genai_error": LAST_GENAI_ERROR,
         "trace": {
             "intent": detect_intent(query),
             "role": ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"],
