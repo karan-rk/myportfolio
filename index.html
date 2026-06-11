@@ -42,80 +42,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=45">
-  <style>
-    /* ── cursor spotlight ────────────────────────────────────────────────── */
-    .cursor-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(140,255,193,.10) 0%,transparent 65%);pointer-events:none;z-index:0;opacity:0;top:0;left:0;will-change:transform;transition:opacity .4s ease}
-    .project-dark{position:relative}
-    .rag-section{overflow:hidden;position:relative}
-
-    /* ── hero stagger ────────────────────────────────────────────────────── */
-    @keyframes heroFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .hero .hero-copy.reveal,.hero .hero-card.reveal{opacity:1;transform:none;transition:none}
-    .hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:0;animation:heroFadeUp .6s ease both}
-    .hero-copy .eyebrow{animation-delay:.08s}
-    .hero-copy .hero-credentials{animation-delay:.20s}
-    .hero-copy h1{animation-delay:.36s}
-    .hero-copy .hero-text{animation-delay:.54s}
-    .hero-copy .hero-actions{animation-delay:.68s}
-    .hero-copy .hero-specialties{animation-delay:.82s}
-    .hero-card{animation-delay:.28s}
-    @media (prefers-reduced-motion:reduce){.hero-copy .eyebrow,.hero-copy .hero-credentials,.hero-copy h1,.hero-copy .hero-text,.hero-copy .hero-actions,.hero-copy .hero-specialties,.hero-card{opacity:1;animation:none}}
-
-    /* ── uniform 2-column project grid ──────────────────────────────────── */
-    @media (min-width:981px){
-      .projects-grid{grid-template-columns:1fr 1fr;align-items:stretch;gap:22px}
-      .project-infra,.project-accent,.project-dark,.project-rag,.project-match,.project-gitops{grid-column:auto!important;display:flex!important;flex-direction:column!important;min-height:0!important;gap:0!important;grid-template-columns:unset!important}
-      .project-rag-copy,.project-match-copy{display:contents}
-      .project-rag .project-topline,.project-match .project-topline{order:1}
-      .project-rag .rag-project-visual,.project-match .match-project-visual{order:2}
-      .project-rag .project-summary,.project-match .project-summary{order:3}
-      .project-rag .project-details,.project-match .project-details{order:4}
-      .project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin-bottom:22px;overflow:hidden}
-      .infra-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;margin-bottom:22px;overflow:hidden}
-      .rag-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin:0 0 22px!important;padding:18px 20px!important;overflow:hidden;border-radius:14px;border:1px solid #40524b}
-      .match-project-visual{height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;width:100%;margin-bottom:22px;padding:18px 20px!important;overflow:hidden;border-radius:14px}
-      .gitops-project-visual{aspect-ratio:unset!important;height:230px!important;min-height:230px!important;max-height:230px;flex-shrink:0;margin-bottom:22px;overflow:hidden;display:block}
-      .project-card .project-summary{flex:1;display:flex;flex-direction:column}
-      .project-card .project-actions{margin-top:auto;padding-top:18px}
-      .project-match .project-summary h3,.project-rag .project-summary h3{font-size:30px}
-    }
-
-    /* ── experience section improvements ────────────────────────────────────
-       1. Gradient timeline line — green at top (industry) fading to grey
-       2. Larger, bolder timeline dots
-       3. Meta card: permanent green left accent strip + "Industry · Meta" badge
-       4. Metric rows: distinct styled units with left accent and larger numbers
-       5. Two-group separator: full-width divider between the two timeline acts
-       6. Hover: left accent flash on all cards                               */
-
-    /* 1 + 2 — Timeline line & dots */
-    .timeline{border-left:none}
-    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#24aa70 0%,#aebbb6 55%,transparent 100%);pointer-events:none}
-    .timeline-dot{width:20px;height:20px;left:-55px;top:47px;border-width:3px}
-
-    /* 3 — Meta card accent strip + badge */
-    .experience-primary{border-left-color:transparent;box-shadow:inset 4px 0 0 #24aa70,0 18px 45px var(--shadow)}
-    @media (min-width:761px){
-      .experience-primary::after{content:"Industry \B7 Meta";position:absolute;top:16px;right:16px;padding:5px 11px;border-radius:99px;background:color-mix(in srgb,#24aa70 12%,transparent);color:#187d53;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
-    }
-
-    /* 4 — Metric rows */
-    .metric-row{padding:10px 13px;border-radius:10px;background:color-mix(in srgb,currentColor 5%,transparent);border-left:2px solid color-mix(in srgb,currentColor 25%,transparent)}
-    .metric-row strong{display:block;font:800 22px/1.1 var(--display);letter-spacing:-.04em;margin-bottom:3px}
-    .metric-row span{font-size:11px;line-height:1.4;opacity:.65}
-
-    /* 5 — Two-group separator */
-    .timeline-group-secondary{margin-top:52px}
-    .timeline-group-secondary::after{content:'';position:absolute;top:-26px;left:-59px;right:0;height:1px;background:linear-gradient(to right,#24aa70,var(--line) 25%,var(--line))}
-
-    /* 6 — Hover: left accent flash */
-    .experience-card:hover{box-shadow:inset 3px 0 0 #24aa70,0 20px 50px var(--shadow)}
-    .experience-primary:hover{box-shadow:inset 4px 0 0 #24aa70,0 24px 60px var(--shadow)}
-
-    /* 7 — Collapsible toggle: span full card width */
-    .experience-collapsible .experience-toggle{grid-column:1/-1}
-  </style>
+  <link rel="stylesheet" href="styles.css?v=46">
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
 <body>
@@ -166,6 +93,7 @@
   </header>
 
   <main id="top" tabindex="-1">
+    <!-- ═══ HERO ══════════════════════════════════════════════════════ -->
     <section class="hero container">
       <div class="hero-network" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -210,6 +138,7 @@
       </aside>
     </section>
 
+    <!-- ═══ EXPERIENCE ════════════════════════════════════════════════ -->
     <section id="experience" class="section container">
       <div class="section-heading reveal">
         <div>
@@ -320,6 +249,7 @@
       </div>
     </section>
 
+    <!-- ═══ PROJECTS ══════════════════════════════════════════════════ -->
     <section id="projects" class="section projects-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -512,6 +442,7 @@
       </article>
     </div>
 
+    <!-- ═══ PORTFOLIO AI ═══════════════════════════════════════════════ -->
     <section id="rag-lab" class="section rag-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -633,6 +564,7 @@
       </div>
     </section>
 
+    <!-- ═══ SKILLS ════════════════════════════════════════════════════ -->
     <section id="skills" class="section container">
       <div class="section-heading reveal">
         <div>
@@ -674,6 +606,7 @@
       </div>
     </section>
 
+    <!-- ═══ EDUCATION ═════════════════════════════════════════════════ -->
     <section class="education section container" id="education">
       <div class="education-heading reveal">
         <p class="section-kicker">Education</p>
@@ -703,6 +636,7 @@
       </div>
     </section>
 
+    <!-- ═══ CONTACT ══════════════════════════════════════════════════ -->
     <section class="contact section container reveal" id="contact">
       <div class="contact-main">
         <p class="section-kicker">Let's build something useful</p>
@@ -735,28 +669,13 @@
     <p>New York, NY</p>
   </footer>
 
-  <script src="script.js?v=41"></script>
-  <script>
-    /* cursor spotlight on dark sections */
-    (function () {
-      if (window.matchMedia("(pointer: coarse)").matches) return;
-      var targets = document.querySelectorAll(".project-dark, .rag-section, .contact");
-      targets.forEach(function (el) {
-        var glow = document.createElement("div");
-        glow.className = "cursor-glow";
-        el.appendChild(glow);
-        el.addEventListener("mousemove", function (e) {
-          var rect = el.getBoundingClientRect();
-          var x = e.clientX - rect.left - 350;
-          var y = e.clientY - rect.top - 350;
-          glow.style.transform = "translate(" + x + "px," + y + "px)";
-          glow.style.opacity = "1";
-        }, { passive: true });
-        el.addEventListener("mouseleave", function () {
-          glow.style.opacity = "0";
-        });
-      });
-    })();
-  </script>
+  <!-- ─── JS modules (load order matters) ─────────────────────────── -->
+  <script src="js/theme.js" defer></script>
+  <script src="js/nav.js" defer></script>
+  <script src="js/skills.js" defer></script>
+  <script src="js/projects.js" defer></script>
+  <script src="js/hero.js" defer></script>
+  <script src="js/ai-chat.js" defer></script>
+  <script src="js/cursor.js" defer></script>
 </body>
 </html>
