@@ -1,8 +1,8 @@
-/* ─── ai-chat.js ─────────────────────────────────────────────────
+/* ─── ai-chat.js ────────────────────────────────────────────────────────
    Portfolio AI (RAG) chat system: API config, query, rendering,
    conversation history, follow-ups, evaluation panel, cold-start.
    Backend endpoint: see meta[name="portfolio-api-url"] in index.html
-   ─────────────────────────────────────────────────────────────── */
+   ─────────────────────────────────────────────────────────────────── */
 
 const configuredApiUrl = document.querySelector('meta[name="portfolio-api-url"]')?.content?.replace(/\/$/, "") || "";
 const isLocalPortfolio = ["localhost", "127.0.0.1"].includes(window.location.hostname);
@@ -79,6 +79,21 @@ function renderApiAnswer(result) {
     <p class="answer-body">${escapeHtml(result.answer)}</p>
     ${points}
   `;
+  if (result.capture_lead) {
+    ragOutput.insertAdjacentHTML("beforeend", `
+      <div class="lead-capture" id="lead-capture">
+        <p class="lead-intro">Want to connect with Karan? Leave your details and he'll get back to you.</p>
+        <form id="lead-form" class="lead-form" novalidate>
+          <div class="lead-fields">
+            <input type="text" id="lead-name" name="name" placeholder="Your name" autocomplete="name" />
+            <input type="email" id="lead-email" name="email" placeholder="Your email address" autocomplete="email" required />
+            <button type="submit" class="lead-submit">Send</button>
+          </div>
+          <p class="lead-error-msg" hidden></p>
+        </form>
+      </div>
+    `);
+  }
   latestQuestion = result.query;
   shareQuestion.disabled = false;
   ragHistory.push({
@@ -168,6 +183,48 @@ evidenceList.addEventListener("click", (event) => {
 returnToAssistant.addEventListener("click", () => {
   document.getElementById("rag-lab").scrollIntoView({ behavior: "smooth", block: "start" });
   returnToAssistant.hidden = true;
+});
+
+// Lead capture form submission (event delegation on ragOutput)
+ragOutput.addEventListener("submit", async (event) => {
+  const form = event.target.closest("#lead-form");
+  if (!form) return;
+  event.preventDefault();
+  const nameInput = document.getElementById("lead-name");
+  const emailInput = document.getElementById("lead-email");
+  const name = nameInput ? nameInput.value.trim() : "";
+  const email = emailInput ? emailInput.value.trim() : "";
+  const errorMsg = form.querySelector(".lead-error-msg");
+  if (!email || !email.includes("@")) {
+    errorMsg.textContent = "Please enter a valid email address.";
+    errorMsg.hidden = false;
+    return;
+  }
+  const submitBtn = form.querySelector(".lead-submit");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+  errorMsg.hidden = true;
+  try {
+    const response = await fetch(apiUrl("/api/contact"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, question: latestQuestion })
+    });
+    const data = await response.json();
+    if (data.success) {
+      document.getElementById("lead-capture").innerHTML = `<p class="lead-success">✓ Thanks${name ? " " + escapeHtml(name) : ""}! Karan will be in touch soon.</p>`;
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      errorMsg.textContent = "Something went wrong. Please try again.";
+      errorMsg.hidden = false;
+    }
+  } catch {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send";
+    errorMsg.textContent = "Unable to send. Email karan.dee2905@gmail.com directly.";
+    errorMsg.hidden = false;
+  }
 });
 
 async function queryRag(question) {
@@ -272,9 +329,6 @@ async function checkApiStatus() {
   const status = document.getElementById("api-status");
   const stats = document.getElementById("index-stats");
 
-  // If the Render free-tier backend is cold, health check takes 25-35 seconds.
-  // After 5 seconds with no response, show a warm-up notice so the recruiter
-  // knows the delay is expected, not a broken feature.
   const warmupTimer = window.setTimeout(() => {
     if (!backendWarm && !warmupNoticeActive) {
       warmupNoticeActive = true;
@@ -383,6 +437,25 @@ evaluationToggle.addEventListener("click", () => {
   evaluationExpanded = !evaluationExpanded;
   renderEvaluationCases();
 });
+
+// Inject lead capture styles
+(function () {
+  const style = document.createElement("style");
+  style.textContent = [
+    ".lead-capture{margin-top:1rem;padding:1rem 1.25rem;border-radius:8px;background:var(--surface-alt,#f5f5f4);border:1px solid var(--border,#e5e7eb);}",
+    ".lead-intro{margin:0 0 .75rem;font-size:.875rem;color:var(--text-secondary,#6b7280);}",
+    ".lead-form{display:contents;}",
+    ".lead-fields{display:flex;gap:.5rem;flex-wrap:wrap;}",
+    ".lead-fields input{flex:1;min-width:140px;padding:.5rem .75rem;border:1px solid var(--border,#d1d5db);border-radius:6px;font-size:.875rem;background:var(--surface,#fff);color:var(--text,#111827);}",
+    ".lead-fields input:focus{outline:2px solid var(--accent,#2f9e78);outline-offset:1px;border-color:transparent;}",
+    ".lead-submit{padding:.5rem 1.25rem;background:var(--accent,#2f9e78);color:#fff;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s;}",
+    ".lead-submit:hover{opacity:.88;}",
+    ".lead-submit:disabled{opacity:.55;cursor:not-allowed;}",
+    ".lead-success{font-size:.9rem;color:var(--success,#16a34a);font-weight:600;margin:0;padding:.5rem 0;}",
+    ".lead-error-msg{font-size:.8rem;color:var(--error,#dc2626);margin:.35rem 0 0;}"
+  ].join("");
+  document.head.appendChild(style);
+}());
 
 window.KaranAI = Object.freeze({ capitalizeFirstAlpha });
 checkApiStatus();

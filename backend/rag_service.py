@@ -44,6 +44,7 @@ TOKEN_ALIASES = {
     "expertise": "skill", "expert": "skill", "strengths": "skill", "capabilities": "skill",
     "specialties": "skill", "specializations": "skill", "specialises": "specialize", "specializes": "specialize",
     "reached": "contact", "reach": "contact",
+    "connect": "contact", "connecting": "contact", "outreach": "contact",
 }
 PHRASE_NORMALIZATIONS = (
     ("what's", "what is"),
@@ -61,6 +62,13 @@ PHRASE_NORMALIZATIONS = (
     ("how do i reach", "contact"),
     ("how can i contact", "contact"),
     ("get in touch", "contact"),
+    ("i want to connect", "contact connect"),
+    ("i'd like to connect", "contact connect"),
+    ("want to connect", "contact connect"),
+    ("like to connect", "contact connect"),
+    ("interested in connecting", "contact connect"),
+    ("reach out to karan", "contact"),
+    ("connect with karan", "contact connect"),
 )
 INTENT_SOURCES = {
     "Projects": {"Projects"},
@@ -142,7 +150,7 @@ PROFILE_SCOPE_TERMS = (
     "software", "engineering", "machine learning", "ml", "ai", "backend", "data",
     "cloud", "meta", "instagram", "stony brook", "availability", "location", "speech", "emotion",
     "latency", "api", "rolefit", "gitops", "aws", "kubernetes", "sentinel", "counterparty",
-    "resume", "contact", "email", "phone", "github", "linkedin",
+    "resume", "contact", "email", "phone", "github", "linkedin", "connect",
     "architecture", "architectural", "system design", "system flow", "pipeline",
 )
 UNSUPPORTED_PERSONAL_TOPICS = (
@@ -452,8 +460,7 @@ def retrieve(query, limit=6, role="general"):
             "resume-availability",
         )
         by_id = {chunk["id"]: chunk for chunk in ranked}
-        preferred = [by_id[chunk_id] for chunk_id in preferred_ids if chunk_id in by_id]
-        return preferred
+        return [by_id[chunk_id] for chunk_id in preferred_ids if chunk_id in by_id]
     if generic_single_project:
         preferred_ids = ("projects-speech", "projects-speech-production")
         by_id = {chunk["id"]: chunk for chunk in ranked}
@@ -493,6 +500,8 @@ def question_is_supported(query, passages):
     if is_generic_single_project_query(query) and any(passage["source"] == "Projects" for passage in passages):
         return True
     intent = detect_intent(query)
+    if intent == "Contact":
+        return True  # Contact info is always in the portfolio
     intended_sources = INTENT_SOURCES.get(intent)
     if intended_sources and any(passage["source"] in intended_sources and passage["score"] >= 0.2 for passage in passages):
         return True
@@ -542,7 +551,7 @@ def select_answer_passages(query, passages, role="general"):
 
 def detect_intent(query):
     normalized = normalize_query(query)
-    if any(term in normalized for term in ("contact", "email", "phone", "reach", "get in touch")):
+    if any(term in normalized for term in ("contact", "email", "phone", "reach", "get in touch", "connect")):
         return "Contact"
     if any(term in normalized for term in ("available", "availability", "location", "located", "relocation", "visa", "work authorization", "salary")):
         return "Availability"
@@ -629,9 +638,6 @@ def contextualize_query(query, history):
     is_follow_up = any(re.search(rf"\b{re.escape(term)}\b", normalized) for term in follow_up_terms)
     if any(term in normalized for term in ("that project", "this project", "that experience", "that role", "those projects")):
         is_follow_up = True
-    # Suggested follow-ups often omit the project name because the active topic is
-    # already visible in the conversation. Preserve that topic for concise
-    # question-shaped prompts unless the user clearly names a new subject.
     question_starters = ("why ", "how ", "what ", "which ", "where ", "when ")
     standalone_subject_terms = (
         "projects", "resume", "education", "contact", "availability", "background",
@@ -668,7 +674,7 @@ def follow_up_suggestions(intent):
         "Education": ["Which coursework is most relevant?", "What practical work supports his education?"],
         "Leadership": ["Where has he demonstrated collaboration?", "How does he communicate technical ideas?"],
         "Availability": ["Where is Karan based?", "Which roles best match his background?"],
-        "Contact": ["Where is Karan based?", "Can I view his resume?"],
+        "Contact": ["Can I view Karan's resume?", "Which roles is Karan interested in?"],
     }.get(intent, ["What experience is most relevant?", "Which project should I inspect next?"])
 
 
@@ -723,7 +729,6 @@ def contextual_follow_up_suggestions(query, intent=None):
     asked_question = normalized.split(" context ", 1)[0].strip()
     intent = intent or detect_intent(query)
     suggestions = project_follow_up_suggestions(query)
-
     topic_suggestions = (
         (("meta", "instagram"), [
             "What measurable impact did Karan achieve at Meta?",
@@ -748,7 +753,7 @@ def contextual_follow_up_suggestions(query, intent=None):
             "How has Karan applied his graduate studies in practice?",
             "What research has Karan completed at Stony Brook?",
         ]),
-        (("contact", "email", "phone", "reach"), [
+        (("contact", "email", "phone", "reach", "connect"), [
             "Can I view Karan's resume?",
             "Where is Karan based?",
             "Which roles is Karan interested in?",
@@ -773,7 +778,6 @@ def contextual_follow_up_suggestions(query, intent=None):
                 break
     if not suggestions:
         suggestions = follow_up_suggestions(intent)
-
     asked_angles = {
         "architecture": ("architecture", "design", "flow", "component"),
         "reliability": ("reliability", "failure", "failover", "recover", "drift"),
@@ -890,6 +894,48 @@ def generate_profile_answer(query, passages, history=None):
     return generated_text
 
 
+def send_contact_notification(name, email, question):
+    """Send a lead notification email via Resend when a recruiter wants to connect."""
+    resend_api_key = os.getenv("RESEND_API_KEY", "").strip()
+    if not resend_api_key:
+        print("RESEND: RESEND_API_KEY not configured -- skipping notification")
+        return False, "RESEND_API_KEY not configured"
+    safe_name = str(name)[:100].replace("<", "&lt;").replace(">", "&gt;")
+    safe_email = str(email)[:200].replace("<", "&lt;").replace(">", "&gt;")
+    safe_question = str(question)[:500].replace("<", "&lt;").replace(">", "&gt;")
+    payload = {
+        "from": "Karan Portfolio AI <onboarding@resend.dev>",
+        "to": ["karan.dee2905@gmail.com"],
+        "subject": f"Portfolio lead: {name}",
+        "html": (
+            f"<p><strong>{safe_name}</strong> wants to connect.</p>"
+            f"<p><strong>Email:</strong> <a href='mailto:{safe_email}'>{safe_email}</a></p>"
+            f"<p><strong>They asked:</strong> <em>{safe_question}</em></p>"
+            f"<hr><p style='color:#666;font-size:12px;'>Sent from Karan Portfolio AI</p>"
+        ),
+    }
+    request = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Authorization": f"Bearer {resend_api_key}", "Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            print(f"RESEND: notification sent, id={result.get('id', 'unknown')}")
+            return True, "sent"
+    except urllib.error.HTTPError as error:
+        body = error.read().decode("utf-8", errors="replace")
+        message = f"HTTP {error.code}: {body[:200]}"
+        print(f"RESEND ERROR: {message}")
+        return False, message
+    except Exception as error:
+        message = f"{type(error).__name__}: {error}"
+        print(f"RESEND ERROR: {message}")
+        return False, message
+
+
 def run_evaluation():
     rows = []
     latencies = []
@@ -969,7 +1015,7 @@ def compose_answer(query, passages, role, answer_mode):
     opening = openings.get(intent, f"{role_context}{strongest['summary'].rstrip('.')}.")    
     evidence_points = []
     for passage in passages:
-        point = passage["content"].strip().rstrip(".") + "."
+        point = passage["summary"].strip().rstrip(".") + "."
         if point not in evidence_points:
             evidence_points.append(point)
     if focused_project_question(query):
@@ -1026,77 +1072,58 @@ def validate_query_payload(payload):
 def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short", history=None, use_genai=False):
     evidence_query = resolved_query or query
     answer_passages = select_answer_passages(evidence_query, passages, role)
-
     if not answer_passages:
         answer_passages = passages[:1]
     if not answer_passages:
         raise ValueError("At least one portfolio passage is required")
-
     evidence_limit = 1 if answer_mode == "short" else (8 if comprehensive_query_type(evidence_query) else 4)
     answer_passages = answer_passages[:evidence_limit]
-
     strongest = answer_passages[0]
     top_score = strongest["score"]
     score_margin = top_score - passages[1]["score"] if len(passages) > 1 else top_score
-
     broad_supported = (
         any(phrase in evidence_query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
         or bool(explicit_topic_ids(evidence_query))
     )
-
-    profile_supported = (
-        (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query)))
-        and top_score >= 0.2
-        and not (
-            detect_intent(evidence_query) == "General"
-            and score_margin < 0.08
-            and not broad_supported
-        )
+    profile_supported = (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query))) and top_score >= 0.2 and not (
+        detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported
     )
-
     conversational = offline_conversation_reply(query)
     generated_answer = None
     response_type = "evidence"
     custom_follow_ups = None
-
     if use_genai and not conversational:
         genai_passages = answer_passages if profile_supported else CHUNKS[:8]
         generated_answer = generate_profile_answer(query, genai_passages, history)
-
     if conversational:
         answer = conversational["answer"]
         answer_points = []
         confidence = "high"
         abstained = False
         response_type = "conversation"
-
         custom_follow_ups = conversational["follow_ups"]
-
     elif generated_answer:
         answer = capitalize_answer(generated_answer)
         answer_points = []
         confidence = "high"
         abstained = False
         response_type = "generated"
-
     elif profile_supported:
         answer, answer_points = compose_answer(evidence_query, answer_passages, role, answer_mode)
         answer = capitalize_answer(answer)
         confidence = "high" if top_score >= 0.75 else "medium"
         abstained = False
         response_type = "evidence"
-
     else:
         if any(re.search(rf"\b{re.escape(term)}\b", normalize_query(evidence_query)) for term in PROFILE_SCOPE_TERMS):
             answer = "I don't have verified portfolio evidence for that detail yet. I can still help with Karan's experience, projects, skills, education, research, architecture, or contact information."
         else:
             answer = "I'm currently focused on Karan's portfolio, so I can't answer that reliably while the general AI connection is offline. Ask me about his experience, projects, skills, architecture, resume, or role fit."
-
         answer_points = []
         confidence = "low"
         abstained = True
         response_type = "scope"
-
+    intent = detect_intent(query)
     return {
         "query": query,
         "answer": answer,
@@ -1106,9 +1133,10 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         "abstained": abstained,
         "generated": bool(generated_answer),
         "response_type": response_type,
+        "capture_lead": intent == "Contact",
         "genai_error": LAST_GENAI_ERROR,
         "trace": {
-            "intent": detect_intent(query),
+            "intent": intent,
             "role": ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"],
             "context_used": context_used,
             "resolved_query": resolved_query or query,
@@ -1203,7 +1231,7 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
                 "status": "ready",
                 "genai": bool(os.getenv("OPENAI_API_KEY", "").strip()),
                 "genai_error": LAST_GENAI_ERROR,
-                "documents": len({chunk['source'] for chunk in CHUNKS}),
+                "documents": len({chunk["source"] for chunk in CHUNKS}),
                 "chunks": len(CHUNKS),
             })
             return
@@ -1213,6 +1241,29 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self):
+        if self.path == "/api/contact":
+            try:
+                content_length = int(self.headers.get("Content-Length", "0"))
+                if content_length <= 0 or content_length > 4096:
+                    self.send_json({"error": "Request body is empty or too large"}, status=413)
+                    return
+                payload = json.loads(self.rfile.read(content_length))
+            except (ValueError, json.JSONDecodeError):
+                self.send_json({"error": "Invalid JSON request"}, status=400)
+                return
+            name = str(payload.get("name", "")).strip()[:100]
+            email = str(payload.get("email", "")).strip()[:200]
+            question = str(payload.get("question", "")).strip()[:500]
+            if not email or "@" not in email:
+                self.send_json({"error": "Valid email address is required"}, status=400)
+                return
+            success, message = send_contact_notification(name or "Anonymous", email, question)
+            if success:
+                self.send_json({"success": True, "message": "Notification sent"})
+            else:
+                print(f"Contact notification failed: {message}")
+                self.send_json({"success": False, "message": "Notification could not be sent"})
+            return
         if self.path not in {"/api/query", "/api/extract-resume"}:
             self.send_json({"error": "Not found"}, status=404)
             return
