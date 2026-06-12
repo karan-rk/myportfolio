@@ -622,6 +622,16 @@ def offline_conversation_reply(query):
             "answer": "I'm Karan AI, an interactive guide to Karan's portfolio. I can explain his resume, experience, projects, skills, architecture decisions, measurable results, and fit for different roles.",
             "follow_ups": ["Tell me about Karan", "Explain one of Karan's architectures"],
         }
+    genai_phrases = (
+        "is genai online", "genai online", "are you connected to genai", "connected to genai",
+        "is ai online", "is openai", "are you connected to openai", "are u connected",
+        "is the ai", "ai working", "is ai working",
+    )
+    if any(phrase in normalized for phrase in genai_phrases):
+        return {
+            "answer": "I'm Karan AI and I'm running! I use a local evidence-backed system to answer questions about Karan's portfolio reliably. I can help with his experience, projects, skills, architecture, resume, and role fit.",
+            "follow_ups": ["Tell me about Karan", "What measurable results did Karan achieve?"],
+        }
     return None
 
 
@@ -1014,21 +1024,22 @@ def compose_answer(query, passages, role, answer_mode):
     }
     opening = openings.get(intent, f"{role_context}{strongest['summary'].rstrip('.')}.")    
     evidence_points = []
+    opening_clean = opening.rstrip(".").strip()
     for passage in passages:
         point = passage["summary"].strip().rstrip(".") + "."
-        if point not in evidence_points:
+        if point not in evidence_points and point.rstrip(".").strip() != opening_clean:
             evidence_points.append(point)
     if focused_project_question(query):
         if answer_mode == "bullets":
             return strongest["summary"].rstrip(".") + ".", evidence_points[:1]
-        return evidence_points[0], []
+        return evidence_points[0] if evidence_points else opening, []
     if answer_mode == "short":
-        return f"{opening} {evidence_points[0]}", []
+        return f"{opening} {evidence_points[0]}" if evidence_points else opening, []
     detail_limit = 5 if comprehensive_query_type(query) else 2
     if answer_mode == "bullets":
         return opening, evidence_points[:detail_limit]
     details = " ".join(evidence_points[:detail_limit])
-    return f"{opening} {details}", []
+    return f"{opening} {details}".strip(), []
 
 
 def capitalize_answer(text):
@@ -1085,8 +1096,11 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
         any(phrase in evidence_query.lower() for phrase in SUPPORTED_BROAD_PHRASES)
         or bool(explicit_topic_ids(evidence_query))
     )
-    profile_supported = (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query))) and top_score >= 0.2 and not (
-        detect_intent(evidence_query) == "General" and score_margin < 0.08 and not broad_supported
+    _intent_check = detect_intent(evidence_query)
+    profile_supported = (
+        (question_is_supported(evidence_query, passages) or bool(explicit_topic_ids(evidence_query)))
+        and (top_score >= 0.2 or _intent_check == "Contact")
+        and not (_intent_check == "General" and score_margin < 0.08 and not broad_supported)
     )
     conversational = offline_conversation_reply(query)
     generated_answer = None
