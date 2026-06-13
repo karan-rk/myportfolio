@@ -1,3 +1,5 @@
+const API_BASE = (document.querySelector('meta[name="portfolio-api-url"]')?.content || "https://karan-portfolio-ai.onrender.com").replace(/\/$/, "");
+
 const skillCatalog = {
   "Machine learning": ["machine learning", "predictive modeling"],
   "Deep learning": ["deep learning", "neural network", "cnn", "lstm"],
@@ -293,7 +295,7 @@ async function extractPdfData(file, titleElement, statusElement) {
     const bytes = new Uint8Array(await file.arrayBuffer());
     let binary = "";
     bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
-    const response = await fetch("/api/extract-resume", {
+    const response = await fetch(`${API_BASE}/api/extract-resume`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pdf_base64: btoa(binary) })

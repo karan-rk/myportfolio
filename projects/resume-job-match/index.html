@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="An explainable, upload-first resume analyzer.">
   <meta name="theme-color" content="#111816">
+  <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
   <title>RoleFit | Resume Analyzer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +26,7 @@
         <h1>Upload your resume. Get a clear improvement plan.</h1>
         <p class="hero-copy">RoleFit analyzes resume structure, skills, measurable impact, writing quality, and production evidence automatically.</p>
       </div>
-      <div class="hero-note"><span>Local by design</span><p>PDF extraction uses your local portfolio service. Matching runs in your browser.</p></div>
+      <div class="hero-note"><span>How it works</span><p>PDF text is extracted via the portfolio API. Scoring and analysis run entirely in your browser.</p></div>
     </section>
 
     <section class="workspace">
@@ -43,7 +44,7 @@
         <label for="resume-file">Resume</label>
         <label class="upload-zone" for="resume-file">
           <input id="resume-file" type="file" accept="application/pdf,.pdf">
-          <span><strong id="upload-title">Upload resume PDF</strong><small id="upload-status">PDF up to 5MB · processed locally</small></span>
+          <span><strong id="upload-title">Upload resume PDF</strong><small id="upload-status">PDF up to 5MB &middot; text extracted server-side</small></span>
           <b>Browse</b>
         </label>
         <label for="comparison-file">Improved resume <span class="optional-label">Optional comparison</span></label>
@@ -55,7 +56,7 @@
         <p class="form-error" id="form-error" role="alert"></p>
         <div class="upload-explainer">
           <span>Automatic workflow</span>
-          <ol><li>Extract resume text locally</li><li>Run ATS and section checks</li><li>Score target-role readiness</li><li>Review achievement bullets</li></ol>
+          <ol><li>Extract resume text via portfolio API</li><li>Run ATS and section checks</li><li>Score target-role readiness</li><li>Review achievement bullets</li></ol>
         </div>
       </div>
 
@@ -120,7 +121,7 @@
     </section>
   </main>
 
-  <footer><span>RoleFit MVP / Built by Karan Rajendra</span><span>Local PDF extraction · No API key required</span></footer>
+  <footer><span>RoleFit MVP / Built by Karan Rajendra</span><span>Server-side PDF extraction &middot; In-browser analysis</span></footer>
   <script src="app.js"></script>
 </body>
 </html>
