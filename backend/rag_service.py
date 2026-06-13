@@ -906,9 +906,10 @@ def generate_profile_answer(query, passages, history=None):
 
 def send_contact_notification(name, email, question):
     """Send a lead notification email via Resend when a recruiter wants to connect."""
-    resend_api_key = os.getenv("RESEND_API_KEY", "").strip()
+    resend_api_key = os.getenv("RESEND_API_KEY", "").strip().strip('"').strip("'")
+    print(f"RESEND: key present={bool(resend_api_key)} len={len(resend_api_key)}", flush=True)
     if not resend_api_key:
-        print("RESEND: RESEND_API_KEY not configured -- skipping notification")
+        print("RESEND: RESEND_API_KEY not configured -- skipping notification", flush=True)
         return False, "RESEND_API_KEY not configured"
     safe_name = str(name)[:100].replace("<", "&lt;").replace(">", "&gt;")
     safe_email = str(email)[:200].replace("<", "&lt;").replace(">", "&gt;")
@@ -933,16 +934,16 @@ def send_contact_notification(name, email, question):
     try:
         with urllib.request.urlopen(request, timeout=10) as response:
             result = json.loads(response.read().decode("utf-8"))
-            print(f"RESEND: notification sent, id={result.get('id', 'unknown')}")
+            print(f"RESEND: notification sent, id={result.get('id', 'unknown')}", flush=True)
             return True, "sent"
     except urllib.error.HTTPError as error:
         body = error.read().decode("utf-8", errors="replace")
         message = f"HTTP {error.code}: {body[:200]}"
-        print(f"RESEND ERROR: {message}")
+        print(f"RESEND ERROR: {message}", flush=True)
         return False, message
     except Exception as error:
         message = f"{type(error).__name__}: {error}"
-        print(f"RESEND ERROR: {message}")
+        print(f"RESEND ERROR: {message}", flush=True)
         return False, message
 
 
@@ -1275,8 +1276,8 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
             if success:
                 self.send_json({"success": True, "message": "Notification sent"})
             else:
-                print(f"Contact notification failed: {message}")
-                self.send_json({"success": False, "message": "Notification could not be sent"})
+                print(f"Contact notification failed: {message}", flush=True)
+                self.send_json({"success": False, "message": f"Notification failed: {message}"})
             return
         if self.path not in {"/api/query", "/api/extract-resume"}:
             self.send_json({"error": "Not found"}, status=404)
