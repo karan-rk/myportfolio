@@ -36,7 +36,7 @@ function renderCalibration(calibration) {
     ...calibration.raw.curve.map(point => ({ ...point, type: "raw" })),
     ...calibration.calibrated.curve.map(point => ({ ...point, type: "calibrated" }))
   ];
-  document.getElementById("calibration-chart").innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Reliability diagram"><line class="ideal-line" x1="0" y1="100" x2="100" y2="0"></line>${points.map(point => `<circle class="${point.type}-point" cx="${point.predicted * 100}" cy="${100 - point.observed * 100}" r="2.2"><title>${point.type}: predicted ${formatPercent(point.predicted)}, observed ${formatPercent(point.observed)}</title></circle>`).join("")}</svg>`;
+  document.getElementById("calibration-chart").innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-label="Reliability diagram"><line class="ideal-line" x1="0" y1="100" x2="100" y2="0"></line>${points.map(point => `<circle class="${point.type}-point" cx="${point.predicted * 100}" cy="${100 - point.observed * 100}" r="2.2"><title>${point.type}: predicted ${formatPercent(point.predicted)}, observed ${formatPercent(point.observed)}</title></circle>`).join("")}</svg>`;
 }
 
 function renderBenchmarks(metrics) {
@@ -104,5 +104,9 @@ function renderDecision(counterpartyId) {
 }
 
 loadData().catch(() => {
-  document.getElementById("metric-grid").innerHTML = `<div class="metric-card"><strong>Data unavailable</strong><small>Run model_pipeline.py to generate dashboard artifacts.</small></div>`;
+  ["metric-grid", "benchmark-table", "calibration-chart",
+   "trend-chart", "risk-table", "importance-list"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = `<p class="error">Data unavailable — run model_pipeline.py to regenerate.</p>`;
+  });
 });
