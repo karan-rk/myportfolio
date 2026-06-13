@@ -915,7 +915,7 @@ def send_contact_notification(name, email, question):
     safe_question = str(question)[:500].replace("<", "&lt;").replace(">", "&gt;")
     payload = {
         "from": "Karan Portfolio AI <onboarding@resend.dev>",
-        "to": ["karan.dee2905@gmail.com"],
+        "to": ["notkaranrk@gmail.com"],
         "subject": f"Portfolio lead: {name}",
         "html": (
             f"<p><strong>{safe_name}</strong> wants to connect.</p>"
