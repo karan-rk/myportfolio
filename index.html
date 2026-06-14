@@ -300,6 +300,7 @@
               <div class="project-actions">
                 <a class="project-action-primary" href="projects/counterparty-risk/index.html" target="_blank" rel="noopener">Launch Sentinel <span>&nearr;</span></a>
                 <a class="project-action-secondary" href="projects/counterparty-risk/architecture.html" target="_blank" rel="noopener">Understand architecture <span>&nearr;</span></a>
+                <a class="project-action-secondary" href="https://github.com/karan-rk/myportfolio/blob/codex/publish-portfolio/projects/counterparty-risk/eda_and_model_development.ipynb" target="_blank" rel="noopener">View EDA notebook <span>&nearr;</span></a>
                 <button class="project-toggle" type="button" aria-expanded="false">Explore case study <i>+</i></button>
               </div>
             </div>
@@ -334,7 +335,7 @@
               <div><span>Problem</span><p>Help users recognize emotional patterns from speech and reflect on them through a persistent audio journal.</p></div>
               <div><span>Technical challenge</span><p>Turn variable-length, noisy audio into a consistent real-time inference path while preserving enough context for reliable eight-class predictions across overlapping emotional valences.</p></div>
               <div><span>Key decision</span><p>Combined CNN feature learning, bidirectional sequence modeling, and attention across ZCR, chroma, MFCC, RMS, and mel-spectrogram features.</p></div>
-              <div><span>Result</span><p>Trained across 12,162 source clips, predicted eight emotion classes, reached 73 percent test accuracy on 8-class RAVDESS &mdash; consistent with published benchmarks for this task &mdash; and reduced API latency by 40 percent through asynchronous I/O.</p></div>
+              <div><span>Result</span><p>Trained across 12,162 source clips, predicted eight emotion classes, reached 73 percent test accuracy on 8-class RAVDESS &mdash; consistent with published benchmarks for this task &mdash; and reduced API latency by 40 percent through asynchronous I/O. Confusion matrix analysis shows ANG at 86% recall (strongest signal) and NEU&harr;CAL as the most confused pair, consistent with their shared low-arousal acoustic profile.</p></div>
               <div><span>Production readiness</span><p>Deployed the inference path with Docker on Render and supported more than 100 real-time inference requests.</p></div>
             </div>
           </article>
