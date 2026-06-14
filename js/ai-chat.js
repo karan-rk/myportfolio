@@ -1,463 +1,321 @@
-/* ─── ai-chat.js ────────────────────────────────────────────────────────
-   Portfolio AI (RAG) chat system: API config, query, rendering,
-   conversation history, follow-ups, evaluation panel, cold-start.
-   Backend endpoint: see meta[name="portfolio-api-url"] in index.html
+/* ─── ai-chat.js ──────────────────────────────────────────────────────
+   Portfolio AI — minimal chat bubble UI
+   Backend: see meta[name="portfolio-api-url"] in index.html
    ─────────────────────────────────────────────────────────────────── */
 
 const configuredApiUrl = document.querySelector('meta[name="portfolio-api-url"]')?.content?.replace(/\/$/, "") || "";
-const isLocalPortfolio = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-const API_BASE_URL = isLocalPortfolio ? "" : configuredApiUrl;
-const apiUrl = (path) => `${API_BASE_URL}${path}`;
+const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const API_BASE_URL = isLocal ? "" : configuredApiUrl;
+const apiUrl = path => `${API_BASE_URL}${path}`;
 
-const aiSection = document.getElementById("rag-lab");
+const ragForm       = document.getElementById("rag-form");
+const ragInput      = document.getElementById("rag-question");
+const chatMessages  = document.getElementById("chat-messages");
+const suggestedWrap = document.getElementById("suggested-prompts");
+const targetRole    = document.getElementById("target-role");
+const clearBtn      = document.getElementById("clear-conversation");
+const returnBtn     = document.getElementById("return-to-assistant");
+const apiStatus     = document.getElementById("api-status");
 
-const ragForm = document.getElementById("rag-form");
-const ragInput = document.getElementById("rag-question");
-const ragOutput = document.getElementById("rag-output");
-const retrievalInspector = document.getElementById("retrieval-inspector");
-const traceSummary = document.getElementById("trace-summary");
-const traceMetrics = document.getElementById("trace-metrics");
-const evidenceList = document.getElementById("evidence-list");
-const targetRole = document.getElementById("target-role");
-const answerModeButtons = document.querySelectorAll("[data-answer-mode]");
-const promptButtons = document.querySelectorAll("[data-question]");
-const returnToAssistant = document.getElementById("return-to-assistant");
-const conversationHistory = document.getElementById("conversation-history");
-const conversationToggle = document.getElementById("conversation-toggle");
-const clearConversation = document.getElementById("clear-conversation");
-const followUpPrompts = document.getElementById("follow-up-prompts");
-const shareQuestion = document.getElementById("share-question");
-const shareStatus = document.getElementById("share-status");
-const evaluationStatus = document.getElementById("evaluation-status");
-const evaluationMetrics = document.getElementById("evaluation-metrics");
-const evaluationCases = document.getElementById("evaluation-cases");
-const evaluationToggle = document.getElementById("evaluation-toggle");
-let latestRagRequest = 0;
-let ragHistory = [];
-let latestQuestion = "";
-let selectedAnswerMode = "detailed";
-let evaluationExpanded = false;
-let latestEvaluationRows = [];
-let backendWarm = false;
-let warmupNoticeActive = false;
+const SURPRISE_QUESTIONS = [
+  "What would Karan bring to an ML infrastructure team?",
+  "How does Karan approach system reliability?",
+  "What makes Karan's Meta experience stand out?",
+  "Which of Karan's projects shows the most ML depth?",
+  "How does Karan's NLP research connect to production AI?",
+  "What's the hardest technical challenge Karan has solved?",
+  "How does Karan balance research and engineering?",
+  "What is Karan's approach to building scalable systems?",
+  "How does Karan handle latency in production systems?",
+  "What would Karan prioritize in his first 90 days at a new company?",
+];
 
-function renderAnswer(question) {
-  ragOutput.innerHTML = `
-    <div class="answer-header">
-      <span class="answer-icon">!</span>
-      <div><strong>The assistant is temporarily unavailable.</strong><small>Please try again in a moment.</small></div>
-    </div>
-    <p class="answer-body">The portfolio assistant could not be reached. You can still explore Karan's experience, projects, and skills on this page.</p>
-  `;
+let ragHistory      = [];
+let latestRequest   = 0;
+let suggestionsUsed = false;
+let backendWarm     = false;
+
+/* ── helpers ─────────────────────────────────────────────────────── */
+function escapeHtml(v) {
+  return String(v).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[c]
+  );
 }
 
-function renderRequestError(message) {
-  ragOutput.innerHTML = `
-    <div class="answer-header">
-      <span class="answer-icon">!</span>
-      <div><strong>I couldn't process that question.</strong><small>Please adjust it and try again.</small></div>
-    </div>
-    <p class="answer-body">${escapeHtml(message)}</p>
-  `;
+function scrollBottom() {
+  chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: "smooth" });
 }
 
-function renderApiAnswer(result) {
-  const points = result.answer_points?.length
-    ? `<ul class="answer-points">${result.answer_points.map(point => `<li>${escapeHtml(point)}</li>`).join("")}</ul>`
-    : "";
-  const presentation = {
-    conversation: ["AI", "Karan AI"],
-    evidence: ["AI", "Karan AI"],
-    generated: ["AI", "Karan AI"],
-    scope: ["AI", "Karan AI"]
-  }[result.response_type] || ["AI", "Karan AI"];
-  ragOutput.innerHTML = `
-    <div class="answer-header">
-      <span class="answer-icon">${presentation[0]}</span>
-      <div><strong>${presentation[1]}</strong></div>
-    </div>
-    <p class="answer-body">${escapeHtml(result.answer)}</p>
-    ${points}
-  `;
-  if (result.capture_lead) {
-    ragOutput.insertAdjacentHTML("beforeend", `
+function hideSuggestions() {
+  if (suggestionsUsed) return;
+  suggestionsUsed = true;
+  suggestedWrap.style.cssText = "opacity:0;max-height:0;overflow:hidden;padding:0;transition:opacity .3s,max-height .4s,padding .3s";
+}
+
+/* ── bubble factories ─────────────────────────────────────────────── */
+function addUserBubble(text) {
+  const row = document.createElement("div");
+  row.className = "chat-msg user";
+  row.innerHTML = `<div class="chat-bubble">${escapeHtml(text)}</div>`;
+  chatMessages.appendChild(row);
+  scrollBottom();
+}
+
+function showTyping() {
+  if (document.getElementById("typing-bubble")) return;
+  const row = document.createElement("div");
+  row.className = "chat-msg ai";
+  row.id = "typing-bubble";
+  row.innerHTML = `<div class="chat-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  chatMessages.appendChild(row);
+  scrollBottom();
+}
+
+function hideTyping() {
+  document.getElementById("typing-bubble")?.remove();
+}
+
+async function addAIBubble(result) {
+  const row = document.createElement("div");
+  row.className = "chat-msg ai";
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
+  row.appendChild(bubble);
+  chatMessages.appendChild(row);
+
+  const text = result?.answer || "I couldn't reach the backend right now. Try again in a moment.";
+  await streamText(bubble, text);
+
+  if (result?.answer_points?.length) {
+    const ul = document.createElement("ul");
+    ul.className = "answer-points";
+    result.answer_points.forEach(pt => {
+      const li = document.createElement("li");
+      li.textContent = pt;
+      ul.appendChild(li);
+    });
+    bubble.appendChild(ul);
+    scrollBottom();
+  }
+
+  if (result?.capture_lead) {
+    bubble.insertAdjacentHTML("beforeend", `
       <div class="lead-capture" id="lead-capture">
-        <p class="lead-intro">Want to connect with Karan? Leave your details and he'll get back to you.</p>
+        <p class="lead-intro">Want to connect with Karan? Leave your details.</p>
         <form id="lead-form" class="lead-form" novalidate>
           <div class="lead-fields">
-            <input type="text" id="lead-name" name="name" placeholder="Your name" autocomplete="name" />
-            <input type="email" id="lead-email" name="email" placeholder="Your email address" autocomplete="email" required />
+            <input type="text" name="name" placeholder="Your name" autocomplete="name">
+            <input type="email" name="email" placeholder="Email address" autocomplete="email" required>
             <button type="submit" class="lead-submit">Send</button>
           </div>
           <p class="lead-error-msg" hidden></p>
         </form>
-      </div>
-    `);
+      </div>`);
   }
-  latestQuestion = result.query;
-  shareQuestion.disabled = false;
-  ragHistory.push({
-    question: result.query,
-    answer: result.answer,
-    topic: result.citations[0]?.section || result.trace.intent,
-    role: result.trace.role
-  });
-  ragHistory = ragHistory.slice(-4);
-  renderConversation();
-  renderFollowUps(result.follow_ups);
-  renderRetrievalTrace(result);
-}
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[character]);
-}
-
-function capitalizeFirstAlpha(value) {
-  const text = String(value || "");
-  const index = text.search(/[A-Za-z]/);
-  if (index < 0) return text;
-  return `${text.slice(0, index)}${text[index].toUpperCase()}${text.slice(index + 1)}`;
-}
-
-function renderConversation() {
-  conversationHistory.innerHTML = ragHistory.length ? ragHistory.map(turn => `
-    <article><span>You / ${escapeHtml(turn.role)}</span><strong>${escapeHtml(capitalizeFirstAlpha(turn.question))}</strong><p>${escapeHtml(capitalizeFirstAlpha(turn.answer))}</p></article>
-  `).join("") : `<p>Start with a suggested question or ask about Karan's work.</p>`;
-}
-
-conversationToggle.addEventListener("click", () => {
-  const expanded = conversationToggle.getAttribute("aria-expanded") === "true";
-  conversationToggle.setAttribute("aria-expanded", String(!expanded));
-  conversationToggle.textContent = expanded ? "Show history" : "Hide history";
-  conversationHistory.hidden = expanded;
-});
-
-function renderFollowUps(suggestions = []) {
-  followUpPrompts.hidden = !suggestions.length;
-  followUpPrompts.innerHTML = suggestions.map(suggestion => `<button type="button" data-follow-up="${escapeHtml(suggestion)}">${escapeHtml(suggestion)}</button>`).join("");
-}
-
-function renderRetrievalTrace(result) {
-  const trace = result.trace;
-  if (result.response_type === "conversation" || result.response_type === "scope") {
-    retrievalInspector.hidden = true;
-    return;
-  }
-  retrievalInspector.hidden = false;
-  traceSummary.textContent = `${trace.intent} intent / ${trace.retrieved} passages`;
-  const metrics = [
-    ["Target role", trace.role],
-    ["Context", trace.context_used ? "Follow-up" : "Standalone"],
-    ["Corrections", Object.entries(trace.corrections || {}).map(([from, to]) => `${from} -> ${to}`).join(", ") || "None"],
-    ["Candidates", trace.candidates],
-    ["Top relevance", trace.top_score.toFixed(3)],
-    ["Score margin", trace.score_margin.toFixed(3)],
-    ["Decision", result.response_type === "generated" ? "Generated" : "Evidence-backed answer"]
-  ];
-  traceMetrics.innerHTML = metrics.map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("");
-  evidenceList.innerHTML = result.citations.length ? result.citations.map((citation, index) => `
-    <button class="evidence-card" type="button" data-evidence-target="${citation.target}" aria-label="View ${citation.section} in portfolio">
-      <div><span>#${index + 1} ${citation.source}</span><strong>${citation.score.toFixed(3)}</strong></div>
-      <h5>${citation.section}</h5>
-      <p>${citation.excerpt}</p>
-      <div class="evidence-score"><i style="width:${Math.min(citation.score * 100, 100)}%"></i></div>
-    </button>
-  `).join("") : `<div class="evidence-empty">No passage cleared the confidence gate, so no citations were attached.</div>`;
-  const citedSources = new Set(result.citations.map(citation => citation.source));
-  document.querySelectorAll(".source-item").forEach(item => {
-    item.classList.toggle("active", citedSources.has(item.querySelector("strong").textContent));
-  });
-}
-
-evidenceList.addEventListener("click", (event) => {
-  const evidence = event.target.closest("[data-evidence-target]");
-  if (!evidence) return;
-  const target = document.getElementById(evidence.dataset.evidenceTarget);
-  if (!target) return;
-  target.classList.add("evidence-highlight");
-  returnToAssistant.hidden = false;
-  target.scrollIntoView({ behavior: "smooth", block: "center" });
-  window.setTimeout(() => target.classList.remove("evidence-highlight"), 2200);
-});
-
-returnToAssistant.addEventListener("click", () => {
-  document.getElementById("rag-lab").scrollIntoView({ behavior: "smooth", block: "start" });
-  returnToAssistant.hidden = true;
-});
-
-// Lead capture form submission (event delegation on ragOutput)
-ragOutput.addEventListener("submit", async (event) => {
-  const form = event.target.closest("#lead-form");
-  if (!form) return;
-  event.preventDefault();
-  const nameInput = document.getElementById("lead-name");
-  const emailInput = document.getElementById("lead-email");
-  const name = nameInput ? nameInput.value.trim() : "";
-  const email = emailInput ? emailInput.value.trim() : "";
-  const errorMsg = form.querySelector(".lead-error-msg");
-  if (!email || !email.includes("@")) {
-    errorMsg.textContent = "Please enter a valid email address.";
-    errorMsg.hidden = false;
-    return;
-  }
-  const submitBtn = form.querySelector(".lead-submit");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending…";
-  errorMsg.hidden = true;
-  try {
-    const response = await fetch(apiUrl("/api/contact"), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, question: latestQuestion })
+  if (result?.follow_ups?.length) {
+    const chips = document.createElement("div");
+    chips.className = "chat-follow-ups";
+    result.follow_ups.forEach(q => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = q;
+      btn.addEventListener("click", () => submitQuestion(q));
+      chips.appendChild(btn);
     });
-    const data = await response.json();
-    if (data.success) {
-      document.getElementById("lead-capture").innerHTML = `<p class="lead-success">✓ Thanks${name ? " " + escapeHtml(name) : ""}! Karan will be in touch soon.</p>`;
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Send";
-      errorMsg.textContent = "Something went wrong. Please try again.";
-      errorMsg.hidden = false;
-    }
-  } catch {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Send";
-    errorMsg.textContent = "Unable to send. Email karan.dee2905@gmail.com directly.";
-    errorMsg.hidden = false;
+    row.appendChild(chips);
+    scrollBottom();
   }
-});
+}
 
+async function addAIError(msg) {
+  const row = document.createElement("div");
+  row.className = "chat-msg ai";
+  row.innerHTML = `<div class="chat-bubble chat-bubble-error">${escapeHtml(msg)}</div>`;
+  chatMessages.appendChild(row);
+  scrollBottom();
+}
+
+/* ── text streaming ───────────────────────────────────────────────── */
+async function streamText(el, text) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) { el.textContent = text; return; }
+  el.textContent = "";
+  const CHUNK = 3;
+  for (let i = 0; i < text.length; i += CHUNK) {
+    el.textContent += text.slice(i, i + CHUNK);
+    if (i % 45 === 0) scrollBottom();
+    await new Promise(r => setTimeout(r, 11));
+  }
+  scrollBottom();
+}
+
+/* ── API ──────────────────────────────────────────────────────────── */
 async function queryRag(question) {
-  const requestId = ++latestRagRequest;
-  const selectedRole = targetRole.value;
-  retrievalInspector.hidden = true;
-  warmupNoticeActive = false;
-  ragOutput.innerHTML = `
-    <div class="answer-header">
-      <span class="answer-icon">AI</span>
-      <div>
-        <strong>Preparing an answer…</strong>
-        ${!backendWarm ? "<small>The backend is starting up — this first response may take about 30 seconds.</small>" : ""}
-      </div>
-    </div>
-  `;
+  const reqId = ++latestRequest;
+  showTyping();
 
   try {
-    const response = await fetch(apiUrl("/api/query"), {
+    const res = await fetch(apiUrl("/api/query"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: question, role: selectedRole, answer_mode: selectedAnswerMode, history: ragHistory })
+      body: JSON.stringify({
+        query: question,
+        role: targetRole?.value || "general",
+        answer_mode: "detailed",
+        history: ragHistory,
+      }),
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      if (requestId === latestRagRequest) renderRequestError(error.error || "The question could not be processed.");
+
+    hideTyping();
+    if (reqId !== latestRequest) return;
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      await addAIError(err.error || "The question could not be processed.");
       return;
     }
-    const result = await response.json();
-    if (requestId === latestRagRequest) renderApiAnswer(result);
+
+    const result = await res.json();
+    if (reqId !== latestRequest) return;
+
+    await addAIBubble(result);
+
+    ragHistory.push({
+      question: result.query,
+      answer: result.answer,
+      topic: result.citations?.[0]?.section || result.trace?.intent,
+      role: result.trace?.role,
+    });
+    ragHistory = ragHistory.slice(-4);
+
   } catch {
-    if (requestId === latestRagRequest) renderAnswer(question);
-  }
-}
-
-async function submitRagQuestion(question) {
-  const normalizedQuestion = String(question || "").trim();
-  if (!normalizedQuestion) return;
-  ragInput.value = "";
-  ragInput.focus();
-  await queryRag(normalizedQuestion);
-}
-
-async function typeAndSubmitProjectQuestion(question) {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  ragInput.value = "";
-  ragInput.focus();
-  if (!reducedMotion) {
-    for (const character of question) {
-      ragInput.value += character;
-      await new Promise((resolve) => window.setTimeout(resolve, 18));
+    hideTyping();
+    if (reqId === latestRequest) {
+      await addAIError("The portfolio assistant couldn't be reached. Explore projects and experience on this page in the meantime.");
     }
-    await new Promise((resolve) => window.setTimeout(resolve, 220));
-  } else {
-    ragInput.value = question;
   }
-  await submitRagQuestion(question);
 }
 
-document.addEventListener("click", async (event) => {
-  const link = event.target.closest("[data-project-question]");
-  if (!link) return;
-  event.preventDefault();
-  const question = link.dataset.projectQuestion;
-  history.pushState(null, "", buildShareUrl(question, targetRole.value));
-  aiSection.scrollIntoView({ behavior: "smooth", block: "start" });
-  await typeAndSubmitProjectQuestion(question);
+async function submitQuestion(question) {
+  const q = String(question || "").trim();
+  if (!q) return;
+  ragInput.value = "";
+  ragInput.focus();
+  hideSuggestions();
+  addUserBubble(q);
+  await queryRag(q);
+}
+
+/* ── events ───────────────────────────────────────────────────────── */
+ragForm.addEventListener("submit", e => {
+  e.preventDefault();
+  submitQuestion(ragInput.value);
 });
 
-function buildShareUrl(question, role) {
-  const url = new URL(window.location.href);
-  url.search = "";
-  url.searchParams.set("ask", question);
-  if (role !== "general") url.searchParams.set("role", role);
-  url.hash = "rag-lab";
-  return url.toString();
-}
-
-async function copyShareLink() {
-  if (!latestQuestion) return;
-  const url = buildShareUrl(latestQuestion, targetRole.value);
-  try {
-    await navigator.clipboard.writeText(url);
-    shareStatus.textContent = "Link copied";
-  } catch {
-    window.prompt("Copy this shareable link", url);
-    shareStatus.textContent = "Link ready";
+suggestedWrap?.addEventListener("click", e => {
+  const q = e.target.closest("[data-question]")?.dataset.question;
+  if (q) { submitQuestion(q); return; }
+  if (e.target.closest("#surprise-me")) {
+    submitQuestion(SURPRISE_QUESTIONS[Math.floor(Math.random() * SURPRISE_QUESTIONS.length)]);
   }
-  window.setTimeout(() => { shareStatus.textContent = ""; }, 2500);
+});
+
+clearBtn?.addEventListener("click", () => {
+  ragHistory = [];
+  chatMessages.innerHTML = `
+    <div class="chat-msg ai">
+      <div class="chat-bubble">
+        <strong>Conversation cleared.</strong> Ask me anything about Karan's work.
+      </div>
+    </div>`;
+  suggestionsUsed = false;
+  suggestedWrap.style.cssText = "";
+  ragInput.value = "";
+  ragInput.focus();
+});
+
+returnBtn?.addEventListener("click", () => {
+  document.getElementById("rag-lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  returnBtn.hidden = true;
+});
+
+document.addEventListener("click", e => {
+  const link = e.target.closest("[data-project-question]");
+  if (!link) return;
+  e.preventDefault();
+  document.getElementById("rag-lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  submitQuestion(link.dataset.projectQuestion);
+});
+
+/* ── lead capture ─────────────────────────────────────────────────── */
+document.addEventListener("submit", async e => {
+  const form = e.target.closest("#lead-form");
+  if (!form) return;
+  e.preventDefault();
+  const name  = form.querySelector("[name=name]")?.value.trim() || "";
+  const email = form.querySelector("[name=email]")?.value.trim() || "";
+  const errEl = form.querySelector(".lead-error-msg");
+  if (!email.includes("@")) {
+    if (errEl) { errEl.textContent = "Valid email required."; errEl.hidden = false; }
+    return;
+  }
+  const btn = form.querySelector(".lead-submit");
+  btn.disabled = true; btn.textContent = "Sending…";
+  if (errEl) errEl.hidden = true;
+  try {
+    const r = await fetch(apiUrl("/api/contact"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    });
+    const d = await r.json();
+    if (d.success) {
+      form.closest(".lead-capture").innerHTML = `<p class="lead-success">Thanks${name ? " " + escapeHtml(name) : ""}! Karan will be in touch.</p>`;
+    } else {
+      btn.disabled = false; btn.textContent = "Send";
+      if (errEl) { errEl.textContent = "Something went wrong."; errEl.hidden = false; }
+    }
+  } catch {
+    btn.disabled = false; btn.textContent = "Send";
+    if (errEl) { errEl.textContent = "Unable to send. Email karan.dee2905@gmail.com directly."; errEl.hidden = false; }
+  }
+});
+
+/* ── status ───────────────────────────────────────────────────────── */
+async function checkApiStatus() {
+  try {
+    const res = await fetch(apiUrl("/api/health"));
+    if (!res.ok) throw new Error();
+    backendWarm = true;
+    if (apiStatus) apiStatus.textContent = "Live";
+  } catch {
+    if (apiStatus) apiStatus.textContent = "Demo mode";
+  }
 }
 
 async function loadSharedQuestion() {
-  const params = new URLSearchParams(window.location.search);
-  const question = params.get("ask")?.trim();
-  const role = params.get("role");
-  if (!question) return;
-  if ([...targetRole.options].some(option => option.value === role)) targetRole.value = role;
-  await submitRagQuestion(question);
+  const q = new URLSearchParams(window.location.search).get("ask")?.trim();
+  if (q) await submitQuestion(q);
 }
 
-async function checkApiStatus() {
-  const status = document.getElementById("api-status");
-  const stats = document.getElementById("index-stats");
-
-  const warmupTimer = window.setTimeout(() => {
-    if (!backendWarm && !warmupNoticeActive) {
-      warmupNoticeActive = true;
-      ragOutput.innerHTML = `
-        <div class="answer-header">
-          <span class="answer-icon">AI</span>
-          <div><strong>The AI is warming up.</strong><small>The backend takes ~30 seconds to start on first use — ask your question now and it will answer once ready.</small></div>
-        </div>
-        <p class="answer-body">Feel free to explore projects and experience in the meantime.</p>
-      `;
-    }
-  }, 5000);
-
-  try {
-    const response = await fetch(apiUrl("/api/health"));
-    clearTimeout(warmupTimer);
-    if (!response.ok) throw new Error("API unavailable");
-    const health = await response.json();
-    backendWarm = true;
-    status.textContent = "Live";
-    stats.textContent = `${health.documents} sources / ${health.chunks} evidence chunks`;
-    if (warmupNoticeActive) {
-      warmupNoticeActive = false;
-      ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>The assistant is ready — ask about Karan's work, projects, skills, or resume.</small></div></div>`;
-    }
-  } catch {
-    clearTimeout(warmupTimer);
-    status.textContent = "Demo";
-    if (warmupNoticeActive) {
-      warmupNoticeActive = false;
-      ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask about Karan's work, projects, skills, architecture, or resume.</small></div></div>`;
-    }
-  }
-}
-
-async function loadEvaluation() {
-  try {
-    const response = await fetch(apiUrl("/api/evaluation"));
-    if (!response.ok) throw new Error("Evaluation unavailable");
-    const result = await response.json();
-    evaluationStatus.textContent = `${result.passed}/${result.suite_cases} cases passing`;
-    const metrics = [
-      ["Top evidence", `${(result.top_evidence_accuracy * 100).toFixed(0)}%`, "correct first result"],
-      ["Citation coverage", `${(result.citation_coverage * 100).toFixed(0)}%`, "answered queries cited"],
-      ["Abstention", `${(result.abstention_accuracy * 100).toFixed(0)}%`, "unsupported queries refused"],
-      ["Role ranking", `${(result.role_ranking_accuracy * 100).toFixed(0)}%`, "role evidence correct"],
-      ["Avg latency", `${result.average_latency_ms.toFixed(2)}ms`, "local evaluation"]
-    ];
-    evaluationMetrics.innerHTML = metrics.map(([label, value, note]) => `<div><span>${label}</span><strong>${value}</strong><small>${note}</small></div>`).join("");
-    latestEvaluationRows = result.cases;
-    renderEvaluationCases();
-  } catch {
-    evaluationStatus.textContent = "Evaluation unavailable";
-  }
-}
-
-function renderEvaluationCases() {
-  const rows = evaluationExpanded ? latestEvaluationRows : latestEvaluationRows.slice(0, 4);
-  evaluationCases.innerHTML = rows.map(row => `<div class="${row.passed ? "pass" : "fail"}"><i>${row.passed ? "Pass" : "Fail"}</i><strong>${row.name}</strong><span>${row.role}</span><small>${row.top_evidence} / ${row.decision}</small></div>`).join("");
-  evaluationToggle.textContent = evaluationExpanded ? "Hide test details" : `Show all ${latestEvaluationRows.length} tests`;
-  evaluationToggle.setAttribute("aria-expanded", String(evaluationExpanded));
-}
-
-ragForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  await submitRagQuestion(ragInput.value);
-});
-
-promptButtons.forEach((button) => {
-  button.addEventListener("click", async () => {
-    await submitRagQuestion(button.dataset.question);
-  });
-});
-
-answerModeButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    selectedAnswerMode = button.dataset.answerMode;
-    answerModeButtons.forEach(modeButton => modeButton.classList.toggle("active", modeButton === button));
-  });
-});
-
-followUpPrompts.addEventListener("click", async (event) => {
-  const button = event.target.closest("[data-follow-up]");
-  if (!button) return;
-  await submitRagQuestion(button.dataset.followUp);
-});
-
-clearConversation.addEventListener("click", () => {
-  ragHistory = [];
-  renderConversation();
-  renderFollowUps();
-  retrievalInspector.hidden = true;
-  latestQuestion = "";
-  ragInput.value = "";
-  ragInput.focus();
-  shareQuestion.disabled = true;
-  shareStatus.textContent = "";
-  conversationHistory.hidden = true;
-  conversationToggle.setAttribute("aria-expanded", "false");
-  conversationToggle.textContent = "Show history";
-  ragOutput.innerHTML = `<div class="answer-header"><span class="answer-icon">AI</span><div><strong>Conversation cleared</strong><small>Ask about Karan's work to begin again.</small></div></div>`;
-});
-
-shareQuestion.addEventListener("click", copyShareLink);
-evaluationToggle.addEventListener("click", () => {
-  evaluationExpanded = !evaluationExpanded;
-  renderEvaluationCases();
-});
-
-// Inject lead capture styles
 (function () {
-  const style = document.createElement("style");
-  style.textContent = [
-    ".lead-capture{margin-top:1rem;padding:1rem 1.25rem;border-radius:8px;background:var(--surface-alt,#f5f5f4);border:1px solid var(--border,#e5e7eb);}",
-    ".lead-intro{margin:0 0 .75rem;font-size:.875rem;color:var(--text-secondary,#6b7280);}",
-    ".lead-form{display:contents;}",
-    ".lead-fields{display:flex;gap:.5rem;flex-wrap:wrap;}",
-    ".lead-fields input{flex:1;min-width:140px;padding:.5rem .75rem;border:1px solid var(--border,#d1d5db);border-radius:6px;font-size:.875rem;background:var(--surface,#fff);color:var(--text,#111827);}",
-    ".lead-fields input:focus{outline:2px solid var(--accent,#2f9e78);outline-offset:1px;border-color:transparent;}",
-    ".lead-submit{padding:.5rem 1.25rem;background:var(--accent,#2f9e78);color:#fff;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .15s;}",
-    ".lead-submit:hover{opacity:.88;}",
-    ".lead-submit:disabled{opacity:.55;cursor:not-allowed;}",
-    ".lead-success{font-size:.9rem;color:var(--success,#16a34a);font-weight:600;margin:0;padding:.5rem 0;}",
-    ".lead-error-msg{font-size:.8rem;color:var(--error,#dc2626);margin:.35rem 0 0;}"
+  const s = document.createElement("style");
+  s.textContent = [
+    ".lead-capture{margin-top:12px;padding:14px;border-radius:10px;background:#161b22;border:1px solid #21262d}",
+    ".lead-intro{margin:0 0 10px;font-size:11px;color:var(--muted)}",
+    ".lead-form{display:contents}",
+    ".lead-fields{display:flex;gap:6px;flex-wrap:wrap}",
+    ".lead-fields input{flex:1;min-width:130px;padding:8px 10px;border:1px solid #21262d;border-radius:6px;font-size:11px;background:#0d1117;color:var(--ink)}",
+    ".lead-fields input:focus{outline:2px solid var(--accent);border-color:transparent}",
+    ".lead-submit{padding:8px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer}",
+    ".lead-submit:disabled{opacity:.55;cursor:not-allowed}",
+    ".lead-success{font-size:11px;color:var(--green);font-weight:700;margin:0;padding:4px 0}",
+    ".lead-error-msg{font-size:10px;color:var(--pink);margin:6px 0 0}",
   ].join("");
-  document.head.appendChild(style);
+  document.head.appendChild(s);
 }());
 
-window.KaranAI = Object.freeze({ capitalizeFirstAlpha });
+window.KaranAI = Object.freeze({});
 checkApiStatus();
-loadEvaluation();
 loadSharedQuestion();
