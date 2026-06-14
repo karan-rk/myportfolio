@@ -450,119 +450,59 @@
       <div class="container">
         <div class="section-heading reveal">
           <div>
-            <p class="section-kicker">Supporting portfolio guide</p>
-            <h2>Have a specific question?</h2>
+            <p class="section-kicker">Portfolio AI</p>
+            <h2>Have a question? Just ask.</h2>
           </div>
-          <p>Use Karan AI to quickly find relevant experience, projects, architecture decisions, and role-fit details.</p>
+          <p>Karan AI gives evidence-backed answers about experience, projects, skills, and role fit &mdash; no searching required.</p>
         </div>
 
         <div class="rag-shell reveal">
           <div class="rag-topbar">
             <div class="window-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <p>Karan AI</p>
-            <span class="prototype-badge">Portfolio assistant</span>
+            <div class="rag-topbar-id">
+              <div class="rag-avatar" aria-hidden="true">AI</div>
+              <div>
+                <strong>Karan AI</strong>
+                <span id="api-status">Starting&hellip;</span>
+              </div>
+            </div>
+            <div class="rag-topbar-controls">
+              <select id="target-role" title="Role context">
+                <option value="general">General</option>
+                <option value="ml-engineer">ML Engineer</option>
+                <option value="data-scientist">Data Scientist</option>
+                <option value="software-engineer">Software Engineer</option>
+              </select>
+              <button id="clear-conversation" type="button" aria-label="Clear conversation" title="Clear">&#8635;</button>
+            </div>
           </div>
 
-          <div class="rag-workspace">
-            <aside class="rag-sidebar">
-              <p class="sidebar-label">Portfolio evidence</p>
-              <div class="source-item active"><span>01</span><div><strong>Experience</strong><small>Roles and measurable impact</small></div></div>
-              <div class="source-item"><span>02</span><div><strong>Projects</strong><small>Software and ML case studies</small></div></div>
-              <div class="source-item"><span>03</span><div><strong>Skills</strong><small>Technical toolkit</small></div></div>
-              <div class="source-item"><span>04</span><div><strong>Resume</strong><small>Profile and education</small></div></div>
-              <div class="index-status"><span class="status-dot"></span><div><strong>Portfolio indexed</strong><small id="index-stats">5 sources / 38 evidence chunks</small></div></div>
-            </aside>
-
-            <div class="rag-console">
-              <div class="rag-intro">
-                <div>
-                  <p class="console-label">Conversation</p>
-                  <h3>What would you like to talk about?</h3>
-                </div>
-                <div class="latency-card"><span>Status</span><strong id="api-status">Starting&hellip;</strong></div>
-              </div>
-
-              <div class="suggested-prompts" aria-label="Suggested questions">
-                <button type="button" data-question="Why is Karan a strong candidate?">Why hire Karan?</button>
-                <button type="button" data-question="What is Karan's most relevant experience?">Most relevant experience</button>
-                <button type="button" data-question="What backend engineering work has Karan done?">Backend engineering work</button>
-                <button type="button" data-question="What machine learning projects has Karan built?">Machine learning projects</button>
-                <button type="button" data-question="Summarize Karan's resume">Resume summary</button>
-              </div>
-
-              <div class="role-selector">
-                <label for="target-role">Evaluate candidate fit for</label>
-                <select id="target-role">
-                  <option value="general">General portfolio</option>
-                  <option value="ml-engineer">ML Engineer</option>
-                  <option value="data-scientist">Data Scientist</option>
-                  <option value="software-engineer">Software Engineer</option>
-                </select>
-              </div>
-              <div class="answer-mode-selector" aria-label="Answer detail">
-                <span>Answer style</span>
-                <div>
-                  <button type="button" data-answer-mode="short">Short</button>
-                  <button class="active" type="button" data-answer-mode="detailed">Detailed</button>
-                  <button type="button" data-answer-mode="bullets">Bullets</button>
-                </div>
-              </div>
-
-              <div class="conversation-header">
-                <span>Conversation</span>
-                <div><button id="conversation-toggle" type="button" aria-expanded="false" aria-controls="conversation-history">Show history</button><button id="clear-conversation" type="button">Clear</button></div>
-              </div>
-              <div class="conversation-history" id="conversation-history" hidden>
-                <p>Start with a suggested question or ask about Karan's work.</p>
-              </div>
-
-              <form class="rag-form" id="rag-form">
-                <label class="sr-only" for="rag-question">Ask Karan AI a question</label>
-                <input id="rag-question" type="text" placeholder="Ask about Karan's work..." maxlength="500" autocomplete="off">
-                <button type="submit">Ask</button>
-              </form>
-              <div class="share-row">
-                <button id="share-question" type="button" disabled>Copy shareable question link</button>
-                <span id="share-status" aria-live="polite"></span>
-              </div>
-
-              <div class="rag-output" id="rag-output" aria-live="polite">
-                <div class="answer-header"><span class="answer-icon">AI</span><div><strong>Hi, I'm Karan AI.</strong><small>Ask about Karan's work, projects, skills, architecture, or resume.</small></div></div>
-              </div>
-              <div class="follow-up-prompts" id="follow-up-prompts" hidden></div>
-              <div class="retrieval-inspector" id="retrieval-inspector" hidden>
-                <div class="inspector-heading"><div><p class="console-label">Retrieval trace</p><h4>Why this answer?</h4></div><span id="trace-summary"></span></div>
-                <div class="trace-metrics" id="trace-metrics"></div>
-                <div class="evidence-list" id="evidence-list"></div>
+          <div class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Conversation with Karan AI">
+            <div class="chat-msg ai">
+              <div class="chat-bubble">
+                <strong>Hi, I&rsquo;m Karan AI.</strong> Ask me about Karan&rsquo;s experience, projects, skills, or role fit. I give evidence-backed answers.
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="rag-details reveal">
-          <div class="architecture-card">
-            <p class="project-tag">How it works</p>
-            <h3>Every answer points back to portfolio evidence.</h3>
-            <div class="architecture-flow">
-              <span>Recruiter question</span><b>+</b><span>Portfolio retrieval</span><b>+</b><span>Confidence gate</span><b>+</b><span>Cited answer</span>
-            </div>
+          <div class="chat-suggestions" id="suggested-prompts">
+            <button type="button" data-question="Why is Karan a strong candidate for a software engineering role?">Why hire Karan?</button>
+            <button type="button" data-question="What is Karan's most relevant engineering experience?">Most relevant experience</button>
+            <button type="button" data-question="What backend engineering work has Karan done?">Backend engineering</button>
+            <button type="button" data-question="What machine learning projects has Karan built?">ML projects</button>
+            <button type="button" data-question="Summarize Karan's resume">Resume summary</button>
+            <button type="button" id="surprise-me">&#9889; Surprise me</button>
           </div>
-          <div class="metric-stack">
-            <div><span>Evidence</span><strong>4 sources</strong><p>experience, projects, skills, resume</p></div>
-            <div><span>Behavior</span><strong>Abstains</strong><p>when evidence is insufficient</p></div>
-            <div><span>Trust</span><strong>Citations</strong><p>ranked evidence for every answer</p></div>
+
+          <div class="rag-input-bar">
+            <form class="rag-form" id="rag-form">
+              <label class="sr-only" for="rag-question">Ask Karan AI a question</label>
+              <input id="rag-question" type="text" placeholder="Ask about Karan&rsquo;s work&hellip;" maxlength="500" autocomplete="off">
+              <button type="submit" aria-label="Send">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </form>
           </div>
-        </div>
-        <div class="evaluation-dashboard reveal">
-          <div class="evaluation-heading">
-            <div><p class="project-tag">Live evaluation suite</p><h3>Measured, not just demonstrated.</h3></div>
-            <div class="evaluation-actions">
-              <span id="evaluation-status">Running evaluation</span>
-              <button id="evaluation-toggle" type="button" aria-expanded="false">Show test details</button>
-            </div>
-          </div>
-          <div class="evaluation-metrics" id="evaluation-metrics"></div>
-          <div class="evaluation-cases" id="evaluation-cases"></div>
         </div>
       </div>
     </section>
