@@ -42,9 +42,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles-1.css?v=47">
-  <link rel="stylesheet" href="styles-2.css?v=47">
-  <link rel="stylesheet" href="styles-3.css?v=47">
+  <link rel="stylesheet" href="styles-1.css?v=48">
+  <link rel="stylesheet" href="styles-2.css?v=48">
+  <link rel="stylesheet" href="styles-3.css?v=48">
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
 <body>
@@ -95,7 +95,7 @@
   </header>
 
   <main id="top" tabindex="-1">
-    <!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+    <!-- ═══ HERO ════════════════════════════════════════════════ -->
     <section class="hero container">
       <div class="hero-network" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -147,111 +147,107 @@
           <p class="section-kicker">Experience</p>
           <h2>Engineering impact backed by research depth.</h2>
         </div>
-        <p>Experience across production software, distributed systems, applied machine learning, and technical mentorship. Currently active in two concurrent research roles at Stony Brook since January 2025.</p>
+        <p>Production software at Meta scale, active distributed systems and ML research at Stony Brook, and technical mentorship &mdash; all running concurrently since January 2025.</p>
       </div>
 
-      <div class="timeline">
-        <div class="timeline-group reveal">
-          <span>01</span>
-          <div><strong>Professional &amp; Systems Experience</strong><small>Industry-scale data platforms and reliable distributed services</small></div>
-        </div>
+      <div class="exp-list">
 
-        <article class="experience-card experience-primary reveal" id="experience-meta">
-          <span class="timeline-dot" aria-hidden="true"></span>
-          <div class="experience-meta">
-            <div class="brand-lockup brand-duo" aria-label="Meta and Instagram">
-              <img src="assets/brands/meta.svg" alt="Meta">
-              <img src="assets/brands/instagram.svg" alt="Instagram">
+        <article class="exp-card exp-card--featured reveal" id="experience-meta">
+          <div class="exp-card-left">
+            <div class="exp-header">
+              <div class="brand-lockup brand-duo" aria-label="Meta and Instagram">
+                <img src="assets/brands/meta.svg" alt="Meta">
+                <img src="assets/brands/instagram.svg" alt="Instagram">
+              </div>
+              <div class="exp-org-info">
+                <p class="exp-company">Meta / Instagram</p>
+                <p class="exp-date">Aug 2023 &ndash; Jun 2024</p>
+              </div>
             </div>
-            <p>Meta / Instagram</p>
-            <span>Aug 2023 &ndash; Jun 2024</span>
+            <p class="exp-role-label">Engineering / Data Systems</p>
+            <h3 class="exp-role-title">Software Engineer</h3>
+            <p class="exp-desc">Built Instagram’s first cohort-analysis pipeline and behavioral clustering framework at billion-user scale. Returned to Stony Brook in 2024 to complete the M.S. Computer Engineering program.</p>
+            <div class="exp-tags"><span>Python</span><span>SQL</span><span>Spark</span><span>Hive</span><span>HDFS</span><span>Data Pipelines</span></div>
           </div>
-          <div class="experience-role">
-            <p class="role-type">Engineering / Data Systems</p>
-            <h3>Software Engineer</h3>
-            <p>Built Instagram's first cohort-analysis pipeline and behavioral clustering framework at billion-user scale. Returned to Stony Brook University in 2024 to complete the M.S. Computer Engineering program.</p>
-            <div class="experience-tags"><span>Python</span><span>SQL</span><span>Data Pipelines</span><span>Dashboards</span></div>
-          </div>
-          <div class="experience-impact">
-            <div class="metric-row"><strong>1.2B</strong><span>user pairs processed to identify 500M unique users</span></div>
-            <div class="metric-row"><strong>5x</strong><span>pipeline performance improvement</span></div>
-            <div class="metric-row"><strong>-50%</strong><span>Business Compute Unit consumption</span></div>
+          <div class="exp-card-right">
+            <div class="exp-metric"><strong>1.2B</strong><span>user pairs processed &middot; 500M unique users identified</span></div>
+            <div class="exp-metric"><strong>5x</strong><span>pipeline performance improvement</span></div>
+            <div class="exp-metric"><strong>&minus;50%</strong><span>Business Compute Unit consumption</span></div>
           </div>
         </article>
 
-        <article class="experience-card reveal" id="experience-systems-research">
-          <span class="timeline-dot" aria-hidden="true"></span>
-          <div class="experience-meta">
-            <div class="brand-lockup brand-sbu">
-              <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+        <article class="exp-card reveal" id="experience-systems-research">
+          <div class="exp-card-left">
+            <div class="exp-header">
+              <div class="brand-lockup brand-sbu">
+                <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+              </div>
+              <div class="exp-org-info">
+                <p class="exp-company">Stony Brook University</p>
+                <p class="exp-date">Jan 2025 &ndash; Present &middot; concurrent role</p>
+              </div>
             </div>
-            <p>Stony Brook University</p>
-            <span>Jan 2025 &ndash; Present &middot; concurrent role</span>
+            <p class="exp-role-label">Research / Distributed Systems</p>
+            <h3 class="exp-role-title">Research Assistant</h3>
+            <p class="exp-desc">Building reliable distributed services, communication pipelines, and deployment workflows for scalable multi-node systems. Focused on throughput, fault tolerance, and runtime performance.</p>
+            <div class="exp-tags"><span>C++</span><span>Python</span><span>Kafka</span><span>gRPC</span><span>Docker</span></div>
           </div>
-          <div class="experience-role">
-            <p class="role-type">Research / Distributed Systems</p>
-            <h3>Research Assistant</h3>
-            <p>Built reliable distributed services, communication pipelines, and deployment workflows for scalable multi-node systems.</p>
-            <div class="experience-tags"><span>C++</span><span>Python</span><span>Kafka</span><span>gRPC</span><span>Docker</span></div>
-          </div>
-          <div class="experience-impact">
-            <div class="metric-row"><strong>+25%</strong><span>throughput through multithreading and asynchronous processing</span></div>
-            <div class="metric-row"><strong>-20%</strong><span>runtime overhead through Linux profiling and debugging</span></div>
-            <div class="metric-row"><strong>Failover</strong><span>automatic recovery through replication and fault-tolerant microservices</span></div>
+          <div class="exp-card-right">
+            <div class="exp-metric"><strong>+25%</strong><span>throughput via multithreading and async processing</span></div>
+            <div class="exp-metric"><strong>&minus;20%</strong><span>runtime overhead via Linux profiling</span></div>
+            <div class="exp-metric"><strong>Auto</strong><span>failover through replication and fault-tolerant microservices</span></div>
           </div>
         </article>
 
-        <div class="timeline-group timeline-group-secondary reveal">
-          <span>02</span>
-          <div><strong>Applied ML &amp; Academic Leadership</strong><small>Machine learning research, experimentation, and technical mentorship</small></div>
-        </div>
-
-        <article class="experience-card reveal" id="experience-persuasion">
-          <span class="timeline-dot" aria-hidden="true"></span>
-          <div class="experience-meta">
-            <div class="brand-lockup brand-sbu">
-              <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+        <article class="exp-card reveal" id="experience-persuasion">
+          <div class="exp-card-left">
+            <div class="exp-header">
+              <div class="brand-lockup brand-sbu">
+                <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+              </div>
+              <div class="exp-org-info">
+                <p class="exp-company">Prof. H. Andrew Schwartz&rsquo;s Lab &middot; Stony Brook</p>
+                <p class="exp-date">Jan 2025 &ndash; Present &middot; concurrent role</p>
+              </div>
             </div>
-            <p>Prof. H. Andrew Schwartz's Lab &middot; Stony Brook</p>
-            <span>Jan 2025 &ndash; Present &middot; concurrent role</span>
+            <p class="exp-role-label">Machine Learning / NLP Research</p>
+            <h3 class="exp-role-title">Persuasion Modeling Research</h3>
+            <p class="exp-desc">Fine-tuning preference-aligned language models on discussion data to model persuasion for mental health applications including CBT and counseling.</p>
+            <div class="exp-tags"><span>Llama 2-7B</span><span>LoRA</span><span>DPO</span><span>Optuna</span><span>W&amp;B</span></div>
           </div>
-          <div class="experience-role">
-            <p class="role-type">Machine Learning / NLP Research</p>
-            <h3>Persuasion Modeling Research</h3>
-            <p>Fine-tuning preference-aligned language models on r/ChangeMyView discussion data to model persuasion for mental health applications including CBT and counseling.</p>
-            <div class="experience-tags"><span>Llama 2-7B</span><span>LoRA</span><span>DPO</span><span>Optuna</span><span>W&amp;B</span></div>
-          </div>
-          <div class="experience-impact">
-            <div class="metric-row"><strong>0.7</strong><span>reward accuracy after preference optimization</span></div>
-            <div class="metric-row"><strong>+6%</strong><span>performance over human persuasive responses</span></div>
-            <div class="metric-row"><strong>92%</strong><span>ROC-AUC on author-style detection across 40M+ documents</span></div>
+          <div class="exp-card-right">
+            <div class="exp-metric"><strong>0.7</strong><span>reward accuracy after preference optimization</span></div>
+            <div class="exp-metric"><strong>+6%</strong><span>over human persuasive baselines</span></div>
+            <div class="exp-metric"><strong>92%</strong><span>ROC-AUC on author-style detection &middot; 40M+ docs</span></div>
           </div>
         </article>
 
-        <article class="experience-card reveal" id="experience-teaching">
-          <span class="timeline-dot" aria-hidden="true"></span>
-          <div class="experience-meta">
-            <div class="brand-lockup brand-sbu">
-              <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+        <article class="exp-card reveal" id="experience-teaching">
+          <div class="exp-card-left">
+            <div class="exp-header">
+              <div class="brand-lockup brand-sbu">
+                <img src="assets/brands/stony-brook.jpg" alt="Stony Brook University">
+              </div>
+              <div class="exp-org-info">
+                <p class="exp-company">Stony Brook University</p>
+                <p class="exp-date">Aug 2024 &ndash; Dec 2024</p>
+              </div>
             </div>
-            <p>Stony Brook University</p>
-            <span>Aug 2024 &ndash; Dec 2024</span>
+            <p class="exp-role-label">Teaching / Distributed Systems</p>
+            <h3 class="exp-role-title">Graduate Teaching Assistant</h3>
+            <p class="exp-desc">Taught distributed systems concepts, guiding students through consensus, replication, debugging, and performance trade-offs across weekly labs and office hours.</p>
+            <div class="exp-tags"><span>Python</span><span>C++</span><span>Consensus</span><span>Replication</span><span>Sharding</span></div>
           </div>
-          <div class="experience-role">
-            <p class="role-type">Teaching / Distributed Systems</p>
-            <h3>Graduate Teaching Assistant</h3>
-            <p>Taught distributed systems concepts and guided students through reliability, debugging, and performance trade-offs.</p>
-            <div class="experience-tags"><span>Python</span><span>C++</span><span>Consensus</span><span>Replication</span></div>
-          </div>
-          <div class="experience-impact">
-            <div class="metric-row"><strong>+25%</strong><span>improvement in distributed systems project quality</span></div>
-            <div class="metric-row"><strong>5</strong><span>core areas: consensus, replication, sharding, fault tolerance, scalability</span></div>
+          <div class="exp-card-right">
+            <div class="exp-metric"><strong>+25%</strong><span>improvement in student project quality</span></div>
+            <div class="exp-metric"><strong>5</strong><span>core areas: consensus, replication, sharding, fault tolerance, scalability</span></div>
           </div>
         </article>
+
       </div>
     </section>
 
-    <!-- ═══ PROJECTS ══════════════════════════════════════════════════ -->
+    <!-- ═══ PROJECTS ══════════════════════════════════════════════════════ -->
     <section id="projects" class="section projects-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -445,7 +441,7 @@
       </article>
     </div>
 
-    <!-- ═══ PORTFOLIO AI ═══════════════════════════════════════════════ -->
+    <!-- ═══ PORTFOLIO AI ═════════════════════════════════════════════════════════ -->
     <section id="rag-lab" class="section rag-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -507,7 +503,7 @@
       </div>
     </section>
 
-    <!-- ═══ SKILLS ════════════════════════════════════════════════════ -->
+    <!-- ═══ SKILLS ════════════════════════════════════════════════════════ -->
     <section id="skills" class="section container">
       <div class="section-heading reveal">
         <div>
@@ -549,7 +545,7 @@
       </div>
     </section>
 
-    <!-- ═══ EDUCATION ═════════════════════════════════════════════════ -->
+    <!-- ═══ EDUCATION ═════════════════════════════════════════════════════════ -->
     <section class="education section container" id="education">
       <div class="education-heading reveal">
         <p class="section-kicker">Education</p>
@@ -579,7 +575,7 @@
       </div>
     </section>
 
-    <!-- ═══ CONTACT ══════════════════════════════════════════════════ -->
+    <!-- ═══ CONTACT ════════════════════════════════════════════════════════ -->
     <section class="contact section container reveal" id="contact">
       <div class="contact-main">
         <p class="section-kicker">Let's build something useful</p>
@@ -612,7 +608,6 @@
     <p>New York, NY</p>
   </footer>
 
-  <!-- ─── JS modules (load order matters) ─────────────────────────── -->
   <script src="js/theme.js" defer></script>
   <script src="js/nav.js" defer></script>
   <script src="js/skills.js" defer></script>
