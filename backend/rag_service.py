@@ -747,7 +747,7 @@ def contextual_follow_up_suggestions(query, intent=None):
             "How is this experience relevant to a software engineering role?",
         ]),
         (("kafka", "grpc", "distributed system"), [
-            "Where did Karan apply these distributed-systems skills?",
+            "Where did Karan apply these distributed-systems skills??",
             "What reliability problems did Karan solve?",
             "What performance improvements did Karan achieve?",
             "Which project best demonstrates these skills?",
@@ -1067,7 +1067,7 @@ def validate_query_payload(payload):
     role = payload.get("role", "general")
     if not isinstance(role, str) or role not in ROLE_PROFILES:
         return None, "Unsupported role"
-    answer_mode = payload.get("answer_mode", "short")
+    answer_mode = payload.get("answer_mode", "detailed")
     if not isinstance(answer_mode, str) or answer_mode not in ANSWER_MODES:
         return None, "Unsupported answer mode"
     history = payload.get("history", [])
@@ -1084,7 +1084,7 @@ def validate_query_payload(payload):
     return {"query": query, "role": role, "answer_mode": answer_mode, "history": history}, None
 
 
-def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="short", history=None, use_genai=False):
+def build_answer(query, passages, role="general", resolved_query=None, context_used=False, answer_mode="detailed", history=None, use_genai=False):
     evidence_query = resolved_query or query
     answer_passages = select_answer_passages(evidence_query, passages, role)
     if not answer_passages:
