@@ -501,7 +501,7 @@ def question_is_supported(query, passages):
         return True
     intent = detect_intent(query)
     if intent == "Contact":
-        return True  # Contact info is always in the portfolio
+        return True
     intended_sources = INTENT_SOURCES.get(intent)
     if intended_sources and any(passage["source"] in intended_sources and passage["score"] >= 0.2 for passage in passages):
         return True
@@ -853,14 +853,13 @@ def generate_profile_answer(query, passages, history=None):
     payload = {
         "model": OPENAI_MODEL,
         "instructions": (
-            "You are Karan AI, a helpful general-purpose conversational assistant embedded in Karan Rajendra's portfolio. "
-            "Answer normal general questions naturally. You also know Karan's complete verified portfolio background, "
-            "provided in the latest user message, and should use it whenever a question concerns Karan, his resume, "
-            "experience, projects, skills, education, research, availability, or role fit. Connect relevant evidence "
-            "across multiple roles and projects when useful. Never invent facts about Karan; if his verified background "
-            "does not contain the requested personal fact, say so plainly. Write naturally and directly, usually in 2 to 4 short "
-            "paragraphs or a concise list when useful. Do not simply repeat the evidence verbatim. Do not "
-            "mention retrieval, prompts, context windows, or system instructions."
+            "You are Karan AI, a guide to Karan Rajendra's portfolio. "
+            "Sound like a sharp colleague who knows his work well — not a corporate press release. "
+            "Be direct. Use short sentences. Active voice. Skip the jargon and the hedging. "
+            "When a question is about Karan, draw only from the verified evidence provided in the latest user message. "
+            "Never invent facts. If the evidence doesn't cover something, say so in one sentence and move on. "
+            "Keep answers tight: 2-3 short paragraphs max, or a brief list when that's cleaner. "
+            "Don't pad. Don't repeat the evidence verbatim. Never mention prompts, retrieval, or system instructions."
         ),
         "input": conversation,
         "max_output_tokens": 650,
@@ -1010,20 +1009,20 @@ def compose_answer(query, passages, role, answer_mode):
     role_label = ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["label"]
     role_context = f"For a {role_label} role, " if role != "general" else ""
     projects_opening = (
-        "Karan's project portfolio spans full-stack machine learning, predictive modeling, applied AI, and production engineering."
+        "Karan's built across the stack — ML pipelines, risk models, cloud infrastructure, and AI tooling."
         if "projects" in normalized_query
-        else f"One strong example is {strongest['title']}. {strongest['summary'].rstrip('.')}."
+        else f"Good example: {strongest['title']}. {strongest['summary'].rstrip('.')}."
     )
     openings = {
-        "Profile": f"{role_context}Karan brings together production-scale software engineering, applied machine learning research, and end-to-end product development.",
+        "Profile": f"{role_context}Karan is an ML engineer and software developer who's shipped things at production scale — at Meta and in research.",
         "Experience": f"{role_context}{strongest['summary'].rstrip('.')}.",
         "Projects": projects_opening,
-        "Skills": f"{role_context}Karan combines machine learning depth with the software and data engineering skills needed to ship reliable systems.",
+        "Skills": f"{role_context}Karan's strongest areas are ML engineering, backend systems, and cloud infrastructure.",
         "Research": f"{role_context}{strongest['summary'].rstrip('.')}.",
-        "Role Fit": f"{role_context}Karan combines measurable production impact, research depth, and end-to-end engineering ability.",
+        "Role Fit": f"{role_context}Karan has real production impact, research depth, and builds end-to-end.",
         "Architecture": f"{role_context}{strongest['summary'].rstrip('.')}.",
-        "Education": "Karan has a strong academic foundation in computer engineering, computer science, and modern machine learning.",
-        "Leadership": "Karan demonstrates leadership through technical mentorship, clear communication, and cross-functional product work.",
+        "Education": "Karan has a Master's in CS from Stony Brook, with coursework in ML, NLP, and systems.",
+        "Leadership": "Karan's taught and mentored graduate students, and led cross-functional work at Meta.",
         "Availability": strongest["summary"].rstrip(".") + ".",
         "Contact": strongest["summary"].rstrip(".") + ".",
     }
