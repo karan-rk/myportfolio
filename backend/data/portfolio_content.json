@@ -35,8 +35,8 @@
     "source": "Resume",
     "title": "Contact information",
     "summary": "Karan can be contacted directly by email or phone",
-    "content": "Karan's public portfolio contact information is karan.dee2905@gmail.com and (631) 371-2656. He is based in New York, New York, and the portfolio includes links to his resume, LinkedIn, GitHub, and project source repositories.",
-    "keywords": ["contact", "contact information", "email", "phone", "karan.dee2905@gmail.com", "631 371 2656", "linkedin", "github", "resume"]
+    "content": "Karan's public portfolio contact information is karan.dee2905@gmail.com and (631) 371-2656. He is based in New York, New York. His resume is available directly at https://karan-rk.github.io/myportfolio/assets/karan-rajendra-resume.pdf. The portfolio also includes links to his LinkedIn (linkedin.com/in/karan-rajendra), GitHub (github.com/karan-rk), and project source repositories.",
+    "keywords": ["contact", "contact information", "email", "phone", "karan.dee2905@gmail.com", "631 371 2656", "linkedin", "github", "resume", "resume link", "download resume", "view resume"]
   },
   {
     "id": "resume-chronology",
@@ -64,6 +64,15 @@
     "summary": "Karan connected large-scale engineering work to product experiments and decisions",
     "content": "At Meta and Instagram, Karan developed Instagram Story interaction signals, multi-signal clustering, and monitoring dashboards for adoption and experiments. His work addressed data sparsity and user segmentation and supported cross-functional product decisions.",
     "keywords": ["collaboration", "cross functional", "teamwork", "product", "analytics", "experiments", "monitoring", "dashboard", "instagram stories", "stakeholders"]
+  },
+  {
+    "id": "challenge-hardest",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Most complex technical challenge",
+    "summary": "Karan's hardest challenge was building Instagram's first cohort-analysis pipeline at billion-user scale from scratch",
+    "content": "Karan's most complex technical challenge was building Instagram's first cohort-analysis pipeline from scratch at production scale — processing 1.2 billion user pairs with no prior infrastructure, designing behavioral clustering under severe data sparsity, achieving a 5x performance improvement, and reducing Business Compute Unit consumption by 50 percent, all while supporting live cross-functional product experiments at Meta.",
+    "keywords": ["hardest", "most complex", "biggest challenge", "toughest problem", "difficult", "complex technical challenge", "challenging", "what was hard", "technical difficulty", "hardest problem", "most impressive", "biggest achievement"]
   },
   {
     "id": "experience-systems-research",
