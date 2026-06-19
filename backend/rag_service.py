@@ -41,7 +41,7 @@ TOKEN_ALIASES = {
     "karans": "karan", "whats": "what",
     "located": "location", "relocate": "relocation", "relocating": "relocation",
     "projects": "project", "skills": "skill", "technologies": "technology",
-    "expertise": "skill", "expert": "skill", "strengths": "skill", "capabilities": "skill",
+    "expertise": "skill", "expert": "skill", "capabilities": "skill",
     "specialties": "skill", "specializations": "skill", "specialises": "specialize", "specializes": "specialize",
     "reached": "contact", "reach": "contact",
     "connect": "contact", "connecting": "contact", "outreach": "contact",
@@ -86,15 +86,27 @@ ROLE_PROFILES = {
     "general": {"label": "General", "boosts": {}},
     "ml-engineer": {
         "label": "ML Engineer",
-        "boosts": {"skills-toolkit": 2.5, "skills-platform": 2.2, "experience-research-methods": 2.2, "projects-sentinel": 2.0, "projects-speech": 2.0},
+        "boosts": {
+            "skills-toolkit": 2.5, "skills-platform": 2.2, "experience-research-methods": 2.2,
+            "projects-sentinel": 2.0, "projects-speech": 2.0,
+            "role-fit-ml": 3.0, "candidate-differentiators": 1.5,
+        },
     },
     "data-scientist": {
         "label": "Data Scientist",
-        "boosts": {"projects-sentinel": 3.5, "skills-data-ml": 1.8, "experience-meta": 2.1, "experience-research-methods": 2.0, "skills-toolkit": 1.6},
+        "boosts": {
+            "projects-sentinel": 3.5, "skills-data-ml": 1.8, "experience-meta": 2.1,
+            "experience-research-methods": 2.0, "skills-toolkit": 1.6,
+            "role-fit-data": 3.0, "candidate-differentiators": 1.5,
+        },
     },
     "software-engineer": {
         "label": "Software Engineer",
-        "boosts": {"experience-meta": 2.8, "experience-systems-research": 2.2, "skills-toolkit": 2.0, "projects-cloud-infrastructure": 2.0, "projects-rolefit": 1.8, "projects-speech": 1.6},
+        "boosts": {
+            "experience-meta": 2.8, "experience-systems-research": 2.2, "skills-toolkit": 2.0,
+            "projects-cloud-infrastructure": 2.0, "projects-rolefit": 1.8, "projects-speech": 1.6,
+            "role-fit-swe": 3.0, "candidate-differentiators": 1.5,
+        },
     },
 }
 EVALUATION_CASES = [
@@ -134,7 +146,16 @@ QUERY_EXPANSIONS = (
     (("backend", "deployment", "cloud", "productionize"), "backend data platform deployment rest api docker cloud mlops"),
     (("located", "location", "relocate", "availability", "available"), "new york availability open relocation"),
     (("education", "degree", "coursework", "graduation", "study", "studied", "school", "university"), "education masters gpa coursework stony brook"),
-    (("architecture", "architectural", "system design", "system flow"), "architecture components data flow deployment reliability"),
+    (("architecture", "architectural", "system design", "system flow", "design a system", "distributed system"), "architecture components data flow deployment reliability system design"),
+    # new KB entry expansions
+    (("hardest challenge", "most complex", "toughest problem", "complex technical challenge"), "instagram cohort pipeline distributed coordination scale challenge"),
+    (("strengths", "what is karan good at", "candidate strengths"), "strengths production ml research end to end delivery systems"),
+    (("differentiates karan", "stand out", "unique about karan", "other candidates"), "meta scale research shipped products rare combination differentiators"),
+    (("career goal", "looking for", "ideal role", "what does karan want", "next role"), "software engineer ml backend applied ai scalable systems"),
+    (("why did karan leave meta", "why leave meta", "why return to school", "why did he leave"), "masters degree stony brook complete ms phd research"),
+    (("behavioral", "tell me about a time", "give an example", "describe a situation"), "meta cross functional collaboration star format impact"),
+    (("live demo", "live project", "see the project", "project link", "demo link"), "live url demo project link"),
+    (("portfolio built with", "how is this portfolio", "portfolio tech stack"), "html css javascript python render backend"),
 )
 SUPPORTED_BROAD_PHRASES = (
     "tell me about yourself", "introduce yourself", "walk me through your background",
@@ -143,6 +164,16 @@ SUPPORTED_BROAD_PHRASES = (
     "why should we hire", "why hire", "strong candidate", "good fit",
     "differentiates karan", "other candidates", "measurable results", "most relevant experience",
     "biggest achievement", "biggest professional achievement", "greatest achievement", "most impressive",
+    # new KB entries
+    "hardest challenge", "most complex", "toughest problem", "complex technical challenge",
+    "what are karan's strengths", "karan's strengths", "candidate strengths",
+    "career goals", "what does karan want", "looking for in a role", "ideal role",
+    "why did karan leave meta", "why did he leave meta", "why return to school",
+    "system design", "design a system", "distributed system",
+    "behavioral", "tell me about a time", "give an example", "describe a situation",
+    "teamwork example", "leadership example", "conflict example",
+    "live demo", "live project", "see the project", "project link",
+    "portfolio built with", "how is this portfolio built",
 )
 PROFILE_SCOPE_TERMS = (
     "karan", "he", "his", "him", "yourself", "candidate", "hire", "fit", "profile",
@@ -152,6 +183,13 @@ PROFILE_SCOPE_TERMS = (
     "latency", "api", "rolefit", "gitops", "aws", "kubernetes", "sentinel", "counterparty",
     "resume", "contact", "email", "phone", "github", "linkedin", "connect",
     "architecture", "architectural", "system design", "system flow", "pipeline",
+    "strength", "strengths", "differentiates", "differentiator", "stand out",
+    "career goal", "ideal role", "next role", "looking for",
+    "behavioral", "tell me about a time", "star format", "challenge", "hardest",
+    "why did karan", "why leave", "why return", "left meta",
+    "teamwork", "leadership", "collaboration", "mentored",
+    "live demo", "demo link", "project link",
+    "portfolio built", "portfolio tech",
 )
 UNSUPPORTED_PERSONAL_TOPICS = (
     "weakness", "failure", "conflict", "mistake", "salary", "compensation", "visa",
@@ -352,6 +390,30 @@ def quick_prompt_topic_ids(query, role="general"):
         return ("experience-systems-research", "experience-meta", "experience-systems-operations")
     if "resume summary" in normalized or ("resume" in normalized and "summary" in normalized):
         return ("resume-summary", "experience-meta", "resume-chronology")
+    if any(p in normalized for p in ("hardest challenge", "most complex", "toughest problem", "complex technical challenge")):
+        return ("behavioral-hardest-challenge", "challenge-hardest", "experience-meta")
+    if any(p in normalized for p in ("karan's strengths", "candidate strengths", "what is karan good at", "what are karan")):
+        return ("candidate-strengths", "candidate-differentiators", "resume-summary")
+    if any(p in normalized for p in ("career goal", "ideal role", "looking for in a role", "what does karan want", "next role")):
+        return ("career-goals", "resume-summary", "resume-availability")
+    if any(p in normalized for p in ("why did karan leave meta", "why leave meta", "why return to school", "why did he leave")):
+        return ("why-left-meta", "resume-education", "experience-meta")
+    if any(p in normalized for p in ("behavioral", "tell me about a time", "give an example", "describe a situation")):
+        return ("behavioral-hardest-challenge", "behavioral-teamwork", "behavioral-leadership", "behavioral-impact")
+    if any(p in normalized for p in ("system design", "design a system", "distributed system")):
+        return ("system-design-capabilities", "experience-meta", "experience-systems-research", "projects-cloud-infrastructure")
+    if any(p in normalized for p in ("live demo", "live project", "project link", "demo link", "see the project")):
+        return ("live-demos",)
+    if any(p in normalized for p in ("teamwork example", "collaboration example", "worked with a team")):
+        return ("behavioral-teamwork", "experience-meta")
+    if any(p in normalized for p in ("leadership example", "led a team", "led a project", "mentored")):
+        return ("behavioral-leadership", "experience-teaching")
+    if any(p in normalized for p in ("role fit", "fit for this role", "suited for", "right for")):
+        return {
+            "ml-engineer": ("role-fit-ml", "candidate-differentiators", "experience-research-methods"),
+            "data-scientist": ("role-fit-data", "candidate-differentiators", "experience-meta"),
+            "software-engineer": ("role-fit-swe", "candidate-differentiators", "experience-meta"),
+        }.get(role, ("candidate-differentiators", "resume-summary", "experience-meta"))
     return ()
 
 
@@ -430,7 +492,7 @@ def score_chunk(query, chunk, role="general"):
     fit_query = any(term in normalized_query for term in ("candidate", "fit", "qualified", "strong", "hire", "suitable", "differentiates"))
     if role == "general" and any(term in normalized_query for term in ("why should we hire", "why hire", "differentiates", "other candidates")):
         intent_score += {"experience-meta": 1.5, "experience-research": 0.8, "resume-summary": 0.6}.get(chunk["id"], 0)
-    role_weight = 1 if fit_query else 0.15
+    role_weight = 1.0 if fit_query else 0.6
     role_score = ROLE_PROFILES.get(role, ROLE_PROFILES["general"])["boosts"].get(chunk["id"], 0) * role_weight
     return lexical_score + semantic_score + keyword_score + intent_score + role_score
 
@@ -822,7 +884,7 @@ def contextual_follow_up_suggestions(query, intent=None):
     }
     active_angles = {
         angle for angle, terms in asked_angles.items()
-        if any(term in normalized for term in terms)
+        if any(term in asked_question for term in terms)
     }
 
     def repeats_question(suggestion):
@@ -1135,9 +1197,8 @@ def build_answer(query, passages, role="general", resolved_query=None, context_u
     generated_answer = None
     response_type = "evidence"
     custom_follow_ups = None
-    if use_genai and not conversational:
-        genai_passages = answer_passages if profile_supported else CHUNKS[:8]
-        generated_answer = generate_profile_answer(query, genai_passages, history)
+    if use_genai and not conversational and profile_supported:
+        generated_answer = generate_profile_answer(query, answer_passages, history)
     if conversational:
         answer = conversational["answer"]
         answer_points = []
