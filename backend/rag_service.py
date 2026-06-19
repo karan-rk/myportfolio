@@ -766,10 +766,16 @@ def contextual_follow_up_suggestions(query, intent=None):
             "How is this experience relevant to a software engineering role?",
         ]),
         (("kafka", "grpc", "distributed system"), [
-            "Where did Karan apply these distributed-systems skills??",
+            "Where did Karan apply these distributed-systems skills?",
             "What reliability problems did Karan solve?",
             "What performance improvements did Karan achieve?",
             "Which project best demonstrates these skills?",
+        ]),
+        (("reliability", "system reliability", "resilient", "fault tolerance", "fault tolerant"), [
+            "How did Karan handle failures in distributed systems?",
+            "Which reliability pattern had the most impact?",
+            "What throughput improvements did Karan achieve?",
+            "Which project best demonstrates this approach?",
         ]),
         (("machine learning", "ml", "deep learning", "nlp"), [
             "Which project best demonstrates Karan's machine learning skills?",
@@ -819,6 +825,27 @@ def contextual_follow_up_suggestions(query, intent=None):
         angle for angle, terms in asked_angles.items()
         if any(term in normalized for term in terms)
     }
+
+    def repeats_question(suggestion):
+        candidate = normalize_query(suggestion)
+        for angle in active_angles:
+            if any(term in candidate for term in asked_angles[angle]):
+                return True
+        return candidate == asked_question
+
+    filtered = [suggestion for suggestion in suggestions if not repeats_question(suggestion)]
+    fallback = [
+        "What was the most complex technical challenge?",
+        "Which project best demonstrates this?",
+        "How does this apply to production systems?",
+        "What would Karan improve with more time?",
+    ]
+    for suggestion in fallback:
+        if len(filtered) >= 4:
+            break
+        if suggestion not in filtered and not repeats_question(suggestion):
+            filtered.append(suggestion)
+    return filtered[:4]
 
     def repeats_question(suggestion):
         candidate = normalize_query(suggestion)
