@@ -26,8 +26,8 @@
     "source": "Resume",
     "title": "Location and opportunity status",
     "summary": "Karan is based in New York and is available for software and machine learning engineering opportunities",
-    "content": "Karan is based in New York and open to software engineering and machine learning engineering opportunities, including relocation.",
-    "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "work authorization", "visa", "salary"]
+    "content": "Karan is based in New York and open to software engineering and machine learning engineering opportunities, including relocation. He is actively seeking full-time roles in software engineering, backend engineering, machine learning engineering, and applied AI.",
+    "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "work authorization", "visa", "salary", "actively looking", "job search", "full time"]
   },
   {
     "id": "resume-contact",
@@ -46,6 +46,132 @@
     "summary": "Karan's resume spans industry engineering, research, and graduate teaching",
     "content": "Karan worked as a Software Engineer at Meta from August 2023 through June 2024. He served as a Graduate Teaching Assistant at Stony Brook University from August 2024 through December 2024. Since January 2025, he has worked as a Research Assistant at Stony Brook University in two concurrent roles: distributed systems research and persuasion modeling research in Prof. H. Andrew Schwartz's Lab.",
     "keywords": ["resume", "chronology", "timeline", "dates", "work history", "meta", "research assistant", "teaching assistant", "august 2023", "january 2025", "persuasion research", "distributed systems research"]
+  },
+  {
+    "id": "why-left-meta",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Why Karan left Meta",
+    "summary": "Karan left Meta to return to Stony Brook and complete his Master's degree in Computer Engineering",
+    "content": "Karan completed his Software Engineer role at Meta in June 2024 and returned to Stony Brook University to complete his Master of Science in Computer Engineering. This was a deliberate decision to deepen his expertise in machine learning, distributed systems, and applied AI research before pursuing his next industry role. He has been conducting active research at Stony Brook since January 2025 while completing the degree.",
+    "keywords": ["why did karan leave meta", "why leave meta", "gap", "after meta", "transition", "masters degree", "why stony brook", "career decision", "next after meta"]
+  },
+  {
+    "id": "candidate-differentiators",
+    "target": "top",
+    "source": "Resume",
+    "title": "What differentiates Karan from other candidates",
+    "summary": "Karan combines rare industry scale experience, active research, and shipped full-stack products",
+    "content": "Karan is unusual because he combines three things that rarely appear together: production engineering at billion-user scale (Meta), active ML research in a university lab (Stony Brook), and independently shipped full-stack AI products with live deployments. Most candidates have one or two of these. He has built and deployed real products — not just academic experiments — while simultaneously conducting research and completing a graduate degree. His work at Meta proves he can operate in production environments with real constraints, his research proves depth in modern ML, and his portfolio proves he can build and ship end to end.",
+    "keywords": ["differentiates", "unique", "stands out", "different", "compared to other candidates", "why karan", "what makes karan special", "competitive advantage", "edge", "versus other engineers"]
+  },
+  {
+    "id": "candidate-strengths",
+    "target": "top",
+    "source": "Resume",
+    "title": "Karan's key strengths",
+    "summary": "Karan's strengths span production engineering, ML depth, systems thinking, and end-to-end delivery",
+    "content": "Karan's key strengths are: production-scale engineering proven at Meta, ML depth across the full stack from feature engineering to fine-tuning to deployment, systems thinking from distributed systems research, end-to-end delivery shown through independently built products, and a strong work ethic demonstrated by completing graduate-level research and coursework concurrently with two research roles. He is equally comfortable reasoning about system architecture, debugging production issues, and building data pipelines as he is training and evaluating models.",
+    "keywords": ["strengths", "strong points", "good at", "best at", "key skills", "core competencies", "what is karan good at", "karan's strengths"]
+  },
+  {
+    "id": "career-goals",
+    "target": "contact",
+    "source": "Resume",
+    "title": "Career goals and what Karan is looking for",
+    "summary": "Karan is looking for high-impact engineering roles where he can build scalable systems and apply ML in production",
+    "content": "Karan is looking for software engineering, backend engineering, machine learning engineering, or applied AI roles at companies where he can build scalable systems that serve real users. He is particularly interested in roles that sit at the intersection of engineering and applied ML — building production systems that incorporate intelligent models, not just writing models that never ship. He values technical depth, strong engineering culture, and the ability to have real impact on the product.",
+    "keywords": ["career goals", "looking for", "ideal role", "dream job", "what karan wants", "career objective", "next role", "job preferences", "what kind of company", "what kind of team", "goals"]
+  },
+  {
+    "id": "role-fit-swe",
+    "target": "top",
+    "source": "Resume",
+    "title": "Why Karan is a strong software engineering candidate",
+    "summary": "Karan's Meta experience, systems research, and distributed systems teaching demonstrate strong SWE fundamentals",
+    "content": "For software engineering roles, Karan brings production-proven Python and data systems experience from Meta at 1.2 billion user scale, active distributed systems research in C++ with Kafka, gRPC, and fault-tolerant microservices, graduate-level teaching of consensus, replication, and scalability, and independently built full-stack applications. He is comfortable with backend systems, APIs, data pipelines, cloud infrastructure, and CI/CD. His Meta work specifically shows he can build reliable, maintainable systems in a large production codebase with cross-functional stakeholders.",
+    "keywords": ["software engineering role", "swe", "software engineer fit", "backend engineer", "why hire for swe", "backend role", "systems engineering", "engineering role"]
+  },
+  {
+    "id": "role-fit-ml",
+    "target": "top",
+    "source": "Resume",
+    "title": "Why Karan is a strong ML engineering candidate",
+    "summary": "Karan covers the full ML lifecycle from research to production deployment",
+    "content": "For machine learning engineering roles, Karan brings active fine-tuning research with Llama 2-7B, LoRA, and DPO, a deployed CNN-BiLSTM-Attention model serving real inference requests on Google Cloud Run, predictive modeling experience with calibration and explainability in Sentinel, NLP and deep learning coursework and research, and a track record of shipping ML systems end to end. He understands both the research side — running hyperparameter search, tracking experiments with W&B, evaluating on held-out data — and the engineering side — wrapping models in APIs, deploying with Docker, reducing latency.",
+    "keywords": ["ml engineering role", "machine learning engineer", "mle", "ml engineer fit", "applied ml", "mlops", "model deployment", "production ml", "why hire for ml"]
+  },
+  {
+    "id": "role-fit-data",
+    "target": "top",
+    "source": "Resume",
+    "title": "Why Karan is a strong data engineering or data science candidate",
+    "summary": "Karan's Meta data pipeline work and Sentinel project demonstrate data engineering and data science capability",
+    "content": "For data engineering or data science roles, Karan's strongest evidence is his Meta work — building Instagram's first cohort-analysis pipeline using Python, SQL, Spark, Hive, and HDFS, processing 1.2 billion user pairs and reducing BCU consumption by 50 percent. He also built Sentinel, an explainable predictive modeling workflow with temporal validation, calibration, and local explanations. His toolkit includes Pandas, NumPy, Spark, SQL, PostgreSQL, MySQL, MongoDB, feature engineering, model evaluation, and causal inference.",
+    "keywords": ["data engineering", "data science", "data engineer", "data scientist", "analytics", "pipeline engineering", "spark", "sql", "data role", "why hire for data"]
+  },
+  {
+    "id": "behavioral-hardest-challenge",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Most complex technical challenge — behavioral STAR answer",
+    "summary": "Karan's hardest challenge was building Instagram's first cohort-analysis pipeline at billion-user scale from scratch",
+    "content": "Karan's most complex technical challenge was building Instagram's first cohort-analysis pipeline from scratch at production scale. The situation was that Instagram had no existing cohort infrastructure and needed a system to understand user behavior patterns across its 500 million active users. The task was to design, build, and deploy a reliable pipeline from scratch under data sparsity constraints. Karan's actions included designing a behavioral clustering framework, addressing data sparsity in user signals, optimizing the pipeline for performance, and building monitoring dashboards for cross-functional adoption. The result was a system processing 1.2 billion user pairs, identifying 500 million unique users, achieving a 5x performance improvement, and reducing Business Compute Unit consumption by 50 percent.",
+    "keywords": ["hardest", "most complex", "biggest challenge", "toughest problem", "difficult", "complex technical challenge", "challenging", "what was hard", "technical difficulty", "star", "behavioral", "example of challenge", "tell me about a time"]
+  },
+  {
+    "id": "behavioral-teamwork",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Teamwork and cross-functional collaboration example",
+    "summary": "Karan collaborated across product, data, and engineering teams at Meta to deliver the cohort pipeline",
+    "content": "At Meta and Instagram, Karan's cohort-analysis pipeline required close collaboration with product, data, and engineering teams. He built monitoring dashboards that product teams used to track adoption and run experiments, addressed stakeholder requirements for user segmentation, and ensured his clustering output supported cross-functional product decisions. His teaching role further demonstrates communication and collaboration — he improved student project quality by 25 percent by working through system trade-offs and debugging challenges with students during labs and office hours.",
+    "keywords": ["teamwork", "collaboration", "cross functional", "working with others", "team player", "communication", "stakeholders", "behavioral", "tell me about a time you collaborated", "worked with a team"]
+  },
+  {
+    "id": "behavioral-leadership",
+    "target": "experience-teaching",
+    "source": "Experience",
+    "title": "Leadership and mentorship example",
+    "summary": "Karan demonstrated leadership through graduate teaching and research mentorship",
+    "content": "As a Graduate Teaching Assistant at Stony Brook University, Karan took ownership of distributed systems lab sessions and office hours, teaching consensus algorithms, replication, sharding, fault tolerance, and scalability. He designed assignments emphasizing system trade-offs and improved overall project quality by 25 percent. This role required explaining complex distributed systems concepts clearly, adapting explanations to different levels of understanding, and guiding students through debugging and performance challenges.",
+    "keywords": ["leadership", "mentorship", "teaching", "ownership", "initiative", "led", "managed", "guided", "behavioral", "tell me about a time you led", "leadership example", "mentor"]
+  },
+  {
+    "id": "behavioral-impact",
+    "target": "experience-meta",
+    "source": "Experience",
+    "title": "Measurable impact example",
+    "summary": "Karan's most measurable impact is the Instagram cohort pipeline's 5x performance improvement and 50% cost reduction",
+    "content": "Karan's clearest example of measurable engineering impact is at Meta: the cohort-analysis pipeline he built processed 1.2 billion user pairs, identified 500 million unique users, achieved a 5x pipeline performance improvement, and reduced Business Compute Unit consumption by 50 percent. In the speech emotion project he reduced API response latency by 40 percent through asynchronous I/O. In distributed systems research he improved throughput by 25 percent and reduced runtime overhead by 20 percent through profiling and optimization.",
+    "keywords": ["impact", "measurable impact", "results", "achievements", "numbers", "metrics", "what have you accomplished", "tell me about impact", "biggest win", "most proud of"]
+  },
+  {
+    "id": "system-design-capabilities",
+    "target": "top",
+    "source": "Experience",
+    "title": "System design capabilities",
+    "summary": "Karan can design distributed systems, data pipelines, ML inference pipelines, and cloud infrastructure",
+    "content": "Karan's system design capabilities span distributed backend services (Kafka, gRPC, fault-tolerant microservices, replication, sharding), data pipelines (Spark, Hive, HDFS, SQL at billion-row scale), ML inference pipelines (FastAPI, Docker, async I/O, model serving), cloud infrastructure (AWS three-tier with Route 53, CloudFront, ALB, Auto Scaling, RDS; EKS GitOps with CircleCI and Argo CD; Google Cloud Run), and conversational AI systems (retrieval, confidence gating, context management). He has designed warm-standby disaster recovery architecture, CI/CD pipelines, and multi-node observability workflows.",
+    "keywords": ["system design", "architecture", "design a system", "how would you design", "scalable system", "distributed system design", "backend architecture", "infrastructure design", "technical design"]
+  },
+  {
+    "id": "live-demos",
+    "target": "projects",
+    "source": "Projects",
+    "title": "Live demo and project links",
+    "summary": "Karan's portfolio includes several live deployments accessible online",
+    "content": "Karan's live projects include: Speech Emotion Detection live demo at https://karan-rk.github.io/myportfolio/projects/speech-emotion-detection/live/index.html, RoleFit Resume Analyzer at https://karan-rk.github.io/myportfolio/projects/resume-job-match/index.html, Sentinel Counterparty Risk at https://karan-rk.github.io/myportfolio/projects/counterparty-risk/index.html, the Portfolio AI backend deployed on Render at https://karan-portfolio-ai.onrender.com, and the full portfolio at https://karan-rk.github.io/myportfolio/.",
+    "keywords": ["live demo", "demo link", "try it", "see it live", "deployed", "working demo", "project link", "portfolio link", "website", "deployed projects"]
+  },
+  {
+    "id": "portfolio-tech-stack",
+    "target": "project-portfolio-ai",
+    "source": "Projects",
+    "title": "Portfolio website technology stack",
+    "summary": "The portfolio site itself is a project — built with vanilla HTML, CSS, JS frontend and a Python backend on Render",
+    "content": "The portfolio website is built with vanilla HTML, CSS, and modular JavaScript on the frontend, hosted on GitHub Pages. The Portfolio AI backend is a Python HTTP server deployed on Render, using a structured JSON knowledge base for retrieval and the Claude API for answer generation. The site uses no frontend framework — all interactivity including the chat widget, project case studies, skill tooltips, and floating AI panel is written in plain JavaScript. CSS is organized into three modular files. The JS is split into feature modules: theme, nav, skills, projects, hero, and ai-chat.",
+    "keywords": ["portfolio tech stack", "how is the portfolio built", "website technology", "frontend stack", "backend stack", "github pages", "render", "vanilla js", "plain javascript", "how did you build this"]
   },
   {
     "id": "experience-meta",
@@ -197,7 +323,7 @@
     "source": "Architecture",
     "title": "AWS three-tier and warm-standby architecture",
     "summary": "The AWS book application separates presentation, API, and database tiers and adds a resilient warm-standby path",
-    "content": "Users enter through Route 53 and CloudFront before traffic reaches the React presentation tier and the Node.js and Express API tier. MySQL runs through Amazon RDS. Karan selected a three-tier design so presentation, application logic, and data can scale, deploy, secure, and recover independently. The resilient design uses health checks, load balancing, Auto Scaling, backups, and a secondary warm-standby region so traffic can fail over when the primary region is unhealthy. Karan chose warm standby to reduce recovery time without paying for a fully active second region. Future improvements include automated failover drills, measured RTO and RPO targets, observability dashboards, and controlled failback automation.",
+    "content": "Users enter through Route 53 and CloudFront before traffic reaches the React presentation tier and the Node.js and Express API tier. MySQL runs through Amazon RDS. Karan selected a three-tier design so presentation, application logic, and data can scale, deploy, secure, and recover independently. The resilient design uses health checks, load balancing, Auto Scaling, backups, and a secondary warm-standby region so traffic can fail over when the primary region is unhealthy. Karan chose warm standby to reduce recovery time without paying for a fully active second region.",
     "keywords": ["aws architecture", "three tier architecture", "warm standby", "failover", "route 53", "cloudfront", "load balancer", "auto scaling", "rds", "disaster recovery", "system design"]
   },
   {
@@ -206,7 +332,7 @@
     "source": "Architecture",
     "title": "EKS GitOps delivery architecture",
     "summary": "The GitOps architecture separates continuous integration from declarative Kubernetes delivery",
-    "content": "A developer push triggers CircleCI to test the React application, create a multi-stage Docker image, and publish a versioned image. The pipeline updates the Kubernetes manifest repository. Argo CD watches that desired state and continuously synchronizes it to Amazon EKS, where Kubernetes services, load balancing, health checks, and replacement pods keep the application available. Separating CI from deployment keeps releases auditable and avoids giving the build pipeline direct cluster control. Future improvements include progressive delivery, automated rollback metrics, policy enforcement, secret management, and cluster observability.",
+    "content": "A developer push triggers CircleCI to test the React application, create a multi-stage Docker image, and publish a versioned image. The pipeline updates the Kubernetes manifest repository. Argo CD watches that desired state and continuously synchronizes it to Amazon EKS, where Kubernetes services, load balancing, health checks, and replacement pods keep the application available. Separating CI from deployment keeps releases auditable and avoids giving the build pipeline direct cluster control.",
     "keywords": ["eks architecture", "gitops architecture", "kubernetes architecture", "circleci", "docker", "manifest repository", "argo cd", "amazon eks", "continuous delivery", "reconciliation", "system flow"]
   },
   {
@@ -224,7 +350,7 @@
     "source": "Architecture",
     "title": "Speech emotion inference architecture",
     "summary": "The speech emotion architecture connects audio capture, feature extraction, model inference, and a reflection interface",
-    "content": "The React client records or uploads audio and sends it to FastAPI. The API validates the file, Librosa extracts ZCR, chroma, MFCC, RMS, and mel-spectrogram features, and preprocessing scales the feature vector. Karan selected CNN layers for local acoustic patterns, a bidirectional LSTM for sequence context, and attention to emphasize informative signal regions before producing eight-class probabilities. The acoustic-only approach avoids transcript dependence but loses semantic context and remains sensitive to recording quality, accents, and dataset bias. Future improvements include calibration, class-level metrics, demographic evaluation, authentication, encryption, consent, and monitoring.",
+    "content": "The React client records or uploads audio and sends it to FastAPI. The API validates the file, Librosa extracts ZCR, chroma, MFCC, RMS, and mel-spectrogram features, and preprocessing scales the feature vector. Karan selected CNN layers for local acoustic patterns, a bidirectional LSTM for sequence context, and attention to emphasize informative signal regions before producing eight-class probabilities. The acoustic-only approach avoids transcript dependence but loses semantic context and remains sensitive to recording quality, accents, and dataset bias.",
     "keywords": ["speech architecture", "inference architecture", "audio pipeline", "react", "fastapi", "librosa", "feature extraction", "cnn", "bilstm", "attention", "model serving", "system flow"]
   },
   {
@@ -233,7 +359,7 @@
     "source": "Architecture",
     "title": "Sentinel risk-modeling architecture",
     "summary": "Sentinel uses a leakage-aware modeling and decision-support pipeline",
-    "content": "Synthetic longitudinal counterparty records flow into feature validation and a temporal train-test split. Logistic Regression, Random Forest, and HistGradientBoosting are benchmarked on the same holdout. Karan selected Logistic Regression because it provided dependable measured ranking, calibration, and inspectable local contributions. The tradeoff is that a simpler model may miss nonlinear signals. Future improvements include drift alerts, fairness analysis, threshold simulation, analyst feedback loops, and prospective evaluation on real operational data.",
+    "content": "Synthetic longitudinal counterparty records flow into feature validation and a temporal train-test split. Logistic Regression, Random Forest, and HistGradientBoosting are benchmarked on the same holdout. Karan selected Logistic Regression because it provided dependable measured ranking, calibration, and inspectable local contributions. The tradeoff is that a simpler model may miss nonlinear signals.",
     "keywords": ["sentinel architecture", "risk architecture", "model pipeline", "temporal validation", "benchmarking", "platt scaling", "risk bands", "local explanations", "dashboard", "system flow"]
   },
   {
@@ -260,7 +386,7 @@
     "source": "Architecture",
     "title": "Portfolio assistant retrieval architecture",
     "summary": "The portfolio assistant turns natural recruiter questions into accurate, conversational answers",
-    "content": "A submitted question is normalized, conservatively corrected for known portfolio misspellings, classified by intent, and ranked against structured verified content. Confidence checks prevent unsupported claims, conversation context is added only for genuine follow-up questions, and an automated suite evaluates retrieval quality, role ranking, conversational behavior, and abstention. Karan chose grounded portfolio answers over broad open-ended coverage to protect trust. Future improvements include semantic retrieval benchmarks, cached backend warm-up, richer evaluation datasets, and production latency monitoring.",
+    "content": "A submitted question is normalized, conservatively corrected for known portfolio misspellings, classified by intent, and ranked against structured verified content. Confidence checks prevent unsupported claims, conversation context is added only for genuine follow-up questions, and an automated suite evaluates retrieval quality, role ranking, conversational behavior, and abstention. Karan chose grounded portfolio answers over broad open-ended coverage to protect trust.",
     "keywords": ["portfolio assistant architecture", "rag architecture", "retrieval architecture", "normalization", "typo correction", "intent routing", "confidence gate", "citations", "conversation context", "evaluation"]
   },
   {
@@ -269,7 +395,7 @@
     "source": "Architecture",
     "title": "RoleFit resume-analysis architecture",
     "summary": "RoleFit turns uploaded resumes into traceable role-specific improvements",
-    "content": "A user uploads an original or revised PDF, the portfolio backend extracts its text, and deterministic browser analysis evaluates resume structure, skills, measurable impact, ATS readability, and target-role readiness. RoleFit converts the results into prioritized evidence-safe recommendations and can compare the original resume with a revised version. Karan chose deterministic recommendations because they are easier to inspect and prevent invented achievements, with less flexibility than a generative career coach. Future improvements include DOCX parsing, saved reports, role-specific evaluation datasets, and evidence-constrained LLM assistance.",
+    "content": "A user uploads an original or revised PDF, the portfolio backend extracts its text, and deterministic browser analysis evaluates resume structure, skills, measurable impact, ATS readability, and target-role readiness. RoleFit converts the results into prioritized evidence-safe recommendations and can compare the original resume with a revised version. Karan chose deterministic recommendations because they are easier to inspect and prevent invented achievements.",
     "keywords": ["rolefit architecture", "resume architecture", "pdf extraction", "resume analysis", "ats", "target role", "evidence safe", "before after", "system flow"]
   },
   {
