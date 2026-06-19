@@ -44,7 +44,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles-1.css?v=50">
   <link rel="stylesheet" href="styles-2.css?v=50">
-  <link rel="stylesheet" href="styles-3.css?v=50">
+  <link rel="stylesheet" href="styles-3.css?v=51">
   <meta name="portfolio-api-url" content="https://karan-portfolio-ai.onrender.com">
 </head>
 <body>
@@ -95,7 +95,7 @@
   </header>
 
   <main id="top" tabindex="-1">
-    <!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+    <!-- ═══ HERO ════════════════════════════════════════════════════ -->
     <section class="hero container">
       <div class="hero-network" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -140,7 +140,7 @@
       </aside>
     </section>
 
-    <!-- ═══ EXPERIENCE ════════════════════════════════════════════════ -->
+    <!-- ═══ EXPERIENCE ════════════════════════════════════════════════════ -->
     <section id="experience" class="section container">
       <div class="section-heading reveal">
         <div>
@@ -247,7 +247,7 @@
       </div>
     </section>
 
-    <!-- ═══ PROJECTS ══════════════════════════════════════════════════ -->
+    <!-- ═══ PROJECTS ══════════════════════════════════════════════════════ -->
     <section id="projects" class="section projects-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -441,7 +441,7 @@
       </article>
     </div>
 
-    <!-- ═══ PORTFOLIO AI ═══════════════════════════════════════════════ -->
+    <!-- ═══ PORTFOLIO AI ═══════════════════════════════════════════════════════ -->
     <section id="rag-lab" class="section rag-section">
       <div class="container">
         <div class="section-heading reveal">
@@ -503,7 +503,7 @@
       </div>
     </section>
 
-    <!-- ═══ SKILLS ════════════════════════════════════════════════════ -->
+    <!-- ═══ SKILLS ════════════════════════════════════════════════════════════ -->
     <section id="skills" class="section container">
       <div class="section-heading reveal">
         <div>
@@ -545,7 +545,7 @@
       </div>
     </section>
 
-    <!-- ═══ EDUCATION ═════════════════════════════════════════════════ -->
+    <!-- ═══ EDUCATION ════════════════════════════════════════════════════════════ -->
     <section class="education section container" id="education">
       <div class="education-heading reveal">
         <p class="section-kicker">Education</p>
@@ -575,7 +575,7 @@
       </div>
     </section>
 
-    <!-- ═══ CONTACT ══════════════════════════════════════════════════ -->
+    <!-- ═══ CONTACT ════════════════════════════════════════════════════════════ -->
     <section class="contact section container reveal" id="contact">
       <div class="contact-main">
         <p class="section-kicker">Let's build something useful</p>
@@ -602,6 +602,34 @@
   </main>
 
   <button class="return-to-assistant" id="return-to-assistant" type="button" hidden>Return to Portfolio AI <span>&uarr;</span></button>
+
+  <!-- ── floating chat widget ──────────────────────────────────────────────────── -->
+  <button class="float-chat-btn" id="float-chat-btn" type="button" aria-label="Open Karan AI" hidden>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Ask Karan AI</span>
+  </button>
+  <div class="float-chat-panel" id="float-chat-panel" role="dialog" aria-modal="true" aria-label="Karan AI" aria-hidden="true">
+    <div class="float-chat-header">
+      <div class="float-chat-id">
+        <div class="rag-avatar" aria-hidden="true">AI</div>
+        <div>
+          <strong>Karan AI</strong>
+          <span class="float-chat-status" id="float-chat-status">Starting&hellip;</span>
+        </div>
+      </div>
+      <button class="float-chat-close" type="button" id="float-chat-close" aria-label="Close chat">&#10005;</button>
+    </div>
+    <div class="float-chat-messages" id="float-chat-messages" aria-live="polite"></div>
+    <div class="float-chat-input-bar">
+      <form id="float-rag-form">
+        <label class="sr-only" for="float-rag-question">Ask Karan AI</label>
+        <input id="float-rag-question" type="text" placeholder="Ask about Karan&rsquo;s work&hellip;" maxlength="500" autocomplete="off">
+        <button type="submit" aria-label="Send">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
 
   <footer class="container">
     <p>&copy; <span id="year"></span> Karan Rajendra</p>
