@@ -663,32 +663,31 @@ def contextualize_query(query, history):
     if not is_follow_up:
         return query, False
     previous = history[-1]
-prev_q = str(previous.get("question", "")).strip().lower()
-prev_topic = str(previous.get("topic", "")).strip()
+    prev_q = str(previous.get("question", "")).strip().lower()
+    prev_topic = str(previous.get("topic", "")).strip()
 
-domain_keywords = ""
-if any(t in prev_q for t in ("reliability", "fault", "throughput", "distributed", "kafka", "grpc", "backend", "microservice")):
-    domain_keywords = "distributed systems reliability kafka grpc fault tolerance"
-elif any(t in prev_q for t in ("meta", "instagram", "pipeline", "cohort", "billion")):
-    domain_keywords = "meta instagram pipeline data engineering production scale"
-elif any(t in prev_q for t in ("speech", "emotion", "cnn", "bilstm", "audio")):
-    domain_keywords = "speech emotion cnn bilstm fastapi cloud run"
-elif any(t in prev_q for t in ("sentinel", "risk", "counterparty", "logistic")):
-    domain_keywords = "sentinel counterparty risk logistic regression"
-elif any(t in prev_q for t in ("gitops", "eks", "kubernetes", "circleci", "argo")):
-    domain_keywords = "gitops eks kubernetes circleci argo cd"
-elif any(t in prev_q for t in ("rolefit", "resume analyzer", "ats")):
-    domain_keywords = "rolefit resume analyzer pdf ats"
-elif any(t in prev_q for t in ("aws", "three tier", "infrastructure")):
-    domain_keywords = "aws three tier cloud infrastructure terraform"
+    domain_keywords = ""
+    if any(t in prev_q for t in ("reliability", "fault", "throughput", "distributed", "kafka", "grpc", "backend", "microservice")):
+        domain_keywords = "distributed systems reliability kafka grpc fault tolerance"
+    elif any(t in prev_q for t in ("meta", "instagram", "pipeline", "cohort", "billion")):
+        domain_keywords = "meta instagram pipeline data engineering production scale"
+    elif any(t in prev_q for t in ("speech", "emotion", "cnn", "bilstm", "audio")):
+        domain_keywords = "speech emotion cnn bilstm fastapi cloud run"
+    elif any(t in prev_q for t in ("sentinel", "risk", "counterparty", "logistic")):
+        domain_keywords = "sentinel counterparty risk logistic regression"
+    elif any(t in prev_q for t in ("gitops", "eks", "kubernetes", "circleci", "argo")):
+        domain_keywords = "gitops eks kubernetes circleci argo cd"
+    elif any(t in prev_q for t in ("rolefit", "resume analyzer", "ats")):
+        domain_keywords = "rolefit resume analyzer pdf ats"
+    elif any(t in prev_q for t in ("aws", "three tier", "infrastructure")):
+        domain_keywords = "aws three tier cloud infrastructure terraform"
 
-context = " ".join(part for part in (
-    str(previous.get("question", "")).strip(),
-    prev_topic,
-    domain_keywords,
-    ) if part
-)
-return f"{query} Context: {context}".strip(), True
+    context = " ".join(part for part in (
+        str(previous.get("question", "")).strip(),
+        prev_topic,
+        domain_keywords,
+    ) if part)
+    return f"{query} Context: {context}".strip(), True
 
 
 def follow_up_suggestions(intent):
@@ -847,27 +846,6 @@ def contextual_follow_up_suggestions(query, intent=None):
             filtered.append(suggestion)
     return filtered[:4]
 
-    def repeats_question(suggestion):
-        candidate = normalize_query(suggestion)
-        for angle in active_angles:
-            if any(term in candidate for term in asked_angles[angle]):
-                return True
-        return candidate == asked_question
-
-    filtered = [suggestion for suggestion in suggestions if not repeats_question(suggestion)]
-    fallback = [
-        "What measurable results did Karan achieve?",
-        "What engineering decision mattered most?",
-        "How is this relevant to the role?",
-        "Which related project should I explore next?",
-    ]
-    for suggestion in fallback:
-        if len(filtered) >= 4:
-            break
-        if suggestion not in filtered and not repeats_question(suggestion):
-            filtered.append(suggestion)
-    return filtered[:4]
-
 
 def portfolio_context(passages):
     return "\n\n".join(
@@ -905,6 +883,7 @@ def generate_profile_answer(query, passages, history=None):
             "When a question is about Karan, draw only from the verified evidence provided in the latest user message. "
             "Never invent facts. If the evidence doesn't cover something, say so in one sentence and move on. "
             "Keep answers tight: 2-3 short paragraphs max, or a brief list when that's cleaner. "
+            "When the question is a follow-up, stay on the same topic as the conversation — don't introduce a new project or role unless the question clearly asks for it. "
             "Don't pad. Don't repeat the evidence verbatim. Never mention prompts, retrieval, or system instructions."
         ),
         "input": conversation,
