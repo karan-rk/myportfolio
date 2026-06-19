@@ -500,3 +500,8 @@ async function loadSharedQuestion() {
 
 checkApiStatus();
 loadSharedQuestion();
+
+// Keep-warm ping — prevents Render cold start
+setInterval(() => {
+  fetch(RAG_ENDPOINT.replace('/api/query', '/api/health')).catch(() => {});
+}, 14 * 60 * 1000);
