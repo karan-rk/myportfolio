@@ -134,6 +134,7 @@ EVALUATION_CASES = [
 ]
 
 QUERY_EXPANSIONS = (
+    (("tell me about yourself", "introduce yourself", "walk me through your background", "tell me about karan", "who is karan"), "professional summary profile production research teaching projects"),
     (("tell me about yourself", "introduce yourself", "walk me through your background"), "professional summary profile production research teaching projects"),
     (("walk me through your resume", "full resume", "entire resume", "resume overview"), "professional summary education work experience projects skills availability"),
     (("all projects", "every project", "project overview", "tell me about your projects", "tell me about karan's projects", "which projects demonstrate"), "projects cloud risk speech portfolio assistant rolefit gitops"),
@@ -158,6 +159,7 @@ QUERY_EXPANSIONS = (
     (("portfolio built with", "how is this portfolio", "portfolio tech stack"), "html css javascript python render backend"),
 )
 SUPPORTED_BROAD_PHRASES = (
+    "tell me about karan", "who is karan",
     "tell me about yourself", "introduce yourself", "walk me through your background",
     "walk me through your resume", "full resume", "entire resume", "resume overview",
     "all projects", "every project", "project overview", "tell me about your projects", "tell me about karan's projects",
