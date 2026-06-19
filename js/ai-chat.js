@@ -18,18 +18,18 @@ const returnBtn     = document.getElementById("return-to-assistant");
 const apiStatus     = document.getElementById("api-status");
 
 const SURPRISE_QUESTIONS = [
-  "What would Karan bring to an ML infrastructure team?",
-  "How does Karan approach system reliability?",
-  "What makes Karan's Meta experience stand out?",
-  "Which of Karan's projects shows the most ML depth?",
-  "How does Karan's NLP research connect to production AI?",
-  "What's the hardest technical challenge Karan has solved?",
-  "How does Karan balance research and engineering?",
-  "What is Karan's approach to building scalable systems?",
-  "How does Karan handle latency in production systems?",
-  "What would Karan prioritize in his first 90 days at a new company?",
+  "What impact did Karan have at Meta at billion-user scale?",
+  "How did Karan reduce inference latency by 40% in Speech Emotion Detection?",
+  "Why was Logistic Regression selected as champion in Sentinel over ensemble methods?",
+  "How does the EKS GitOps architecture recover from configuration drift?",
+  "Why did Karan use temporal validation instead of random splitting in Sentinel?",
+  "What throughput improvements did Karan achieve in distributed systems research?",
+  "How does Karan AI answer reliably when OpenAI is offline?",
+  "What makes RoleFit's resume rewrites evidence-safe?",
+  "How does the AWS three-tier architecture handle regional failover?",
+  "How does Karan's persuasion research connect to production NLP?",
 ];
-
+let lastSurpriseIndex = -1;
 let ragHistory      = [];
 let latestRequest   = 0;
 let suggestionsUsed = false;
@@ -217,7 +217,10 @@ suggestedWrap?.addEventListener("click", e => {
   const q = e.target.closest("[data-question]")?.dataset.question;
   if (q) { submitQuestion(q); return; }
   if (e.target.closest("#surprise-me")) {
-    submitQuestion(SURPRISE_QUESTIONS[Math.floor(Math.random() * SURPRISE_QUESTIONS.length)]);
+    let idx;
+    do { idx = Math.floor(Math.random() * SURPRISE_QUESTIONS.length); } while (idx === lastSurpriseIndex && SURPRISE_QUESTIONS.length > 1);
+    lastSurpriseIndex = idx;
+    submitQuestion(SURPRISE_QUESTIONS[idx]);
   }
 });
 
