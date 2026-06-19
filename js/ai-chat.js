@@ -1,5 +1,5 @@
 /* ─── ai-chat.js ──────────────────────────────────────────────────────
-   Portfolio AI — minimal chat bubble UI
+   Portfolio AI — chat bubble UI
    Backend: see meta[name="portfolio-api-url"] in index.html
    ─────────────────────────────────────────────────────────────────── */
 
@@ -8,6 +8,7 @@ const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
 const API_BASE_URL = isLocal ? "" : configuredApiUrl;
 const apiUrl = path => `${API_BASE_URL}${path}`;
 
+// inline chat
 const ragForm       = document.getElementById("rag-form");
 const ragInput      = document.getElementById("rag-question");
 const chatMessages  = document.getElementById("chat-messages");
@@ -16,6 +17,14 @@ const targetRole    = document.getElementById("target-role");
 const clearBtn      = document.getElementById("clear-conversation");
 const returnBtn     = document.getElementById("return-to-assistant");
 const apiStatus     = document.getElementById("api-status");
+
+// floating chat
+const floatBtn      = document.getElementById("float-chat-btn");
+const floatPanel    = document.getElementById("float-chat-panel");
+const floatClose    = document.getElementById("float-chat-close");
+const floatForm     = document.getElementById("float-rag-form");
+const floatInput    = document.getElementById("float-rag-question");
+const floatMessages = document.getElementById("float-chat-messages");
 
 const SURPRISE_QUESTIONS = [
   "What impact did Karan have at Meta at billion-user scale?",
@@ -30,10 +39,12 @@ const SURPRISE_QUESTIONS = [
   "How does Karan's persuasion research connect to production NLP?",
 ];
 let lastSurpriseIndex = -1;
+
 let ragHistory      = [];
 let latestRequest   = 0;
 let suggestionsUsed = false;
 let backendWarm     = false;
+let floatOpen       = false;
 
 /* ── helpers ─────────────────────────────────────────────────────── */
 function escapeHtml(v) {
@@ -44,6 +55,10 @@ function escapeHtml(v) {
 
 function scrollBottom() {
   chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: "smooth" });
+}
+
+function scrollFloatBottom() {
+  floatMessages?.scrollTo({ top: floatMessages.scrollHeight, behavior: "smooth" });
 }
 
 function hideSuggestions() {
@@ -84,7 +99,7 @@ async function addAIBubble(result) {
   chatMessages.appendChild(row);
 
   const text = result?.answer || "I couldn't reach the backend right now. Try again in a moment.";
-  await streamText(bubble, text);
+  await streamText(bubble, text, scrollBottom);
 
   if (result?.answer_points?.length) {
     const ul = document.createElement("ul");
@@ -137,20 +152,20 @@ async function addAIError(msg) {
 }
 
 /* ── text streaming ───────────────────────────────────────────────── */
-async function streamText(el, text) {
+async function streamText(el, text, onScroll = scrollBottom) {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) { el.textContent = text; return; }
   el.textContent = "";
   const CHUNK = 3;
   for (let i = 0; i < text.length; i += CHUNK) {
     el.textContent += text.slice(i, i + CHUNK);
-    if (i % 45 === 0) scrollBottom();
+    if (i % 45 === 0) onScroll();
     await new Promise(r => setTimeout(r, 11));
   }
-  scrollBottom();
+  onScroll();
 }
 
-/* ── API ──────────────────────────────────────────────────────────── */
+/* ── inline API ───────────────────────────────────────────────────── */
 async function queryRag(question) {
   const reqId = ++latestRequest;
   showTyping();
@@ -207,7 +222,166 @@ async function submitQuestion(question) {
   await queryRag(q);
 }
 
-/* ── events ───────────────────────────────────────────────────────── */
+/* ── floating chat ────────────────────────────────────────────────── */
+function openFloatChat() {
+  floatOpen = true;
+  floatPanel?.removeAttribute("aria-hidden");
+  floatPanel?.classList.add("open");
+  floatBtn?.classList.add("active");
+  floatInput?.focus();
+  if (floatMessages && !floatMessages.children.length) {
+    const row = document.createElement("div");
+    row.className = "chat-msg ai";
+    row.innerHTML = `<div class="chat-bubble"><strong>Hi, I&rsquo;m Karan AI.</strong> Ask me anything about Karan&rsquo;s work.</div>`;
+    floatMessages.appendChild(row);
+  }
+}
+
+function closeFloatChat() {
+  floatOpen = false;
+  floatPanel?.setAttribute("aria-hidden", "true");
+  floatPanel?.classList.remove("open");
+  floatBtn?.classList.remove("active");
+}
+
+floatBtn?.addEventListener("click", () => floatOpen ? closeFloatChat() : openFloatChat());
+floatClose?.addEventListener("click", closeFloatChat);
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && floatOpen) closeFloatChat();
+});
+
+const ragSection = document.getElementById("rag-lab");
+if (ragSection && floatBtn) {
+  const ragObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        floatBtn.hidden = true;
+        if (floatOpen) closeFloatChat();
+      } else {
+        floatBtn.hidden = false;
+      }
+    },
+    { threshold: 0.1 }
+  );
+  ragObserver.observe(ragSection);
+}
+
+async function addFloatAIBubble(result) {
+  if (!floatMessages) return;
+  const row = document.createElement("div");
+  row.className = "chat-msg ai";
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
+  row.appendChild(bubble);
+  floatMessages.appendChild(row);
+
+  const text = result?.answer || "I couldn't reach the backend right now. Try again.";
+  await streamText(bubble, text, scrollFloatBottom);
+
+  if (result?.answer_points?.length) {
+    const ul = document.createElement("ul");
+    ul.className = "answer-points";
+    result.answer_points.forEach(pt => {
+      const li = document.createElement("li");
+      li.textContent = pt;
+      ul.appendChild(li);
+    });
+    bubble.appendChild(ul);
+    scrollFloatBottom();
+  }
+
+  if (result?.follow_ups?.length) {
+    const chips = document.createElement("div");
+    chips.className = "chat-follow-ups";
+    result.follow_ups.forEach(q => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = q;
+      btn.addEventListener("click", () => submitFloatQuestion(q));
+      chips.appendChild(btn);
+    });
+    row.appendChild(chips);
+  }
+
+  scrollFloatBottom();
+}
+
+async function submitFloatQuestion(question) {
+  if (!floatMessages) return;
+  const q = String(question || "").trim();
+  if (!q) return;
+  if (floatInput) floatInput.value = "";
+
+  const userRow = document.createElement("div");
+  userRow.className = "chat-msg user";
+  userRow.innerHTML = `<div class="chat-bubble">${escapeHtml(q)}</div>`;
+  floatMessages.appendChild(userRow);
+  scrollFloatBottom();
+
+  const typingRow = document.createElement("div");
+  typingRow.className = "chat-msg ai";
+  typingRow.id = "float-typing";
+  typingRow.innerHTML = `<div class="chat-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+  floatMessages.appendChild(typingRow);
+  scrollFloatBottom();
+
+  const reqId = ++latestRequest;
+
+  try {
+    const res = await fetch(apiUrl("/api/query"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: q,
+        role: targetRole?.value || "general",
+        answer_mode: "detailed",
+        history: ragHistory,
+      }),
+    });
+
+    document.getElementById("float-typing")?.remove();
+    if (reqId !== latestRequest) return;
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      const errRow = document.createElement("div");
+      errRow.className = "chat-msg ai";
+      errRow.innerHTML = `<div class="chat-bubble chat-bubble-error">${escapeHtml(err.error || "Could not process question.")}</div>`;
+      floatMessages.appendChild(errRow);
+      return;
+    }
+
+    const result = await res.json();
+    if (reqId !== latestRequest) return;
+
+    await addFloatAIBubble(result);
+
+    ragHistory.push({
+      question: result.query,
+      answer: result.answer,
+      topic: result.citations?.[0]?.section || result.trace?.intent,
+      role: result.trace?.role,
+    });
+    ragHistory = ragHistory.slice(-4);
+
+  } catch {
+    document.getElementById("float-typing")?.remove();
+    if (reqId === latestRequest) {
+      const errRow = document.createElement("div");
+      errRow.className = "chat-msg ai";
+      errRow.innerHTML = `<div class="chat-bubble chat-bubble-error">Couldn't reach the backend. Try again.</div>`;
+      floatMessages.appendChild(errRow);
+    }
+  }
+}
+
+floatForm?.addEventListener("submit", e => {
+  e.preventDefault();
+  submitFloatQuestion(floatInput?.value || "");
+});
+
+/* ── inline events ────────────────────────────────────────────────── */
 ragForm.addEventListener("submit", e => {
   e.preventDefault();
   submitQuestion(ragInput.value);
@@ -285,23 +459,7 @@ document.addEventListener("submit", async e => {
   }
 });
 
-/* ── status ───────────────────────────────────────────────────────── */
-async function checkApiStatus() {
-  try {
-    const res = await fetch(apiUrl("/api/health"));
-    if (!res.ok) throw new Error();
-    backendWarm = true;
-    if (apiStatus) apiStatus.textContent = "Live";
-  } catch {
-    if (apiStatus) apiStatus.textContent = "Demo mode";
-  }
-}
-
-async function loadSharedQuestion() {
-  const q = new URLSearchParams(window.location.search).get("ask")?.trim();
-  if (q) await submitQuestion(q);
-}
-
+/* ── injected styles ──────────────────────────────────────────────── */
 (function () {
   const s = document.createElement("style");
   s.textContent = [
@@ -320,5 +478,25 @@ async function loadSharedQuestion() {
 }());
 
 window.KaranAI = Object.freeze({});
+
+/* ── status ───────────────────────────────────────────────────────── */
+async function checkApiStatus() {
+  try {
+    const res = await fetch(apiUrl("/api/health"));
+    if (!res.ok) throw new Error();
+    backendWarm = true;
+    if (apiStatus) apiStatus.textContent = "Live";
+    const floatStatus = document.getElementById("float-chat-status");
+    if (floatStatus) floatStatus.textContent = "Live";
+  } catch {
+    if (apiStatus) apiStatus.textContent = "Demo mode";
+  }
+}
+
+async function loadSharedQuestion() {
+  const q = new URLSearchParams(window.location.search).get("ask")?.trim();
+  if (q) await submitQuestion(q);
+}
+
 checkApiStatus();
 loadSharedQuestion();
