@@ -53,6 +53,13 @@ function escapeHtml(v) {
   );
 }
 
+function linkifyText(text) {
+  return escapeHtml(text).replace(
+    /(https?:\/\/[^\s<>"']+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer" class="chat-link">$1</a>'
+  );
+}
+
 function scrollBottom() {
   chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: "smooth" });
 }
@@ -100,6 +107,7 @@ async function addAIBubble(result) {
 
   const text = result?.answer || "I couldn't reach the backend right now. Try again in a moment.";
   await streamText(bubble, text, scrollBottom);
+  bubble.innerHTML = linkifyText(bubble.textContent);
 
   if (result?.answer_points?.length) {
     const ul = document.createElement("ul");
@@ -278,6 +286,7 @@ async function addFloatAIBubble(result) {
 
   const text = result?.answer || "I couldn't reach the backend right now. Try again.";
   await streamText(bubble, text, scrollFloatBottom);
+  bubble.innerHTML = linkifyText(bubble.textContent);
 
   if (result?.answer_points?.length) {
     const ul = document.createElement("ul");
@@ -473,6 +482,8 @@ document.addEventListener("submit", async e => {
     ".lead-submit:disabled{opacity:.55;cursor:not-allowed}",
     ".lead-success{font-size:11px;color:var(--green);font-weight:700;margin:0;padding:4px 0}",
     ".lead-error-msg{font-size:10px;color:var(--pink);margin:6px 0 0}",
+    ".chat-link{color:var(--accent);text-decoration:underline;word-break:break-all}",
+    ".chat-link:hover{opacity:.8}",
   ].join("");
   document.head.appendChild(s);
 }());
@@ -503,5 +514,5 @@ loadSharedQuestion();
 
 // Keep-warm ping — prevents Render cold start
 setInterval(() => {
-  fetch(RAG_ENDPOINT.replace('/api/query', '/api/health')).catch(() => {});
+  fetch(apiUrl("/api/health")).catch(() => {});
 }, 14 * 60 * 1000);
