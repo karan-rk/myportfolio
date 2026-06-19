@@ -663,13 +663,32 @@ def contextualize_query(query, history):
     if not is_follow_up:
         return query, False
     previous = history[-1]
-    context = " ".join(
-        part for part in (
-            str(previous.get("question", "")).strip(),
-            str(previous.get("topic", "")).strip(),
-        ) if part
-    )
-    return f"{query} Context: {context}".strip(), True
+prev_q = str(previous.get("question", "")).strip().lower()
+prev_topic = str(previous.get("topic", "")).strip()
+
+domain_keywords = ""
+if any(t in prev_q for t in ("reliability", "fault", "throughput", "distributed", "kafka", "grpc", "backend", "microservice")):
+    domain_keywords = "distributed systems reliability kafka grpc fault tolerance"
+elif any(t in prev_q for t in ("meta", "instagram", "pipeline", "cohort", "billion")):
+    domain_keywords = "meta instagram pipeline data engineering production scale"
+elif any(t in prev_q for t in ("speech", "emotion", "cnn", "bilstm", "audio")):
+    domain_keywords = "speech emotion cnn bilstm fastapi cloud run"
+elif any(t in prev_q for t in ("sentinel", "risk", "counterparty", "logistic")):
+    domain_keywords = "sentinel counterparty risk logistic regression"
+elif any(t in prev_q for t in ("gitops", "eks", "kubernetes", "circleci", "argo")):
+    domain_keywords = "gitops eks kubernetes circleci argo cd"
+elif any(t in prev_q for t in ("rolefit", "resume analyzer", "ats")):
+    domain_keywords = "rolefit resume analyzer pdf ats"
+elif any(t in prev_q for t in ("aws", "three tier", "infrastructure")):
+    domain_keywords = "aws three tier cloud infrastructure terraform"
+
+context = " ".join(part for part in (
+    str(previous.get("question", "")).strip(),
+    prev_topic,
+    domain_keywords,
+    ) if part
+)
+return f"{query} Context: {context}".strip(), True
 
 
 def follow_up_suggestions(intent):
