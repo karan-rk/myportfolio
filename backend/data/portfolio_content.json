@@ -8,26 +8,26 @@
     "source": "Resume",
     "title": "Professional summary",
     "summary": "Karan is a software and machine learning engineer who combines distributed systems, production-scale data, applied ML, and product development",
-    "content": "Karan Rajendra is a New York-based software and machine learning engineer. His background combines distributed systems research, production engineering at Meta and Instagram, cloud infrastructure, applied machine learning research, graduate teaching, and end-to-end product development.",
-    "keywords": ["tell me about yourself", "introduce", "introduction", "background", "summary", "profile", "software engineer", "machine learning engineer", "new york"]
+    "content": "Karan Rajendra is a New York-based software and machine learning engineer. He recently completed his Master of Science in Computer Engineering at Stony Brook University (May 2026) and is actively seeking full-time roles. His background combines distributed systems research, production engineering at Meta and Instagram, cloud infrastructure, applied machine learning research, graduate teaching, and end-to-end product development.",
+    "keywords": ["tell me about yourself", "introduce", "introduction", "background", "summary", "profile", "software engineer", "machine learning engineer", "new york", "tell me about karan", "who is karan"]
   },
   {
     "id": "resume-education",
     "target": "education",
     "source": "Resume",
     "title": "Education and coursework",
-    "summary": "Karan has a strong computer engineering and computer science academic foundation",
-    "content": "Karan is completing a Master of Science in Computer Engineering at Stony Brook University from August 2024 to May 2026 with a 3.9 GPA. His coursework includes Machine Learning, Deep Learning, Natural Language Processing, Distributed Systems, and Advanced Algorithms. He also holds a Bachelor of Engineering in Computer Science from Visvesvaraya Technological University.",
-    "keywords": ["education", "degree", "coursework", "gpa", "stony brook", "masters", "computer engineering", "computer science", "graduation"]
+    "summary": "Karan completed a Master of Science in Computer Engineering at Stony Brook University in May 2026 with a 3.9 GPA",
+    "content": "Karan completed a Master of Science in Computer Engineering at Stony Brook University in May 2026 with a 3.9 GPA. His coursework includes Machine Learning, Deep Learning, Natural Language Processing, Distributed Systems, and Advanced Algorithms. He also holds a Bachelor of Engineering in Computer Science from Visvesvaraya Technological University.",
+    "keywords": ["education", "degree", "coursework", "gpa", "stony brook", "masters", "computer engineering", "computer science", "graduation", "graduated", "completed degree", "may 2026"]
   },
   {
     "id": "resume-availability",
     "target": "contact",
     "source": "Resume",
-    "title": "Location and opportunity status",
-    "summary": "Karan is based in New York and is available for software and machine learning engineering opportunities",
-    "content": "Karan is based in New York and open to software engineering and machine learning engineering opportunities, including relocation. He is actively seeking full-time roles in software engineering, backend engineering, machine learning engineering, and applied AI.",
-    "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "work authorization", "visa", "salary", "actively looking", "job search", "full time"]
+    "title": "Location, availability, and start date",
+    "summary": "Karan is based in New York, available immediately, and open to software and machine learning engineering opportunities",
+    "content": "Karan is based in New York and available to start immediately. He is actively seeking full-time roles in software engineering, backend engineering, machine learning engineering, and applied AI. He is open to relocation and remote opportunities. He recently graduated in May 2026 and is ready for his next industry role.",
+    "keywords": ["available", "availability", "location", "new york", "relocation", "opportunity", "start date", "when can you start", "immediately", "actively looking", "job search", "full time", "remote", "open to work"]
   },
   {
     "id": "resume-contact",
@@ -43,18 +43,18 @@
     "target": "experience",
     "source": "Resume",
     "title": "Resume experience chronology",
-    "summary": "Karan's resume spans industry engineering, research, and graduate teaching",
-    "content": "Karan worked as a Software Engineer at Meta from August 2023 through June 2024. He served as a Graduate Teaching Assistant at Stony Brook University from August 2024 through December 2024. Since January 2025, he has worked as a Research Assistant at Stony Brook University in two concurrent roles: distributed systems research and persuasion modeling research in Prof. H. Andrew Schwartz's Lab.",
-    "keywords": ["resume", "chronology", "timeline", "dates", "work history", "meta", "research assistant", "teaching assistant", "august 2023", "january 2025", "persuasion research", "distributed systems research"]
+    "summary": "Karan's resume spans industry engineering at Meta, graduate research, and teaching",
+    "content": "Karan worked as a Software Engineer at Meta from August 2023 through June 2024. He served as a Graduate Teaching Assistant at Stony Brook University from August 2024 through December 2024. From January 2025 through May 2026, he worked as a Research Assistant at Stony Brook University in two concurrent roles: distributed systems research and persuasion modeling research in Prof. H. Andrew Schwartz's Lab. He completed his MS in May 2026 and is now actively seeking his next industry role.",
+    "keywords": ["resume", "chronology", "timeline", "dates", "work history", "meta", "research assistant", "teaching assistant", "august 2023", "january 2025", "may 2026", "persuasion research", "distributed systems research"]
   },
   {
     "id": "why-left-meta",
     "target": "experience-meta",
     "source": "Experience",
     "title": "Why Karan left Meta",
-    "summary": "Karan left Meta to return to Stony Brook and complete his Master's degree in Computer Engineering",
-    "content": "Karan completed his Software Engineer role at Meta in June 2024 and returned to Stony Brook University to complete his Master of Science in Computer Engineering. This was a deliberate decision to deepen his expertise in machine learning, distributed systems, and applied AI research. He completed the degree in May 2026 and is now actively seeking his next industry role. He has been conducting active research at Stony Brook since January 2025 while completing the degree. He values the opportunity to build a strong academic foundation and research portfolio alongside his industry experience, and he is now looking for roles where he can apply this combined expertise to real-world engineering challenges.",
-    "keywords": ["why did karan leave meta", "why leave meta", "gap", "after meta", "transition", "masters degree", "why stony brook", "career decision", "next after meta"]
+    "summary": "Karan left Meta to complete his Master's degree in Computer Engineering, which he finished in May 2026",
+    "content": "Karan completed his Software Engineer role at Meta in June 2024 and returned to Stony Brook University to complete his Master of Science in Computer Engineering. This was a deliberate decision to deepen his expertise in machine learning, distributed systems, and applied AI research before his next industry role. He completed the degree in May 2026 with a 3.9 GPA while conducting active research in two concurrent roles. He is now actively seeking full-time opportunities and available to start immediately.",
+    "keywords": ["why did karan leave meta", "why leave meta", "gap", "after meta", "transition", "masters degree", "why stony brook", "career decision", "next after meta", "employment gap"]
   },
   {
     "id": "candidate-differentiators",
@@ -80,8 +80,8 @@
     "source": "Resume",
     "title": "Career goals and what Karan is looking for",
     "summary": "Karan is looking for high-impact engineering roles where he can build scalable systems and apply ML in production",
-    "content": "Karan is looking for software engineering, backend engineering, machine learning engineering, or applied AI roles at companies where he can build scalable systems that serve real users. He is particularly interested in roles that sit at the intersection of engineering and applied ML — building production systems that incorporate intelligent models, not just writing models that never ship. He values technical depth, strong engineering culture, and the ability to have real impact on the product.",
-    "keywords": ["career goals", "looking for", "ideal role", "dream job", "what karan wants", "career objective", "next role", "job preferences", "what kind of company", "what kind of team", "goals"]
+    "content": "Karan is looking for software engineering, backend engineering, machine learning engineering, or applied AI roles at companies where he can build scalable systems that serve real users. He recently graduated with his MS in May 2026 and is available to start immediately. He is particularly interested in roles that sit at the intersection of engineering and applied ML — building production systems that incorporate intelligent models, not just writing models that never ship. He values technical depth, strong engineering culture, and the ability to have real impact on the product.",
+    "keywords": ["career goals", "looking for", "ideal role", "dream job", "what karan wants", "career objective", "next role", "job preferences", "what kind of company", "what kind of team", "goals", "actively looking", "job search"]
   },
   {
     "id": "role-fit-swe",
@@ -89,7 +89,7 @@
     "source": "Resume",
     "title": "Why Karan is a strong software engineering candidate",
     "summary": "Karan's Meta experience, systems research, and distributed systems teaching demonstrate strong SWE fundamentals",
-    "content": "For software engineering roles, Karan brings production-proven Python and data systems experience from Meta at 1.2 billion user scale, active distributed systems research in C++ with Kafka, gRPC, and fault-tolerant microservices, graduate-level teaching of consensus, replication, and scalability, and independently built full-stack applications. He is comfortable with backend systems, APIs, data pipelines, cloud infrastructure, and CI/CD. His Meta work specifically shows he can build reliable, maintainable systems in a large production codebase with cross-functional stakeholders.",
+    "content": "For software engineering roles, Karan brings production-proven Python and data systems experience from Meta at 1.2 billion user scale, active distributed systems research in C++ with Kafka, gRPC, and fault-tolerant microservices, graduate-level teaching of consensus, replication, and scalability, and independently built full-stack applications. He is comfortable with backend systems, APIs, data pipelines, cloud infrastructure, and CI/CD. His Meta work specifically shows he can build reliable, maintainable systems in a large production codebase with cross-functional stakeholders. He is available to start immediately.",
     "keywords": ["software engineering role", "swe", "software engineer fit", "backend engineer", "why hire for swe", "backend role", "systems engineering", "engineering role"]
   },
   {
@@ -98,7 +98,7 @@
     "source": "Resume",
     "title": "Why Karan is a strong ML engineering candidate",
     "summary": "Karan covers the full ML lifecycle from research to production deployment",
-    "content": "For machine learning engineering roles, Karan brings active fine-tuning research with Llama 2-7B, LoRA, and DPO, a deployed CNN-BiLSTM-Attention model serving real inference requests on Google Cloud Run, predictive modeling experience with calibration and explainability in Sentinel, NLP and deep learning coursework and research, and a track record of shipping ML systems end to end. He understands both the research side — running hyperparameter search, tracking experiments with W&B, evaluating on held-out data — and the engineering side — wrapping models in APIs, deploying with Docker, reducing latency.",
+    "content": "For machine learning engineering roles, Karan brings active fine-tuning research with Llama 2-7B, LoRA, and DPO, a deployed CNN-BiLSTM-Attention model serving real inference requests on Google Cloud Run, predictive modeling experience with calibration and explainability in Sentinel, NLP and deep learning coursework and research, and a track record of shipping ML systems end to end. He understands both the research side — running hyperparameter search, tracking experiments with W&B, evaluating on held-out data — and the engineering side — wrapping models in APIs, deploying with Docker, reducing latency. He is available to start immediately.",
     "keywords": ["ml engineering role", "machine learning engineer", "mle", "ml engineer fit", "applied ml", "mlops", "model deployment", "production ml", "why hire for ml"]
   },
   {
@@ -107,7 +107,7 @@
     "source": "Resume",
     "title": "Why Karan is a strong data engineering or data science candidate",
     "summary": "Karan's Meta data pipeline work and Sentinel project demonstrate data engineering and data science capability",
-    "content": "For data engineering or data science roles, Karan's strongest evidence is his Meta work — building Instagram's first cohort-analysis pipeline using Python, SQL, Spark, Hive, and HDFS, processing 1.2 billion user pairs and reducing BCU consumption by 50 percent. He also built Sentinel, an explainable predictive modeling workflow with temporal validation, calibration, and local explanations. His toolkit includes Pandas, NumPy, Spark, SQL, PostgreSQL, MySQL, MongoDB, feature engineering, model evaluation, and causal inference.",
+    "content": "For data engineering or data science roles, Karan's strongest evidence is his Meta work — building Instagram's first cohort-analysis pipeline using Python, SQL, Spark, Hive, and HDFS, processing 1.2 billion user pairs and reducing BCU consumption by 50 percent. He also built Sentinel, an explainable predictive modeling workflow with temporal validation, calibration, and local explanations. His toolkit includes Pandas, NumPy, Spark, SQL, PostgreSQL, MySQL, MongoDB, feature engineering, model evaluation, and causal inference. He is available to start immediately.",
     "keywords": ["data engineering", "data science", "data engineer", "data scientist", "analytics", "pipeline engineering", "spark", "sql", "data role", "why hire for data"]
   },
   {
@@ -161,7 +161,7 @@
     "source": "Projects",
     "title": "Live demo and project links",
     "summary": "Karan's portfolio includes several live deployments accessible online",
-    "content": "Karan's live projects include: Speech Emotion Detection live demo at https://karan-rk.github.io/myportfolio/projects/speech-emotion-detection/live/index.html, RoleFit Resume Analyzer at https://karan-rk.github.io/myportfolio/projects/resume-job-match/index.html, Sentinel Counterparty Risk at https://karan-rk.github.io/myportfolio/projects/counterparty-risk/index.html, the Portfolio AI backend deployed on Render at https://karan-portfolio-ai.onrender.com, and the full portfolio at https://karan-rk.github.io/myportfolio/.",
+    "content": "Karan's live projects include: Speech Emotion Detection live demo at https://karan-rk.github.io/myportfolio/projects/speech-emotion-detection/live/index.html, RoleFit Resume Analyzer at https://karan-rk.github.io/myportfolio/projects/resume-job-match/index.html, Sentinel Counterparty Risk at https://karan-rk.github.io/myportfolio/projects/counterparty-risk/index.html, the Portfolio AI backend deployed on Render at https://karan-portfolio-ai.onrender.com, and the full portfolio at https://karan-rk.github.io/myportfolio/. His resume PDF is at https://karan-rk.github.io/myportfolio/assets/karan-rajendra-resume.pdf.",
     "keywords": ["live demo", "demo link", "try it", "see it live", "deployed", "working demo", "project link", "portfolio link", "website", "deployed projects"]
   },
   {
@@ -170,7 +170,7 @@
     "source": "Projects",
     "title": "Portfolio website technology stack",
     "summary": "The portfolio site itself is a project — built with vanilla HTML, CSS, JS frontend and a Python backend on Render",
-    "content": "The portfolio website is built with vanilla HTML, CSS, and modular JavaScript on the frontend, hosted on GitHub Pages. The Portfolio AI backend is a Python HTTP server deployed on Render, using a structured JSON knowledge base for retrieval and the Claude API for answer generation. The site uses no frontend framework — all interactivity including the chat widget, project case studies, skill tooltips, and floating AI panel is written in plain JavaScript. CSS is organized into three modular files. The JS is split into feature modules: theme, nav, skills, projects, hero, and ai-chat.",
+    "content": "The portfolio website is built with vanilla HTML, CSS, and modular JavaScript on the frontend, hosted on GitHub Pages. The Portfolio AI backend is a Python HTTP server deployed on Render, using a structured JSON knowledge base for retrieval and OpenAI for answer generation. The site uses no frontend framework — all interactivity including the chat widget, project case studies, skill tooltips, and floating AI panel is written in plain JavaScript. CSS is organized into three modular files. The JS is split into feature modules: theme, nav, skills, projects, hero, and ai-chat.",
     "keywords": ["portfolio tech stack", "how is the portfolio built", "website technology", "frontend stack", "backend stack", "github pages", "render", "vanilla js", "plain javascript", "how did you build this"]
   },
   {
@@ -224,7 +224,7 @@
     "source": "Experience",
     "title": "Machine learning and persuasion research",
     "summary": "Karan applies modern language-model fine-tuning to persuasion modeling for mental health applications in Prof. H. Andrew Schwartz's Lab",
-    "content": "In Prof. H. Andrew Schwartz's Lab at Stony Brook University (January 2025 to present), Karan fine-tunes Llama 2-7B with LoRA and Direct Preference Optimization on approximately 145,000 examples from r/ChangeMyView discussion data to model persuasion for mental health applications including CBT and counseling. He uses Optuna for hyperparameter search, Weights and Biases (W&B) for experiment tracking, and runs experiments on dual NVIDIA A6000 GPUs.",
+    "content": "In Prof. H. Andrew Schwartz's Lab at Stony Brook University (January 2025 to May 2026), Karan fine-tuned Llama 2-7B with LoRA and Direct Preference Optimization on approximately 145,000 examples from r/ChangeMyView discussion data to model persuasion for mental health applications including CBT and counseling. He used Optuna for hyperparameter search, Weights and Biases (W&B) for experiment tracking, and ran experiments on dual NVIDIA A6000 GPUs.",
     "keywords": ["machine learning research", "persuasion research", "llama", "lora", "dpo", "fine tuning", "transformers", "pytorch", "changeMyView", "r/changeMyView", "mental health", "cbt", "counseling", "optuna", "w&b", "weights and biases", "h andrew schwartz", "stony brook", "language model", "research methods", "january 2025"]
   },
   {
@@ -232,9 +232,9 @@
     "target": "experience-persuasion",
     "source": "Experience",
     "title": "Persuasion modeling research results",
-    "summary": "Karan's ongoing persuasion research (January 2025 to present) includes measured language-model and authorship-analysis results",
-    "content": "Karan's persuasion modeling research in Prof. H. Andrew Schwartz's Lab reached 0.7 reward accuracy after preference optimization, performed 6 percent better than human persuasive responses in the reported evaluation, and achieved 92 percent ROC-AUC on author-style detection across more than 40 million documents. The research is ongoing from January 2025 and targets mental health applications including CBT and counseling.",
-    "keywords": ["persuasion", "research results", "reward accuracy", "0.7", "6 percent", "human responses", "92 percent", "roc auc", "40 million", "author style", "january 2025", "ongoing", "mental health"]
+    "summary": "Karan's persuasion research achieved 0.7 reward accuracy, outperformed human responses by 6%, and 92% ROC-AUC on author-style detection",
+    "content": "Karan's persuasion modeling research in Prof. H. Andrew Schwartz's Lab reached 0.7 reward accuracy after preference optimization, performed 6 percent better than human persuasive responses in the reported evaluation, and achieved 92 percent ROC-AUC on author-style detection across more than 40 million documents. The research ran from January 2025 to May 2026 and targeted mental health applications including CBT and counseling.",
+    "keywords": ["persuasion", "research results", "reward accuracy", "0.7", "6 percent", "human responses", "92 percent", "roc auc", "40 million", "author style", "january 2025", "mental health"]
   },
   {
     "id": "experience-teaching",
