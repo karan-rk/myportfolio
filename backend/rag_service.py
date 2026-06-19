@@ -818,7 +818,7 @@ def contextual_follow_up_suggestions(query, intent=None):
     normalized = normalize_query(query)
     asked_question = normalized.split(" context ", 1)[0].strip()
     intent = intent or detect_intent(query)
-    suggestions = project_follow_up_suggestions(query)
+    suggestions = project_follow_up_suggestions(asked_question)
     topic_suggestions = (
         (("meta", "instagram"), [
             "What measurable impact did Karan achieve at Meta?",
@@ -869,7 +869,7 @@ def contextual_follow_up_suggestions(query, intent=None):
     )
     if not suggestions:
         for terms, topic_follow_ups in topic_suggestions:
-            if any(term in normalized for term in terms):
+            if any(term in asked_question for term in terms):
                 suggestions = topic_follow_ups
                 break
     if not suggestions:
