@@ -53,11 +53,32 @@ function escapeHtml(v) {
   );
 }
 
+// Maps URL substrings to friendly link labels
+const URL_LABELS = [
+  ["karan-rajendra-resume.pdf",    "Resume ↗"],
+  ["speech-emotion-detection/live","Speech Emotion Demo ↗"],
+  ["resume-job-match",             "RoleFit Demo ↗"],
+  ["counterparty-risk",            "Sentinel Demo ↗"],
+  ["linkedin.com/in/karan",        "LinkedIn ↗"],
+  ["github.com/karan-rk",          "GitHub ↗"],
+  ["karan-portfolio-ai.onrender.com", "AI Backend ↗"],
+  ["karan-rk.github.io/myportfolio", "Portfolio ↗"],
+];
+
 function linkifyText(text) {
-  return escapeHtml(text).replace(
-    /(https?:\/\/[^\s<>"']+)/g,
-    '<a href="$1" target="_blank" rel="noopener noreferrer" class="chat-link">$1</a>'
-  );
+  const urlRegex = /(https?:\/\/[^\s<>"']+)/g;
+  let result = "";
+  let lastIndex = 0;
+  let match;
+  while ((match = urlRegex.exec(text)) !== null) {
+    result += escapeHtml(text.slice(lastIndex, match.index));
+    const url = match[1];
+    const label = URL_LABELS.find(([key]) => url.includes(key))?.[1] || url;
+    result += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="chat-link">${escapeHtml(label)}</a>`;
+    lastIndex = match.index + match[0].length;
+  }
+  result += escapeHtml(text.slice(lastIndex));
+  return result;
 }
 
 function scrollBottom() {
@@ -482,7 +503,7 @@ document.addEventListener("submit", async e => {
     ".lead-submit:disabled{opacity:.55;cursor:not-allowed}",
     ".lead-success{font-size:11px;color:var(--green);font-weight:700;margin:0;padding:4px 0}",
     ".lead-error-msg{font-size:10px;color:var(--pink);margin:6px 0 0}",
-    ".chat-link{color:var(--accent);text-decoration:underline;word-break:break-all}",
+    ".chat-link{color:var(--accent);text-decoration:underline;font-weight:600;white-space:nowrap}",
     ".chat-link:hover{opacity:.8}",
   ].join("");
   document.head.appendChild(s);
