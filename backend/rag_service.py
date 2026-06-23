@@ -13,6 +13,7 @@ from collections import Counter
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from pypdf import PdfReader
+from sheets_logger import log_query_async
 
 
 ROOT = Path(__file__).resolve().parent
@@ -1412,6 +1413,7 @@ class PortfolioHandler(SimpleHTTPRequestHandler):
         )
         response["latency_ms"] = round((time.perf_counter() - started) * 1000, 2)
         self.send_json(response)
+        log_query_async(query, response)
 
 
 def run(port=8000, host="127.0.0.1"):
