@@ -1,0 +1,1 @@
+@media(max-width:640px){.float-chat-panel{height:72dvh}.float-chat-input-bar{padding-bottom:calc(11px + env(safe-area-inset-bottom,0px))}.float-chat-input-bar button[type=submit]{width:44px;height:44px;border-radius:10px}.rag-form button[type="submit"]{width:44px;height:44px}.rag-input-bar{padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
